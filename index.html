@@ -23,7 +23,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
         }
 
         body {
@@ -99,7 +99,6 @@
             border-radius: 10px;
             overflow: hidden;
             margin-top: 20px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
             opacity: 0;
             animation: fadeIn 1s ease 2.4s forwards;
         }
@@ -177,7 +176,7 @@
         .status-online { color: #9fd49f; }
         .status-offline { color: #b85c5c; }
 
-        /* LAYAR UTAMA */
+        /* CANVAS */
         .screen-container {
             flex: 1;
             display: flex;
@@ -194,6 +193,7 @@
             max-height: 55vh;
             object-fit: contain;
             border: none;
+            border-radius: 10px;
         }
 
         /* STAMP INFO */
@@ -207,6 +207,7 @@
             font-size: 12px;
             color: #9fd49f;
             border-left: 3px solid #9fd49f;
+            border-radius: 0 8px 8px 0;
         }
 
         .stamp-item {
@@ -228,6 +229,7 @@
             border-top: 1px solid #2a3f2a;
             border-bottom: 1px solid #2a3f2a;
             cursor: pointer;
+            border-radius: 5px;
         }
 
         .running-text {
@@ -266,6 +268,12 @@
             cursor: pointer;
             border: 2px solid #9fd49f;
             margin: 0 auto;
+            transition: transform 0.2s;
+        }
+
+        .menu-icon:active {
+            transform: scale(0.95);
+            background: #3a5a3a;
         }
 
         .menu-icon i { color: #9fd49f; font-size: 24px; margin-bottom: 2px; }
@@ -283,6 +291,12 @@
             cursor: pointer;
             border: 2px solid #b85c5c;
             margin: 5px auto 0;
+            transition: transform 0.2s;
+        }
+
+        .reset-icon:active {
+            transform: scale(0.95);
+            background: #3a2a2a;
         }
 
         .reset-icon i { color: #b85c5c; font-size: 22px; }
@@ -321,28 +335,31 @@
             justify-content: center;
             cursor: pointer;
             border: 2px solid #9fd49f;
+            transition: background 0.2s;
         }
 
+        .back-icon:active { background: #3a5a3a; }
         .back-icon i { color: #9fd49f; font-size: 20px; }
-
         .form-title { color: #9fd49f; font-size: 16px; font-weight: bold; }
 
+        /* FORM ELEMENTS */
         select, input[type="file"], input[type="datetime-local"] {
             width: 100%;
             background: #2a3f2a;
             color: #e0e0e0;
-            padding: 12px;
+            padding: 15px;
             margin: 8px 0;
             border: 2px solid #9fd49f;
             border-radius: 50px;
-            font-size: 14px;
+            font-size: 16px;
+            outline: none;
         }
 
         select option { background: #1a2a1a; }
 
         .fullscreen-textarea {
             width: 100%;
-            height: calc(100vh - 140px);
+            height: calc(100vh - 180px);
             background: #2a3f2a;
             color: #e0e0e0;
             padding: 20px;
@@ -359,37 +376,16 @@
 
         .preview-text {
             color: #b0b0b0;
-            font-size: 12px;
-            margin: 5px 0;
+            font-size: 14px;
+            margin: 10px 0;
             padding: 5px 10px;
         }
 
         .preview-text i { color: #9fd49f; margin-right: 5px; }
 
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            margin: 15px 0;
-        }
-
-        .action-btn {
-            flex: 1;
-            height: 45px;
-            border-radius: 25px;
-            background: #2a3f2a;
-            border: 2px solid #9fd49f;
-            color: #9fd49f;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            cursor: pointer;
-        }
-
         .upload-icon {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             background: #2a3f2a;
             border: 2px solid #9fd49f;
@@ -398,10 +394,10 @@
             justify-content: center;
             cursor: pointer;
             position: relative;
-            margin: 20px auto;
+            margin: 30px auto;
         }
 
-        .upload-icon i { color: #9fd49f; font-size: 32px; }
+        .upload-icon i { color: #9fd49f; font-size: 40px; }
         .upload-icon input {
             position: absolute;
             width: 100%;
@@ -412,18 +408,21 @@
 
         .save-btn {
             width: 100%;
-            height: 50px;
+            height: 55px;
             background: #2a4a2a;
             border: 2px solid #9fd49f;
             color: #9fd49f;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: bold;
-            border-radius: 25px;
+            border-radius: 50px;
             cursor: pointer;
             margin-top: 10px;
+            transition: background 0.2s;
         }
 
-        /* TOAST */
+        .save-btn:active { background: #3a6a3a; }
+
+        /* TOAST NOTIFICATION */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -432,11 +431,12 @@
             background: #2a3f2a;
             border: 2px solid #9fd49f;
             color: #9fd49f;
-            padding: 12px 25px;
+            padding: 15px 30px;
             border-radius: 50px;
-            font-size: 14px;
+            font-size: 16px;
             display: none;
             z-index: 2000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
 
         /* LOADING OVERLAY */
@@ -446,7 +446,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.8);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -456,8 +456,8 @@
         }
 
         .loading-spinner {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             border: 5px solid #2a3f2a;
             border-top: 5px solid #9fd49f;
             border-radius: 50%;
@@ -467,14 +467,66 @@
 
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .loading-text { color: #9fd49f; font-size: 16px; }
+        .loading-text { color: #9fd49f; font-size: 18px; }
 
+        /* OFFLINE MODE */
         .offline-mode {
             background: #b85c5c;
             color: white;
             text-align: center;
-            padding: 3px;
-            font-size: 11px;
+            padding: 5px;
+            font-size: 12px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        /* COORD LOADING */
+        .coord-loading {
+            color: #9fd49f;
+            font-size: 14px;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        /* INSTALL BUTTON */
+        #installButton {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #2a3f2a;
+            border: 2px solid #9fd49f;
+            color: #9fd49f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10000;
+            font-size: 24px;
+            display: none;
+        }
+
+        /* TEST BUTTON */
+        .test-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #2a3f2a;
+            border: 2px solid #9fd49f;
+            color: #9fd49f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10000;
+            font-size: 18px;
         }
     </style>
 </head>
@@ -496,9 +548,19 @@
         <p class="splash-loading-text" id="loadingStatusText">Memuat aplikasi...</p>
     </div>
 
+    <!-- INSTALL BUTTON -->
+    <div id="installButton">
+        <i class="fas fa-download"></i>
+    </div>
+
+    <!-- TEST BUTTON -->
+    <div class="test-btn" onclick="testAppsScriptConnection()" title="Test Koneksi">
+        <i class="fas fa-plug"></i>
+    </div>
+
     <!-- OFFLINE BANNER -->
     <div id="offlineBanner" class="offline-mode hidden">
-        <i class="fas fa-wifi-slash"></i> Mode Offline - Data menggunakan cache
+        <i class="fas fa-wifi-slash"></i> Mode Offline - Periksa koneksi internet
     </div>
 
     <!-- LOADING OVERLAY -->
@@ -509,15 +571,18 @@
 
     <!-- MAIN MENU -->
     <div id="mainMenu" class="main-menu hidden">
+        <!-- STATUS BAR -->
         <div class="status-bar">
-            <span><i class="fas fa-circle"></i> Apps Script: <span id="apiStatusText">Mengecek...</span></span>
-            <span><i class="fas fa-circle"></i> Network: <span id="networkStatusText">Online</span></span>
+            <span><i class="fas fa-circle"></i> Server: <span id="apiStatusText" class="status-offline">Mengecek...</span></span>
+            <span><i class="fas fa-circle"></i> Network: <span id="networkStatusText" class="status-online">Online</span></span>
         </div>
 
+        <!-- CANVAS PREVIEW -->
         <div class="screen-container">
             <canvas id="mainCanvas" width="600" height="300"></canvas>
         </div>
 
+        <!-- STAMP INFO -->
         <div class="stamp-info">
             <div class="stamp-item"><i class="fas fa-village"></i><span>Desa: <span class="stamp-value" id="stampDesa">-</span></span></div>
             <div class="stamp-item"><i class="fas fa-map-marker-alt"></i><span>Koordinat: <span class="stamp-value" id="stampCoord">-</span></span></div>
@@ -525,12 +590,14 @@
             <div class="stamp-item"><i class="fas fa-clock"></i><span>Jam: <span class="stamp-value" id="stampJam">-</span></span></div>
         </div>
 
+        <!-- RUNNING TEXT NARASI -->
         <div class="running-text-container" id="runningTextContainer" onclick="openForm('narasi')">
             <div class="running-text" id="runningText">
                 <i class="fas fa-chevron-right"></i> Ketuk untuk menulis narasi <i class="fas fa-chevron-left"></i>
             </div>
         </div>
 
+        <!-- 5 ICON BERJAJAR -->
         <div class="icon-row">
             <div class="menu-icon" onclick="openForm('desa')"><i class="fas fa-village"></i><span>DESA</span></div>
             <div class="menu-icon" onclick="openForm('foto')"><i class="fas fa-camera"></i><span>FOTO</span></div>
@@ -539,6 +606,7 @@
             <div class="menu-icon" onclick="processSubmission()"><i class="fas fa-paper-plane"></i><span>KIRIM</span></div>
         </div>
 
+        <!-- RESET ICON -->
         <div class="reset-icon" onclick="resetAllData()"><i class="fas fa-undo"></i></div>
     </div>
 
@@ -555,7 +623,7 @@
         <div id="coordLoading" class="coord-loading hidden"><i class="fas fa-spinner fa-spin"></i> Memuat koordinat...</div>
         <div class="preview-text" id="previewDesa"></div>
         <div class="preview-text" id="previewKoordinat">
-            <i class="fas fa-map-marker-alt"></i> <span id="coordDisplay">Pilih desa untuk koordinat</span>
+            <i class="fas fa-map-marker-alt"></i> <span id="coordDisplay">Pilih desa untuk melihat koordinat</span>
         </div>
     </div>
 
@@ -563,7 +631,7 @@
     <div id="formFoto" class="fullscreen-form">
         <div class="form-header">
             <div class="back-icon" onclick="closeForm('foto')"><i class="fas fa-arrow-left"></i></div>
-            <div class="form-title">FOTO</div>
+            <div class="form-title">FOTO KEGIATAN</div>
             <div style="width:45px;"></div>
         </div>
         <div style="padding:10px; text-align:center;">
@@ -580,7 +648,7 @@
     <div id="formTanggal" class="fullscreen-form">
         <div class="form-header">
             <div class="back-icon" onclick="closeForm('tanggal')"><i class="fas fa-arrow-left"></i></div>
-            <div class="form-title">TANGGAL</div>
+            <div class="form-title">TANGGAL & WAKTU</div>
             <div style="width:45px;"></div>
         </div>
         <div style="padding:10px;">
@@ -593,33 +661,34 @@
     <div id="formNarasi" class="fullscreen-form">
         <div class="form-header">
             <div class="back-icon" onclick="closeForm('narasi')"><i class="fas fa-arrow-left"></i></div>
-            <div class="form-title">NARASI</div>
+            <div class="form-title">NARASI KEGIATAN</div>
             <div style="width:45px;"></div>
         </div>
         <textarea id="narasiFull" class="fullscreen-textarea" placeholder="Tulis narasi kegiatan di sini..."></textarea>
         <button class="save-btn" onclick="saveNarasi()">SIMPAN NARASI</button>
     </div>
 
-    <!-- TOAST -->
+    <!-- TOAST NOTIFICATION -->
     <div id="toastMessage" class="toast"></div>
 
     <script>
         // ==================== KONFIGURASI ====================
         const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwn5wH_AP6GwkmKrbRs398UBTJi4UcfxPndzRubYZywjRtft-ONCc7VNP5IfH58GSXRPA/exec";
-        const ROOT_FOLDER_ID = "1fZBe0ICQEmcIx2dIpsiOCZIMmkbZIkVQ";  // SAMA DENGAN APPS SCRIPT
+        const ROOT_FOLDER_ID = "1fZBe0ICQEmcIx2dIpsiOCZIMmkbZIkVQ";
         
-        // TELEGRAM CONFIG
+        // TELEGRAM
         const TELEGRAM_ZIP_TOKEN = "7580586404:AAFi3ySF36vBtLUiZUUsUrWuszBF2lBz7W0";
         const TELEGRAM_ZIP_CHAT_ID = "2095166318";
         const TELEGRAM_REPORT_TOKEN = "7591221480:AAFjogAiM_Dywo4SHOLVphpiZQgUcq48IDc";
         const TELEGRAM_REPORT_CHAT_ID = "2095166318";
         
-        // GITHUB CONFIG
+        // GITHUB - LANGSUNG PAKAI INI, TIDAK ADA FALLBACK
         const GITHUB_USERNAME = "arta1979";
         const GITHUB_REPO = "dukops2";
         const GITHUB_BRANCH = "main";
         const DESA_LIST_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/${GITHUB_BRANCH}/data/desa/desa-list.json`;
-        
+        const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/${GITHUB_BRANCH}/data/coordinates/`;
+
         // ==================== GLOBAL VARIABLES ====================
         let img = new Image();
         let selectedDesaFull = "";
@@ -627,7 +696,9 @@
         let selectedDate = new Date();
         let narasiText = "";
         let isOnline = navigator.onLine;
+        let deferredPrompt;
         let desaList = [];
+        let coordCache = {};
 
         // ==================== SPLASH SCREEN ====================
         document.addEventListener('DOMContentLoaded', function() {
@@ -647,13 +718,13 @@
                         }, 800);
                     }, 500);
                 }
-            }, 200);
+            }, 150);
         });
 
         // ==================== INISIALISASI ====================
         async function initializeApp() {
             updateNetworkStatus();
-            await loadDesaList();
+            await loadDesaListFromGitHub();
             await checkAppsScriptConnection();
             
             const now = new Date();
@@ -664,36 +735,91 @@
             drawDefaultCanvas();
         }
 
-        // ==================== LOAD DESA LIST ====================
-        async function loadDesaList() {
+        // ==================== LOAD DESA DARI GITHUB ====================
+        async function loadDesaListFromGitHub() {
             try {
+                document.getElementById('loadingStatusText').textContent = 'Muat daftar desa...';
+                
                 const response = await fetch(DESA_LIST_URL + '?t=' + Date.now());
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data && data.desaList) {
-                        desaList = data.desaList.sort();
-                        populateDesaDropdown();
-                    }
+                if (!response.ok) throw new Error('Gagal load desa');
+                
+                const data = await response.json();
+                if (!data || !data.desaList || !Array.isArray(data.desaList)) {
+                    throw new Error('Format data desa tidak valid');
                 }
+                
+                desaList = data.desaList;
+                console.log('Desa loaded:', desaList.length, 'desa');
+                
+                // Isi dropdown
+                const selectDesa = document.getElementById('selectDesa');
+                selectDesa.innerHTML = '<option value="">-- Pilih Desa --</option>';
+                
+                desaList.sort().forEach(desa => {
+                    if (desa && desa.trim()) {
+                        const option = document.createElement('option');
+                        option.value = desa;
+                        option.textContent = desa;
+                        selectDesa.appendChild(option);
+                    }
+                });
+                
             } catch (error) {
-                console.error('Error loading desa list:', error);
+                console.error('Error load desa:', error);
+                document.getElementById('loadingStatusText').textContent = 'Error muat desa';
+                showToast('❌ Gagal muat daftar desa');
             }
         }
 
-        function populateDesaDropdown() {
-            const select = document.getElementById('selectDesa');
-            select.innerHTML = '<option value="">-- Pilih Desa --</option>';
-            desaList.forEach(desa => {
-                if (desa && desa.trim()) {
-                    const option = document.createElement('option');
-                    option.value = desa;
-                    option.textContent = desa;
-                    select.appendChild(option);
+        // ==================== LOAD KOORDINAT DARI GITHUB ====================
+        async function loadCoordinatesFromGitHub(desa) {
+            if (!desa) return null;
+            
+            // Cek cache
+            if (coordCache[desa]) return coordCache[desa];
+            
+            try {
+                document.getElementById('coordLoading').classList.remove('hidden');
+                
+                const fileName = "Co " + desa + ".json";
+                const fileUrl = COORD_BASE_URL + fileName + '?t=' + Date.now();
+                
+                const response = await fetch(fileUrl);
+                if (!response.ok) throw new Error('Koordinat tidak ditemukan');
+                
+                const data = await response.json();
+                if (!data || !data.coordinates || !Array.isArray(data.coordinates)) {
+                    throw new Error('Format koordinat tidak valid');
                 }
-            });
+                
+                coordCache[desa] = data;
+                console.log(`Koordinat loaded untuk ${desa}: ${data.coordinates.length} titik`);
+                
+                return data;
+                
+            } catch (error) {
+                console.error('Error load koordinat:', error);
+                return null;
+            } finally {
+                document.getElementById('coordLoading').classList.add('hidden');
+            }
         }
 
-        // ==================== FUNGSI UTAMA ====================
+        // ==================== AMBIL RANDOM KOORDINAT ====================
+        async function getRandomCoordForDesa(desa) {
+            if (!desa) return null;
+            
+            const coordData = await loadCoordinatesFromGitHub(desa);
+            if (coordData && coordData.coordinates && coordData.coordinates.length > 0) {
+                const randomIndex = Math.floor(Math.random() * coordData.coordinates.length);
+                const point = coordData.coordinates[randomIndex];
+                return `${point.lat}, ${point.lon}`;
+            }
+            
+            return null;
+        }
+
+        // ==================== FUNGSI FORM ====================
         function openForm(formName) {
             document.getElementById('mainMenu').classList.add('hidden');
             document.getElementById('formDesa').classList.remove('active');
@@ -719,27 +845,34 @@
             updateStampInfo();
         }
 
+        // ==================== PILIH DESA ====================
         async function selectDesaAndClose() {
             const select = document.getElementById('selectDesa');
             selectedDesaFull = select.value;
+            
             document.getElementById('previewDesa').innerHTML = '<i class="fas fa-check-circle"></i> ' + (selectedDesaFull || '');
             document.getElementById('stampDesa').textContent = selectedDesaFull || '-';
             
             if (selectedDesaFull) {
-                selectedCoord = await getRandomCoord(selectedDesaFull);
+                selectedCoord = await getRandomCoordForDesa(selectedDesaFull);
                 if (selectedCoord) {
                     document.getElementById('stampCoord').textContent = selectedCoord;
                     document.getElementById('coordDisplay').innerHTML = '<i class="fas fa-map-marker-alt"></i> ' + selectedCoord;
+                } else {
+                    document.getElementById('stampCoord').textContent = '-';
+                    document.getElementById('coordDisplay').innerHTML = '<i class="fas fa-exclamation-circle"></i> Koordinat tidak tersedia';
                 }
             }
             
             closeForm('desa');
         }
 
+        // ==================== PREVIEW IMAGE ====================
         function previewImage() {
             const file = document.getElementById('gambar').files[0];
             if (file) {
                 document.getElementById('previewGambar').innerHTML = '<i class="fas fa-check-circle"></i> ' + file.name;
+                
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     img = new Image();
@@ -747,13 +880,14 @@
                     img.onload = function() {
                         updateMainCanvas();
                         closeForm('foto');
-                        showToast('Foto berhasil diupload');
+                        showToast('✅ Foto siap');
                     };
                 };
                 reader.readAsDataURL(file);
             }
         }
 
+        // ==================== UPDATE DATETIME ====================
         function updateDateTimeAndClose() {
             const tglInput = document.getElementById('tanggalWaktu').value;
             if (tglInput) {
@@ -763,26 +897,38 @@
             closeForm('tanggal');
         }
 
+        function updateDateTime() {
+            updateStampInfo();
+        }
+
+        // ==================== SAVE NARASI ====================
         function saveNarasi() {
             narasiText = document.getElementById('narasiFull').value;
+            
             const runningText = document.getElementById('runningText');
             if (narasiText) {
                 runningText.innerHTML = `<i class="fas fa-chevron-right"></i> ${narasiText} <i class="fas fa-chevron-left"></i>`;
+            } else {
+                runningText.innerHTML = `<i class="fas fa-chevron-right"></i> Ketuk untuk menulis narasi <i class="fas fa-chevron-left"></i>`;
             }
+            
             closeForm('narasi');
-            showToast('Narasi tersimpan');
+            showToast('✅ Narasi tersimpan');
         }
 
         // ==================== CANVAS ====================
         function drawDefaultCanvas() {
             const canvas = document.getElementById('mainCanvas');
             const ctx = canvas.getContext('2d');
+            
             ctx.fillStyle = '#0a120a';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
             ctx.fillStyle = '#9fd49f';
             ctx.font = 'bold 22px Arial';
             ctx.textAlign = 'center';
             ctx.fillText('DUKOPS', canvas.width/2, canvas.height/2 - 15);
+            
             ctx.font = '14px Arial';
             ctx.fillStyle = '#b0b0b0';
             ctx.fillText('KORAMIL 1609-05/SUKASADA', canvas.width/2, canvas.height/2 + 15);
@@ -795,6 +941,7 @@
             if (img.src && img.complete) {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                
                 ctx.fillStyle = 'white';
                 ctx.font = 'bold 16px Arial';
                 ctx.textAlign = 'right';
@@ -803,6 +950,7 @@
                 
                 const desa = selectedDesaFull || 'Pilih Desa';
                 const coord = selectedCoord || '-';
+                
                 const options = { day: '2-digit', month: 'long', year: 'numeric' };
                 const timeOptions = { hour: '2-digit', minute: '2-digit' };
                 const dateStr = selectedDate.toLocaleDateString('id-ID', options);
@@ -811,6 +959,7 @@
                 ctx.fillText(desa, canvas.width - 10, canvas.height - 80);
                 ctx.fillText(coord, canvas.width - 10, canvas.height - 55);
                 ctx.fillText(dateStr + ' ' + timeStr, canvas.width - 10, canvas.height - 30);
+                
                 ctx.shadowColor = 'transparent';
             } else {
                 drawDefaultCanvas();
@@ -822,59 +971,26 @@
             
             const options = { day: '2-digit', month: 'long', year: 'numeric' };
             const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            
             document.getElementById('stampTanggal').textContent = selectedDate.toLocaleDateString('id-ID', options);
             document.getElementById('stampJam').textContent = selectedDate.toLocaleTimeString('id-ID', timeOptions);
             
             updateMainCanvas();
         }
 
-        function updateDateTime() {
-            updateStampInfo();
-        }
-
-        // ==================== KOORDINAT ====================
-        async function getRandomCoord(desa) {
-            const coordList = {
-                'Ambengan': ['-8.1254, 115.1234', '-8.1265, 115.1245'],
-                'Banyuning': ['-8.1154, 115.1134', '-8.1165, 115.1145'],
-                'Banjar Tegal': ['-8.1054, 115.1034', '-8.1065, 115.1045'],
-                'Bengkel': ['-8.1354, 115.1334', '-8.1365, 115.1345'],
-                'Banyuasri': ['-8.1454, 115.1434', '-8.1465, 115.1445'],
-                'Kampung Anyar': ['-8.1554, 115.1534', '-8.1565, 115.1545'],
-                'Kampung Baru': ['-8.1654, 115.1634', '-8.1665, 115.1645'],
-                'Kampung Bugis': ['-8.1754, 115.1734', '-8.1765, 115.1745'],
-                'Kendran': ['-8.1854, 115.1834', '-8.1865, 115.1845'],
-                'Liligundi': ['-8.1954, 115.1934', '-8.1965, 115.1945'],
-                'Paket Agung': ['-8.2054, 115.2034', '-8.2065, 115.2045'],
-                'Panji': ['-8.2154, 115.2134', '-8.2165, 115.2145'],
-                'Pegayaman': ['-8.2254, 115.2234', '-8.2265, 115.2245'],
-                'Sambangan': ['-8.2354, 115.2334', '-8.2365, 115.2345'],
-                'Sari Mekar': ['-8.2454, 115.2434', '-8.2465, 115.2445'],
-                'Selat': ['-8.2554, 115.2534', '-8.2565, 115.2545'],
-                'Sukasada': ['-8.2654, 115.2634', '-8.2665, 115.2645'],
-                'Tegal Linggah': ['-8.2754, 115.2734', '-8.2765, 115.2745'],
-                'Temukus': ['-8.2854, 115.2834', '-8.2865, 115.2845'],
-                'Titab': ['-8.2954, 115.2934', '-8.2965, 115.2945']
-            };
-            
-            const coords = coordList[desa];
-            if (coords && coords.length > 0) {
-                const randomIndex = Math.floor(Math.random() * coords.length);
-                return coords[randomIndex];
-            }
-            return null;
-        }
-
         // ==================== PROSES KIRIM ====================
         async function processSubmission() {
-            if (!selectedDesaFull) { showToast('Pilih desa dulu'); return; }
-            if (!img.src || !img.complete) { showToast('Upload foto dulu'); return; }
-            if (!narasiText) { showToast('Tulis narasi dulu'); return; }
-            if (!isOnline) { showToast('Tidak ada koneksi internet'); return; }
+            // Validasi
+            if (!selectedDesaFull) { showToast('❌ Pilih desa dulu'); return; }
+            if (!img.src || !img.complete) { showToast('❌ Upload foto dulu'); return; }
+            if (!selectedCoord) { showToast('❌ Koordinat tidak tersedia'); return; }
+            if (!narasiText) { showToast('❌ Tulis narasi dulu'); return; }
+            if (!isOnline) { showToast('❌ Tidak ada koneksi internet'); return; }
 
             showLoading(true, 'Membuat file ZIP...');
             
             try {
+                // Siapkan data
                 const canvas = document.getElementById('mainCanvas');
                 const imgData = canvas.toDataURL('image/png').split(',')[1];
                 
@@ -886,30 +1002,37 @@
                 
                 const safeDesa = selectedDesaFull.replace(/[^a-z0-9]/gi, '_');
                 const baseFileName = `${safeDesa}_${dateStr}`;
+                const txtFileName = `${baseFileName}.txt`;
+                const pngFileName = `${baseFileName}.png`;
                 const zipFileName = `${baseFileName}.zip`;
                 
+                // Buat ZIP
                 const zip = new JSZip();
-                zip.file(`${baseFileName}.txt`, narasiText);
-                zip.file(`${baseFileName}.png`, imgData, { base64: true });
+                zip.file(txtFileName, narasiText);
+                zip.file(pngFileName, imgData, { base64: true });
                 
                 const content = await zip.generateAsync({ type: 'blob' });
-                const reader = new FileReader();
                 
+                // Konversi ke base64
+                const reader = new FileReader();
                 reader.readAsDataURL(content);
+                
                 reader.onload = async function() {
                     const base64Data = reader.result.split(',')[1];
                     
-                    // Kirim ke Telegram
+                    // 1. Kirim ke Telegram
                     showLoading(true, 'Mengirim ke Telegram...');
                     const telegramSuccess = await sendFileToTelegram(base64Data, zipFileName, selectedDesaFull);
                     
                     if (telegramSuccess) {
-                        // Kirim ke Drive
+                        // 2. Kirim ke Drive
                         showLoading(true, 'Menyimpan ke Drive...');
-                        await uploadToDrive(base64Data, zipFileName, selectedDesaFull);
+                        const driveSuccess = await uploadToDrive(base64Data, zipFileName, selectedDesaFull);
                         
-                        showToast('✅ Laporan terkirim!');
-                        setTimeout(() => { resetAllData(); }, 2000);
+                        if (driveSuccess) {
+                            showToast('✅ Laporan terkirim!');
+                            setTimeout(() => { resetAllData(); }, 2000);
+                        }
                     }
                     
                     showLoading(false);
@@ -922,11 +1045,13 @@
             }
         }
 
+        // ==================== KIRIM KE TELEGRAM ====================
         async function sendFileToTelegram(fileData, fileName, desaName) {
             try {
                 const formData = new FormData();
                 formData.append('chat_id', TELEGRAM_ZIP_CHAT_ID);
                 
+                // Konversi base64 ke blob
                 const byteCharacters = atob(fileData);
                 const byteNumbers = new Array(byteCharacters.length);
                 for (let i = 0; i < byteCharacters.length; i++) {
@@ -936,7 +1061,10 @@
                 const blob = new Blob([byteArray], { type: 'application/zip' });
                 
                 formData.append('document', blob, fileName);
-                formData.append('caption', `📁 *Laporan DUKOPS*\n📍 ${desaName}\n📅 ${selectedDate.toLocaleDateString('id-ID')}\n⏰ ${selectedDate.toLocaleTimeString('id-ID')}`);
+                
+                const caption = `📁 *Laporan DUKOPS*\n📍 ${desaName}\n📅 ${selectedDate.toLocaleDateString('id-ID')}\n⏰ ${selectedDate.toLocaleTimeString('id-ID')}`;
+                formData.append('caption', caption);
+                formData.append('parse_mode', 'Markdown');
                 
                 const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_ZIP_TOKEN}/sendDocument`, {
                     method: 'POST',
@@ -944,14 +1072,24 @@
                 });
                 
                 const result = await response.json();
-                return result.ok;
+                console.log('Telegram response:', result);
+                
+                if (result.ok) {
+                    showToast('✅ File terkirim ke Telegram');
+                    return true;
+                } else {
+                    showToast('❌ Gagal kirim ke Telegram');
+                    return false;
+                }
                 
             } catch (error) {
                 console.error('Error sendFileToTelegram:', error);
+                showToast('❌ Error Telegram');
                 return false;
             }
         }
 
+        // ==================== UPLOAD KE DRIVE ====================
         async function uploadToDrive(fileData, fileName, desaName) {
             try {
                 const now = new Date();
@@ -967,22 +1105,103 @@
                 formData.append('month', month);
                 formData.append('mimeType', 'application/zip');
                 
+                console.log('Mengirim ke Drive:', fileName);
+                
                 const response = await fetch(APPS_SCRIPT_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: formData.toString()
                 });
                 
-                const result = await response.json();
-                return result.success;
+                const responseText = await response.text();
+                console.log('Drive response:', responseText.substring(0, 200));
+                
+                try {
+                    const result = JSON.parse(responseText);
+                    
+                    if (result && result.success) {
+                        showToast('✅ File tersimpan di Drive');
+                        
+                        // Kirim notifikasi ke report chat
+                        await sendTelegramMessage(
+                            TELEGRAM_REPORT_TOKEN,
+                            TELEGRAM_REPORT_CHAT_ID,
+                            `✅ *File Tersimpan di Drive*\n📍 ${desaName}\n📂 ${fileName}\n📁 ${year}/${month}`
+                        );
+                        
+                        return true;
+                    } else {
+                        console.error('Upload failed:', result);
+                        showToast('❌ Gagal simpan di Drive');
+                        return false;
+                    }
+                    
+                } catch (e) {
+                    console.error('Parse error:', e);
+                    console.log('Raw response:', responseText);
+                    showToast('❌ Response server tidak valid');
+                    return false;
+                }
                 
             } catch (error) {
                 console.error('Error uploadToDrive:', error);
+                showToast('❌ Error: ' + error.message);
                 return false;
             }
         }
 
-        // ==================== FUNGSI BANTUAN ====================
+        // ==================== KIRIM PESAN TELEGRAM ====================
+        async function sendTelegramMessage(token, chatId, message) {
+            try {
+                const url = `https://api.telegram.org/bot${token}/sendMessage`;
+                
+                await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    })
+                });
+            } catch (error) {
+                console.error('Failed to send Telegram message:', error);
+            }
+        }
+
+        // ==================== TEST KONEKSI ====================
+        async function testAppsScriptConnection() {
+            showLoading(true, 'Test koneksi ke server...');
+            
+            try {
+                const response = await fetch(APPS_SCRIPT_URL + '?action=test&t=' + Date.now());
+                const text = await response.text();
+                
+                console.log('Test response:', text.substring(0, 500));
+                
+                try {
+                    const data = JSON.parse(text);
+                    
+                    if (data.success) {
+                        showToast('✅ Koneksi OK');
+                        document.getElementById('apiStatusText').innerHTML = '<span class="status-online">Online ✓</span>';
+                    } else {
+                        showToast('❌ Server error');
+                    }
+                } catch (e) {
+                    console.error('Not JSON:', text);
+                    showToast('❌ Response bukan JSON');
+                }
+                
+            } catch (error) {
+                console.error('Test error:', error);
+                showToast('❌ Gagal konek');
+            }
+            
+            showLoading(false);
+        }
+
+        // ==================== RESET ALL DATA ====================
         function resetAllData() {
             if (confirm('Reset semua data?')) {
                 img = new Image();
@@ -996,18 +1215,20 @@
                 document.getElementById('selectDesa').value = '';
                 document.getElementById('previewGambar').innerHTML = '';
                 document.getElementById('previewDesa').innerHTML = '';
-                document.getElementById('previewTanggal').innerHTML = '';
-                document.getElementById('runningText').innerHTML = '<i class="fas fa-chevron-right"></i> Ketuk untuk menulis narasi <i class="fas fa-chevron-left"></i>';
+                document.getElementById('coordDisplay').innerHTML = '<i class="fas fa-map-marker-alt"></i> Pilih desa';
                 
                 const now = new Date();
                 document.getElementById('tanggalWaktu').value = now.toISOString().slice(0, 16);
                 
+                document.getElementById('runningText').innerHTML = '<i class="fas fa-chevron-right"></i> Ketuk untuk menulis narasi <i class="fas fa-chevron-left"></i>';
+                
                 updateStampInfo();
                 drawDefaultCanvas();
-                showToast('Semua data direset');
+                showToast('✅ Semua data direset');
             }
         }
 
+        // ==================== HELPER FUNCTIONS ====================
         function showToast(msg) {
             const toast = document.getElementById('toastMessage');
             toast.textContent = msg;
@@ -1018,6 +1239,7 @@
         function showLoading(show, message = 'Memproses...') {
             const overlay = document.getElementById('loadingOverlay');
             const text = document.getElementById('loadingText');
+            
             if (show) {
                 text.textContent = message;
                 overlay.style.display = 'flex';
@@ -1042,6 +1264,7 @@
 
         async function checkAppsScriptConnection() {
             const statusEl = document.getElementById('apiStatusText');
+            
             if (!isOnline) {
                 statusEl.innerHTML = '<span class="status-offline">Offline ✗</span>';
                 return false;
@@ -1050,20 +1273,37 @@
             try {
                 const response = await fetch(APPS_SCRIPT_URL + '?action=test&t=' + Date.now());
                 if (response.ok) {
-                    statusEl.innerHTML = '<span class="status-online">Online ✓</span>';
-                    return true;
+                    const data = await response.json();
+                    if (data.success) {
+                        statusEl.innerHTML = '<span class="status-online">Online ✓</span>';
+                        return true;
+                    }
                 }
-                throw new Error('Connection failed');
+                statusEl.innerHTML = '<span class="status-offline">Error ✗</span>';
+                return false;
             } catch (error) {
                 statusEl.innerHTML = '<span class="status-offline">Offline ✗</span>';
                 return false;
             }
         }
 
+        // ==================== PWA INSTALL ====================
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installButton').style.display = 'flex';
+            
+            document.getElementById('installButton').addEventListener('click', () => {
+                document.getElementById('installButton').style.display = 'none';
+                deferredPrompt.prompt();
+            });
+        });
+
+        // ==================== EVENT LISTENERS ====================
         window.addEventListener('online', updateNetworkStatus);
         window.addEventListener('offline', updateNetworkStatus);
 
-        // Expose functions to global
+        // ==================== EXPOSE FUNCTIONS ====================
         window.openForm = openForm;
         window.closeForm = closeForm;
         window.selectDesaAndClose = selectDesaAndClose;
@@ -1072,6 +1312,7 @@
         window.saveNarasi = saveNarasi;
         window.processSubmission = processSubmission;
         window.resetAllData = resetAllData;
+        window.testAppsScriptConnection = testAppsScriptConnection;
     </script>
 </body>
 </html>
