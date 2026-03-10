@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - DUKOPS PREMIUM</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', Arial, sans-serif;
+            background: #e6f0fa;
+            color: #1e3b5c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+        .offline-container {
+            max-width: 400px;
+            padding: 40px 20px;
+        }
+        .offline-icon {
+            font-size: 80px;
+            color: #4A90E2;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #5c7a9a;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .retry-btn {
+            background: #4A90E2;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .retry-btn:hover {
+            background: #1e4b7c;
+        }
+        .retry-btn:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="offline-icon">
+            <i class="fas fa-wifi-slash"></i>
+        </div>
+        <h1>Koneksi Terputus</h1>
+        <p>Anda sedang offline. Beberapa fitur mungkin tidak tersedia. Silakan periksa koneksi internet Anda dan coba lagi.</p>
+        <button class="retry-btn" onclick="window.location.reload()">
+            <i class="fas fa-sync-alt"></i> Coba Lagi
+        </button>
+    </div>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</body>
+</html>
