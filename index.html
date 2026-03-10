@@ -168,6 +168,7 @@
         .status-bar {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             padding: 5px 10px;
             font-size: 10px;
             color: #5a7a5a;
@@ -176,6 +177,13 @@
 
         .status-online { color: #9fd49f; }
         .status-offline { color: #b85c5c; }
+
+        .status-badge {
+            padding: 2px 6px;
+            border-radius: 10px;
+            background: #2a3f2a;
+            margin-left: 5px;
+        }
 
         /* CANVAS PREVIEW */
         .screen-container {
@@ -490,20 +498,6 @@
             margin: 10px 0;
         }
 
-        /* KOORDINAT PER GAMBAR */
-        .coord-badge {
-            font-size: 10px;
-            color: #9fd49f;
-            margin-top: 2px;
-            text-align: center;
-            background: #1a2a1a;
-            padding: 2px;
-            border-radius: 10px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
         /* KALENDER */
         .calendar-container {
             width: 100%;
@@ -568,6 +562,7 @@
             cursor: pointer;
             font-size: 14px;
             transition: all 0.2s;
+            position: relative;
         }
 
         .calendar-day:hover {
@@ -578,11 +573,17 @@
             background: #9fd49f;
             color: #1a2a1a;
             font-weight: bold;
+            border: 2px solid white;
         }
 
         .calendar-day.used {
-            background: #b85c5c;
+            background: #b85c5c !important;
             color: white;
+            border: 2px solid #ff9999;
+        }
+
+        .calendar-day.used:hover {
+            background: #a04c4c !important;
         }
 
         .calendar-day.empty {
@@ -594,7 +595,16 @@
             border: 2px solid #9fd49f;
         }
 
-        /* TIME PICKER - SEPERTI NARASI */
+        .calendar-day.used::after {
+            content: '✓';
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            font-size: 10px;
+            color: white;
+        }
+
+        /* TIME PICKER */
         .time-picker-container {
             margin-top: 20px;
             padding: 15px;
@@ -857,6 +867,29 @@
             cursor: pointer;
             z-index: 10000;
             font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .test-btn.testing {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .test-btn.success {
+            background: #2a4a2a;
+            border-color: #9fd49f;
+            color: #9fd49f;
+        }
+
+        .test-btn.error {
+            background: #4a2a2a;
+            border-color: #b85c5c;
+            color: #b85c5c;
         }
     </style>
 </head>
@@ -884,8 +917,8 @@
     </div>
 
     <!-- TEST BUTTON -->
-    <div class="test-btn" onclick="testAppsScriptConnection()" title="Test Koneksi">
-        <i class="fas fa-plug"></i>
+    <div class="test-btn" id="testButton" onclick="testRealConnection()" title="Test Koneksi Real ke Server">
+        <i class="fas fa-plug" id="testIcon"></i>
     </div>
 
     <!-- OFFLINE BANNER -->
@@ -903,10 +936,10 @@
     <div id="confirmDialog" class="confirm-dialog">
         <i class="fas fa-exclamation-triangle"></i>
         <h3>PERHATIAN!</h3>
-        <p id="confirmMessage">Anda sudah membuat laporan untuk tanggal ini. Tetap gunakan tanggal yang sama?</p>
+        <p id="confirmMessage"></p>
         <div class="confirm-buttons">
-            <button class="confirm-btn confirm-yes" onclick="confirmContinue()">YA, LANJUTKAN</button>
-            <button class="confirm-btn confirm-no" onclick="confirmCancel()">BATAL</button>
+            <button class="confirm-btn confirm-yes" id="confirmYesBtn">YA, LANJUTKAN</button>
+            <button class="confirm-btn confirm-no" id="confirmNoBtn">BATAL</button>
         </div>
     </div>
 
@@ -914,8 +947,15 @@
     <div id="mainMenu" class="main-menu hidden">
         <!-- STATUS BAR -->
         <div class="status-bar">
-            <span><i class="fas fa-circle"></i> Server: <span id="apiStatusText" class="status-offline">Mengecek...</span></span>
-            <span><i class="fas fa-circle"></i> Network: <span id="networkStatusText" class="status-online">Online</span></span>
+            <span>
+                <i class="fas fa-circle" id="serverStatusIcon"></i> 
+                Server: <span id="apiStatusText" class="status-offline">Mengecek...</span>
+                <span class="status-badge" id="pingTime">- ms</span>
+            </span>
+            <span>
+                <i class="fas fa-circle" id="networkStatusIcon"></i> 
+                Network: <span id="networkStatusText" class="status-online">Online</span>
+            </span>
         </div>
 
         <!-- CANVAS PREVIEW -->
@@ -953,7 +993,9 @@
         </div>
 
         <!-- RESET ICON -->
-        <div class="reset-icon" onclick="resetAllData()"><i class="fas fa-undo"></i></div>
+        <div class="reset-icon" onclick="confirmReset()">
+            <i class="fas fa-undo"></i>
+        </div>
     </div>
 
     <!-- FORM DESA -->
@@ -996,7 +1038,7 @@
         <div class="preview-text" id="previewGambar"></div>
     </div>
 
-    <!-- FORM TANGGAL DENGAN AUTO SAVE SEPERTI NARASI -->
+    <!-- FORM TANGGAL -->
     <div id="formTanggal" class="fullscreen-form">
         <div class="form-header">
             <div class="back-icon" onclick="closeForm('tanggal')"><i class="fas fa-arrow-left"></i></div>
@@ -1031,7 +1073,7 @@
             </div>
             <div class="time-display" id="timeDisplay">12:00</div>
             <div class="time-info">
-                <i class="fas fa-clock"></i> Detik mengikuti perangkat saat klik tanggal
+                <i class="fas fa-clock"></i> Detik mengikuti perangkat saat simpan
             </div>
             <div class="time-note">
                 <i class="fas fa-arrow-left"></i> Ketuk panah kiri untuk simpan otomatis
@@ -1094,6 +1136,7 @@
         let desaList = [];
         let coordCache = {};
         let usedDates = new Set();
+        let isThankYouMode = false;
 
         // Slideshow
         let slideshowImages = [];
@@ -1132,14 +1175,13 @@
             await loadDesaListFromGitHub();
             await loadUsedDates();
             await loadSentImages();
-            await checkAppsScriptConnection();
+            await checkRealServerConnection();
             
             const now = new Date();
             selectedDate = now;
             selectedHour = now.getHours();
             selectedMinute = now.getMinutes();
             
-            // Set input jam
             document.getElementById('hourInput').value = selectedHour;
             document.getElementById('minuteInput').value = selectedMinute;
             
@@ -1147,6 +1189,133 @@
             drawDefaultCanvas();
             renderCalendar();
             updateTimeDisplay();
+            
+            // Setup confirm dialog
+            document.getElementById('confirmYesBtn').onclick = confirmContinue;
+            document.getElementById('confirmNoBtn').onclick = confirmCancel;
+        }
+
+        // ==================== TEST KONEKSI REAL ====================
+        async function testRealConnection() {
+            const testBtn = document.getElementById('testButton');
+            const testIcon = document.getElementById('testIcon');
+            const apiStatus = document.getElementById('apiStatusText');
+            const pingTime = document.getElementById('pingTime');
+            const serverIcon = document.getElementById('serverStatusIcon');
+            
+            testBtn.classList.add('testing');
+            testBtn.classList.remove('success', 'error');
+            testIcon.className = 'fas fa-spinner fa-spin';
+            apiStatus.innerHTML = 'Testing...';
+            pingTime.textContent = '- ms';
+            serverIcon.style.color = '#f0b400';
+            
+            const startTime = performance.now();
+            
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5000);
+                
+                const response = await fetch(APPS_SCRIPT_URL + '?action=test&t=' + Date.now(), {
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                
+                const endTime = performance.now();
+                const ping = Math.round(endTime - startTime);
+                
+                const text = await response.text();
+                
+                try {
+                    const data = JSON.parse(text);
+                    
+                    if (data.success) {
+                        testBtn.classList.remove('testing');
+                        testBtn.classList.add('success');
+                        testIcon.className = 'fas fa-check-circle';
+                        apiStatus.innerHTML = '<span class="status-online">Online</span>';
+                        pingTime.textContent = `${ping} ms`;
+                        serverIcon.style.color = '#9fd49f';
+                        showToast(`✅ Server Online (${ping} ms)`);
+                    } else {
+                        throw new Error('Server error');
+                    }
+                } catch (e) {
+                    testBtn.classList.remove('testing');
+                    testBtn.classList.add('error');
+                    testIcon.className = 'fas fa-exclamation-triangle';
+                    apiStatus.innerHTML = '<span class="status-offline">Error</span>';
+                    pingTime.textContent = '- ms';
+                    serverIcon.style.color = '#b85c5c';
+                    showToast('❌ Server mengembalikan response tidak valid');
+                }
+                
+            } catch (error) {
+                const endTime = performance.now();
+                const ping = Math.round(endTime - startTime);
+                
+                testBtn.classList.remove('testing');
+                testBtn.classList.add('error');
+                testIcon.className = 'fas fa-times-circle';
+                apiStatus.innerHTML = '<span class="status-offline">Offline</span>';
+                pingTime.textContent = `${ping} ms (timeout)`;
+                serverIcon.style.color = '#b85c5c';
+                
+                if (error.name === 'AbortError') {
+                    showToast('❌ Server tidak merespon (timeout 5s)');
+                } else {
+                    showToast('❌ Gagal konek ke server');
+                }
+            }
+        }
+
+        // ==================== CHECK SERVER REAL ====================
+        async function checkRealServerConnection() {
+            const apiStatus = document.getElementById('apiStatusText');
+            const pingTime = document.getElementById('pingTime');
+            const serverIcon = document.getElementById('serverStatusIcon');
+            
+            if (!isOnline) {
+                apiStatus.innerHTML = '<span class="status-offline">Offline</span>';
+                pingTime.textContent = '- ms';
+                serverIcon.style.color = '#b85c5c';
+                return false;
+            }
+            
+            const startTime = performance.now();
+            
+            try {
+                const response = await fetch(APPS_SCRIPT_URL + '?action=test&t=' + Date.now());
+                const endTime = performance.now();
+                const ping = Math.round(endTime - startTime);
+                
+                const text = await response.text();
+                
+                try {
+                    const data = JSON.parse(text);
+                    
+                    if (data.success) {
+                        apiStatus.innerHTML = '<span class="status-online">Online</span>';
+                        pingTime.textContent = `${ping} ms`;
+                        serverIcon.style.color = '#9fd49f';
+                        return true;
+                    } else {
+                        throw new Error('Server error');
+                    }
+                } catch (e) {
+                    apiStatus.innerHTML = '<span class="status-offline">Error</span>';
+                    pingTime.textContent = '- ms';
+                    serverIcon.style.color = '#b85c5c';
+                    return false;
+                }
+                
+            } catch (error) {
+                apiStatus.innerHTML = '<span class="status-offline">Offline</span>';
+                pingTime.textContent = '- ms';
+                serverIcon.style.color = '#b85c5c';
+                return false;
+            }
         }
 
         // ==================== LOAD DESA DARI GITHUB ====================
@@ -1271,6 +1440,10 @@
 
         // ==================== MULTI FOTO FUNCTIONS ====================
         function openFilePicker() {
+            if (isThankYouMode) {
+                showToast('❌ Sedang mode terima kasih, reset dulu');
+                return;
+            }
             document.getElementById('multiGambar').click();
         }
 
@@ -1304,10 +1477,8 @@
                             coord: randomCoord
                         });
                         
-                        if (selectedImages.length === newImagesCount + 1) {
-                            updatePhotoPreview();
-                            updateCanvasWithFirstImage();
-                        }
+                        updatePhotoPreview();
+                        updateCanvasWithFirstImage();
                     };
                     reader.readAsDataURL(file);
                     newImagesCount++;
@@ -1315,7 +1486,7 @@
             }
             
             if (newImagesCount > 0) {
-                showToast(`✅ ${newImagesCount} foto baru ditambahkan dengan koordinat acak`);
+                showToast(`✅ ${newImagesCount} foto baru ditambahkan`);
             }
             
             event.target.value = '';
@@ -1370,6 +1541,7 @@
         }
 
         function showImageInCanvas(index) {
+            if (isThankYouMode) return;
             if (selectedImages.length === 0 || index >= selectedImages.length) return;
             
             currentCanvasImageIndex = index;
@@ -1413,20 +1585,63 @@
             }
         }
 
+        // ==================== FUNGSI TERIMA KASIH ====================
+        function showThankYouScreen() {
+            isThankYouMode = true;
+            
+            const canvas = document.getElementById('mainCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.fillStyle = '#0a120a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#9fd49f';
+            ctx.font = 'bold 24px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('TERIMA KASIH', canvas.width/2, canvas.height/2 - 60);
+            
+            ctx.font = '16px Arial';
+            ctx.fillStyle = '#b0b0b0';
+            ctx.fillText('Atas penggunaan aplikasi ini', canvas.width/2, canvas.height/2 - 20);
+            
+            ctx.font = '14px Arial';
+            ctx.fillStyle = '#8a9a8a';
+            ctx.fillText('Kedepan akan kami kembangkan lagi', canvas.width/2, canvas.height/2 + 20);
+            ctx.fillText('guna permudah anggota Koramil', canvas.width/2, canvas.height/2 + 45);
+            ctx.fillText('mengirim laporan', canvas.width/2, canvas.height/2 + 70);
+            
+            ctx.font = 'bold 16px Arial';
+            ctx.fillStyle = '#9fd49f';
+            ctx.fillText('SALAM SUKSES DAN SEHAT SELALU', canvas.width/2, canvas.height/2 + 110);
+            
+            ctx.font = '12px Arial';
+            ctx.fillStyle = '#5a7a5a';
+            ctx.fillText('KORAMIL 1609-05/SUKASADA', canvas.width/2, canvas.height/2 + 140);
+            
+            document.getElementById('slideshowIndicator').textContent = '❤️';
+            document.getElementById('stampDesa').textContent = '-';
+            document.getElementById('stampCoord').textContent = '-';
+            document.getElementById('stampTanggal').textContent = '-';
+            document.getElementById('stampJam').textContent = '-';
+            document.getElementById('runningText').innerHTML = '<i class="fas fa-heart"></i> Terima kasih atas kerjasamanya <i class="fas fa-heart"></i>';
+        }
+
         // ==================== SLIDESHOW FUNCTIONS ====================
         function nextSlide() {
+            if (isThankYouMode) return;
             if (selectedImages.length === 0) return;
             currentCanvasImageIndex = (currentCanvasImageIndex + 1) % selectedImages.length;
             showImageInCanvas(currentCanvasImageIndex);
         }
 
         function prevSlide() {
+            if (isThankYouMode) return;
             if (selectedImages.length === 0) return;
             currentCanvasImageIndex = (currentCanvasImageIndex - 1 + selectedImages.length) % selectedImages.length;
             showImageInCanvas(currentCanvasImageIndex);
         }
 
-        // ==================== KALENDER DENGAN AUTO SAVE SEPERTI NARASI ====================
+        // ==================== KALENDER ====================
         function renderCalendar() {
             const monthNames = [
                 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
@@ -1487,21 +1702,26 @@
             renderCalendar();
         }
 
-        // FUNGSI SELECT DATE - TIDAK LANGSUNG CLOSE, TUNGGU USER KETUK PANAH KIRI
         function selectDate(day) {
+            if (isThankYouMode) {
+                showToast('❌ Sedang mode terima kasih, reset dulu');
+                return;
+            }
+            
             const selectedDateStr = formatDateYYYYMMDD(currentYear, currentMonth, day);
             const newDate = new Date(currentYear, currentMonth, day);
             
             tempSelectedDate = newDate;
             
-            // Tandai tanggal yang dipilih di kalender
             renderCalendar();
             
-            // Beri notifikasi bahwa tanggal sudah dipilih
-            showToast(`📅 Tanggal ${day} dipilih, atur jam lalu ketuk panah kiri`);
+            if (usedDates.has(selectedDateStr)) {
+                showToast(`⚠️ Tanggal ${day} sudah pernah dipakai`);
+            } else {
+                showToast(`📅 Tanggal ${day} dipilih, atur jam lalu ketuk panah kiri`);
+            }
         }
 
-        // AUTO SAVE KETIKA KETUK PANAH KIRI (SAMA SEPERTI NARASI)
         function autoSaveDateTime() {
             if (!tempSelectedDate) {
                 showToast('❌ Pilih tanggal dulu');
@@ -1524,9 +1744,7 @@
                 selectedDate.getDate()
             );
             
-            // Cek apakah tanggal sudah dipakai
             if (usedDates.has(dateStr)) {
-                // Tampilkan dialog konfirmasi
                 pendingDateSelection = selectedDate;
                 document.getElementById('confirmMessage').innerHTML = 
                     `Anda sudah membuat laporan untuk tanggal <strong>${selectedDate.getDate()} ${document.getElementById('calendarMonthYear').textContent}</strong>. Tetap gunakan tanggal yang sama?`;
@@ -1534,11 +1752,9 @@
                 return false;
             }
             
-            // Simpan ke used dates
             usedDates.add(dateStr);
             localStorage.setItem('usedDates', JSON.stringify([...usedDates]));
             
-            // Update tampilan
             updateStampInfo();
             renderCalendar();
             
@@ -1583,6 +1799,11 @@
 
         // ==================== FUNGSI FORM ====================
         function openForm(formName) {
+            if (isThankYouMode && formName !== 'desa') {
+                showToast('❌ Sedang mode terima kasih, reset dulu');
+                return;
+            }
+            
             document.getElementById('mainMenu').classList.add('hidden');
             document.getElementById('formDesa').classList.remove('active');
             document.getElementById('formFoto').classList.remove('active');
@@ -1611,7 +1832,6 @@
             if (formName === 'narasi') {
                 saveNarasi();
             } else if (formName === 'tanggal') {
-                // AUTO SAVE TANGGAL & JAM KETIKA KETUK PANAH KIRI
                 autoSaveDateTime();
             }
             
@@ -1625,6 +1845,11 @@
         }
 
         async function selectDesaAndClose() {
+            if (isThankYouMode) {
+                showToast('❌ Sedang mode terima kasih, reset dulu');
+                return;
+            }
+            
             const select = document.getElementById('selectDesa');
             selectedDesaFull = select.value;
             
@@ -1647,6 +1872,11 @@
         }
 
         function saveNarasi() {
+            if (isThankYouMode) {
+                showToast('❌ Sedang mode terima kasih, reset dulu');
+                return;
+            }
+            
             narasiText = document.getElementById('narasiFull').value;
             
             const runningText = document.getElementById('runningText');
@@ -1661,6 +1891,8 @@
 
         // ==================== CANVAS ====================
         function drawDefaultCanvas() {
+            if (isThankYouMode) return;
+            
             const canvas = document.getElementById('mainCanvas');
             const ctx = canvas.getContext('2d');
             
@@ -1680,6 +1912,8 @@
         }
 
         function updateStampInfo() {
+            if (isThankYouMode) return;
+            
             document.getElementById('stampDesa').textContent = selectedDesaFull || '-';
             
             const options = { day: '2-digit', month: 'long', year: 'numeric' };
@@ -1693,8 +1927,53 @@
             }
         }
 
-        // ==================== PROSES KIRIM DENGAN MULTI FOTO ====================
+        // ==================== RESET ====================
+        function confirmReset() {
+            document.getElementById('confirmMessage').innerHTML = 'Reset semua data? Semua foto dan narasi akan hilang.';
+            document.getElementById('confirmDialog').classList.add('active');
+            
+            window.confirmContinue = function() {
+                resetAllData();
+                document.getElementById('confirmDialog').classList.remove('active');
+            };
+            
+            window.confirmCancel = function() {
+                document.getElementById('confirmDialog').classList.remove('active');
+            };
+        }
+
+        function resetAllData() {
+            selectedImages = [];
+            currentCanvasImageIndex = 0;
+            selectedDesaFull = "";
+            desaCoordData = null;
+            narasiText = "";
+            selectedDate = new Date();
+            isThankYouMode = false;
+            
+            document.getElementById('multiGambar').value = '';
+            document.getElementById('narasiFull').value = '';
+            document.getElementById('selectDesa').value = '';
+            document.getElementById('previewGambar').innerHTML = '';
+            document.getElementById('previewDesa').innerHTML = '';
+            document.getElementById('photoPreviewContainer').innerHTML = '';
+            document.getElementById('photoCount').textContent = '0 foto dipilih';
+            document.getElementById('coordDisplay').innerHTML = '<i class="fas fa-map-marker-alt"></i> Pilih desa';
+            
+            document.getElementById('runningText').innerHTML = '<i class="fas fa-chevron-right"></i> Ketuk untuk menulis narasi <i class="fas fa-chevron-left"></i>';
+            
+            updateStampInfo();
+            drawDefaultCanvas();
+            showToast('✅ Semua data direset');
+        }
+
+        // ==================== PROSES KIRIM ====================
         async function processSubmission() {
+            if (isThankYouMode) {
+                showToast('❌ Sedang mode terima kasih, reset dulu');
+                return;
+            }
+            
             if (!selectedDesaFull) { showToast('❌ Pilih desa dulu'); return; }
             if (selectedImages.length === 0) { showToast('❌ Upload foto dulu (minimal 1)'); return; }
             if (!narasiText) { showToast('❌ Tulis narasi dulu'); return; }
@@ -1728,6 +2007,9 @@
                     `DETAIL FOTO:`,
                 ];
                 
+                // Simpan hash gambar yang akan dikirim
+                const sentHashes = [];
+                
                 selectedImages.forEach((img, index) => {
                     const imgFileName = `${baseFileName}_${String(index + 1).padStart(2, '0')}.png`;
                     const imgData = img.dataUrl.split(',')[1];
@@ -1735,6 +2017,10 @@
                     
                     infoContent.push(`\nFoto ${index + 1}: ${img.name}`);
                     infoContent.push(`  Koordinat: ${img.coord}`);
+                    
+                    if (img.hash) {
+                        sentHashes.push(img.hash);
+                    }
                 });
                 
                 zip.file('INFO.txt', infoContent.join('\n'));
@@ -1755,14 +2041,11 @@
                         const driveSuccess = await uploadToDrive(base64Data, zipFileName, selectedDesaFull);
                         
                         if (driveSuccess) {
-                            selectedImages.forEach(img => {
-                                if (img.hash) {
-                                    sentImageHashes.add(img.hash);
-                                }
+                            // Simpan hash gambar yang sudah dikirim
+                            sentHashes.forEach(hash => {
+                                sentImageHashes.add(hash);
                             });
                             localStorage.setItem('sentImageHashes', JSON.stringify([...sentImageHashes]));
-                            
-                            showToast('✅ Laporan terkirim!');
                             
                             const dateStrYYYYMMDD = formatDateYYYYMMDD(
                                 date.getFullYear(),
@@ -1772,12 +2055,23 @@
                             usedDates.add(dateStrYYYYMMDD);
                             localStorage.setItem('usedDates', JSON.stringify([...usedDates]));
                             
-                            selectedImages = [];
-                            currentCanvasImageIndex = 0;
-                            updatePhotoPreview();
-                            drawDefaultCanvas();
-                            
-                            setTimeout(() => { resetAllData(); }, 2000);
+                            // HAPUS 1 FOTO YANG TERKIRIM (FOTO PERTAMA)
+                            if (selectedImages.length > 0) {
+                                selectedImages.shift(); // Hapus foto pertama (yang baru saja dikirim)
+                                currentCanvasImageIndex = 0;
+                                updatePhotoPreview();
+                                
+                                if (selectedImages.length > 0) {
+                                    showToast(`✅ 1 foto terkirim, sisa ${selectedImages.length} foto`);
+                                    showImageInCanvas(0);
+                                } else {
+                                    // Jika tidak ada foto tersisa, tampilkan layar terima kasih
+                                    showThankYouScreen();
+                                    showToast('✅ Semua foto terkirim! Terima kasih');
+                                }
+                            } else {
+                                showThankYouScreen();
+                            }
                         }
                     }
                     
@@ -1806,7 +2100,7 @@
                 
                 formData.append('document', blob, fileName);
                 
-                const caption = `📁 *Laporan DUKOPS*\n📍 ${desaName}\n📅 ${selectedDate.toLocaleDateString('id-ID')}\n⏰ ${formatTime(selectedDate)}\n📸 ${selectedImages.length} foto\n📝 ${narasiText.substring(0, 100)}${narasiText.length > 100 ? '...' : ''}`;
+                const caption = `📁 *Laporan DUKOPS*\n📍 ${desaName}\n📅 ${selectedDate.toLocaleDateString('id-ID')}\n⏰ ${formatTime(selectedDate)}\n📸 ${selectedImages.length + 1} foto terkirim, sisa ${selectedImages.length} foto\n📝 ${narasiText.substring(0, 100)}${narasiText.length > 100 ? '...' : ''}`;
                 formData.append('caption', caption);
                 formData.append('parse_mode', 'Markdown');
                 
@@ -1877,78 +2171,6 @@
             }
         }
 
-        async function sendTelegramMessage(token, chatId, message) {
-            try {
-                const url = `https://api.telegram.org/bot${token}/sendMessage`;
-                await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: chatId,
-                        text: message,
-                        parse_mode: 'Markdown'
-                    })
-                });
-            } catch (error) {
-                console.error('Failed to send Telegram message:', error);
-            }
-        }
-
-        // ==================== TEST KONEKSI ====================
-        async function testAppsScriptConnection() {
-            showLoading(true, 'Test koneksi ke server...');
-            
-            try {
-                const response = await fetch(APPS_SCRIPT_URL + '?action=test&t=' + Date.now());
-                const text = await response.text();
-                
-                try {
-                    const data = JSON.parse(text);
-                    
-                    if (data.success) {
-                        showToast('✅ Koneksi OK');
-                        document.getElementById('apiStatusText').innerHTML = '<span class="status-online">Online ✓</span>';
-                    } else {
-                        showToast('❌ Server error');
-                    }
-                } catch (e) {
-                    showToast('❌ Response bukan JSON');
-                }
-                
-            } catch (error) {
-                showToast('❌ Gagal konek');
-            }
-            
-            showLoading(false);
-        }
-
-        // ==================== RESET ALL DATA ====================
-        function resetAllData() {
-            if (confirm('Reset semua data?')) {
-                selectedImages = [];
-                currentCanvasImageIndex = 0;
-                selectedDesaFull = "";
-                desaCoordData = null;
-                narasiText = "";
-                selectedDate = new Date();
-                
-                document.getElementById('multiGambar').value = '';
-                document.getElementById('narasiFull').value = '';
-                document.getElementById('selectDesa').value = '';
-                document.getElementById('previewGambar').innerHTML = '';
-                document.getElementById('previewDesa').innerHTML = '';
-                document.getElementById('photoPreviewContainer').innerHTML = '';
-                document.getElementById('photoCount').textContent = '0 foto dipilih';
-                document.getElementById('coordDisplay').innerHTML = '<i class="fas fa-map-marker-alt"></i> Pilih desa';
-                
-                document.getElementById('runningText').innerHTML = '<i class="fas fa-chevron-right"></i> Ketuk untuk menulis narasi <i class="fas fa-chevron-left"></i>';
-                
-                updateStampInfo();
-                drawDefaultCanvas();
-                showToast('✅ Semua data direset');
-            }
-        }
-
         // ==================== HELPER FUNCTIONS ====================
         function showToast(msg) {
             const toast = document.getElementById('toastMessage');
@@ -1973,38 +2195,16 @@
             isOnline = navigator.onLine;
             const statusEl = document.getElementById('networkStatusText');
             const bannerEl = document.getElementById('offlineBanner');
+            const networkIcon = document.getElementById('networkStatusIcon');
             
             if (isOnline) {
                 statusEl.innerHTML = '<span class="status-online">Online</span>';
                 bannerEl.classList.add('hidden');
+                networkIcon.style.color = '#9fd49f';
             } else {
                 statusEl.innerHTML = '<span class="status-offline">Offline</span>';
                 bannerEl.classList.remove('hidden');
-            }
-        }
-
-        async function checkAppsScriptConnection() {
-            const statusEl = document.getElementById('apiStatusText');
-            
-            if (!isOnline) {
-                statusEl.innerHTML = '<span class="status-offline">Offline ✗</span>';
-                return false;
-            }
-            
-            try {
-                const response = await fetch(APPS_SCRIPT_URL + '?action=test&t=' + Date.now());
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data.success) {
-                        statusEl.innerHTML = '<span class="status-online">Online ✓</span>';
-                        return true;
-                    }
-                }
-                statusEl.innerHTML = '<span class="status-offline">Error ✗</span>';
-                return false;
-            } catch (error) {
-                statusEl.innerHTML = '<span class="status-offline">Offline ✗</span>';
-                return false;
+                networkIcon.style.color = '#b85c5c';
             }
         }
 
@@ -2032,8 +2232,9 @@
         window.selectDesaAndClose = selectDesaAndClose;
         window.saveNarasi = saveNarasi;
         window.processSubmission = processSubmission;
+        window.confirmReset = confirmReset;
         window.resetAllData = resetAllData;
-        window.testAppsScriptConnection = testAppsScriptConnection;
+        window.testRealConnection = testRealConnection;
         window.openFilePicker = openFilePicker;
         window.previewMultiImages = previewMultiImages;
         window.removePhoto = removePhoto;
