@@ -245,8 +245,8 @@
         .running-text {
             display: inline-block;
             color: #2c5778;
-            font-size: 12px;
-            font-weight: 500;
+            font-size: 15px;
+            font-weight: 600;
             animation: scrollText 25s linear infinite;
             padding-left: 100%;
             white-space: nowrap;
@@ -255,7 +255,7 @@
         .running-text i {
             margin: 0 8px;
             color: #4A90E2;
-            font-size: 10px;
+            font-size: 13px;
         }
 
         @keyframes scrollText {
@@ -1432,7 +1432,7 @@
             }
         }
 
-        // ==================== WATERMARK - DENGAN OUTLINE PUTIH ====================
+        // ==================== WATERMARK - WARNA PUTIH, POSISI TETAP ====================
         function addWatermarkToImage(imageDataUrl, babinsa, coord, date, time, callback) {
             const img = new Image();
             img.crossOrigin = "Anonymous";
@@ -1444,22 +1444,15 @@
                 
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                 
-                // Watermark dengan outline putih agar terlihat di background gelap
+                // Font dan posisi watermark tetap, hanya warna diubah jadi putih
                 ctx.font = 'bold ' + Math.max(16, Math.floor(canvas.width/28)) + 'px Arial';
                 ctx.textAlign = 'right';
                 
                 const margin = 20;
                 const lineHeight = Math.max(24, Math.floor(canvas.width/20));
                 
-                // Outline putih
-                ctx.strokeStyle = 'white';
-                ctx.lineWidth = 3;
-                ctx.strokeText(`Babinsa ${babinsa}`, canvas.width - margin, canvas.height - (lineHeight * 3));
-                ctx.strokeText(coord, canvas.width - margin, canvas.height - (lineHeight * 2));
-                ctx.strokeText(date + ' ' + time, canvas.width - margin, canvas.height - lineHeight);
-                
-                // Teks hitam
-                ctx.fillStyle = '#000000';
+                // Watermark warna putih (tanpa outline hitam)
+                ctx.fillStyle = '#FFFFFF';
                 ctx.fillText(`Babinsa ${babinsa}`, canvas.width - margin, canvas.height - (lineHeight * 3));
                 ctx.fillText(coord, canvas.width - margin, canvas.height - (lineHeight * 2));
                 ctx.fillText(date + ' ' + time, canvas.width - margin, canvas.height - lineHeight);
