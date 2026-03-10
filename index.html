@@ -1138,10 +1138,6 @@
         let usedDates = new Set();
         let isThankYouMode = false;
 
-        // Slideshow
-        let slideshowImages = [];
-        let currentSlideIndex = 0;
-        
         // Kalender
         let currentMonth = new Date().getMonth();
         let currentYear = new Date().getFullYear();
@@ -1190,7 +1186,6 @@
             renderCalendar();
             updateTimeDisplay();
             
-            // Setup confirm dialog
             document.getElementById('confirmYesBtn').onclick = confirmContinue;
             document.getElementById('confirmNoBtn').onclick = confirmCancel;
         }
@@ -1496,7 +1491,14 @@
             const container = document.getElementById('photoPreviewContainer');
             const countEl = document.getElementById('photoCount');
             
+            // KOSONGKAN DULU
             container.innerHTML = '';
+            
+            if (selectedImages.length === 0) {
+                countEl.textContent = '0 foto dipilih';
+                document.getElementById('previewGambar').innerHTML = '';
+                return;
+            }
             
             selectedImages.forEach((img, index) => {
                 const item = document.createElement('div');
@@ -1542,7 +1544,10 @@
 
         function showImageInCanvas(index) {
             if (isThankYouMode) return;
-            if (selectedImages.length === 0 || index >= selectedImages.length) return;
+            if (selectedImages.length === 0 || index >= selectedImages.length) {
+                drawDefaultCanvas();
+                return;
+            }
             
             currentCanvasImageIndex = index;
             const imgData = selectedImages[index];
@@ -1979,7 +1984,8 @@
             if (!narasiText) { showToast('❌ Tulis narasi dulu'); return; }
             if (!isOnline) { showToast('❌ Tidak ada koneksi internet'); return; }
 
-            showLoading(true, `Membuat file ZIP (${selectedImages.length} foto)...`);
+            const totalFotoAwal = selectedImages.length;
+            showLoading(true, `Membuat file ZIP (${totalFotoAwal} foto)...`);
             
             try {
                 const date = selectedDate;
@@ -2001,7 +2007,7 @@
                     `Desa: ${selectedDesaFull}`,
                     `Tanggal: ${selectedDate.toLocaleDateString('id-ID')}`,
                     `Jam: ${formatTime(selectedDate)}`,
-                    `Jumlah Foto: ${selectedImages.length}`,
+                    `Jumlah Foto: ${totalFotoAwal}`,
                     `Narasi: ${narasiText}`,
                     `-------------------`,
                     `DETAIL FOTO:`,
@@ -2010,18 +2016,25 @@
                 // Simpan hash gambar yang akan dikirim
                 const sentHashes = [];
                 
-                selectedImages.forEach((img, index) => {
-                    const imgFileName = `${baseFileName}_${String(index + 1).padStart(2, '0')}.png`;
-                    const imgData = img.dataUrl.split(',')[1];
-                    zip.file(imgFileName, imgData, { base64: true });
-                    
-                    infoContent.push(`\nFoto ${index + 1}: ${img.name}`);
-                    infoContent.push(`  Koordinat: ${img.coord}`);
-                    
-                    if (img.hash) {
-                        sentHashes.push(img.hash);
-                    }
-                });
+                // AMBIL FOTO PERTAMA UNTUK DIKIRIM
+                const currentImage = selectedImages[0];
+                
+                const imgFileName = `${baseFileName}_01.png`;
+                const imgData = currentImage.dataUrl.split(',')[1];
+                zip.file(imgFileName, imgData, { base64: true });
+                
+                infoContent.push(`\nFoto 1: ${currentImage.name}`);
+                infoContent.push(`  Koordinat: ${currentImage.coord}`);
+                
+                if (currentImage.hash) {
+                    sentHashes.push(currentImage.hash);
+                }
+                
+                // Tambahkan sisa foto ke info (tapi tidak ke ZIP)
+                for (let i = 1; i < selectedImages.length; i++) {
+                    infoContent.push(`\nFoto ${i + 1}: ${selectedImages[i].name} (menunggu kirim)`);
+                    infoContent.push(`  Koordinat: ${selectedImages[i].coord}`);
+                }
                 
                 zip.file('INFO.txt', infoContent.join('\n'));
                 
@@ -2034,7 +2047,8 @@
                     const base64Data = reader.result.split(',')[1];
                     
                     showLoading(true, 'Mengirim ke Telegram...');
-                    const telegramSuccess = await sendFileToTelegram(base64Data, zipFileName, selectedDesaFull);
+                    const fotoKe = totalFotoAwal - selectedImages.length + 1;
+                    const telegramSuccess = await sendFileToTelegram(base64Data, zipFileName, selectedDesaFull, fotoKe, totalFotoAwal);
                     
                     if (telegramSuccess) {
                         showLoading(true, 'Menyimpan ke Drive...');
@@ -2055,22 +2069,21 @@
                             usedDates.add(dateStrYYYYMMDD);
                             localStorage.setItem('usedDates', JSON.stringify([...usedDates]));
                             
-                            // HAPUS 1 FOTO YANG TERKIRIM (FOTO PERTAMA)
+                            // HAPUS FOTO PERTAMA YANG BARU SAJA DIKIRIM
+                            selectedImages.shift(); // Hapus foto pertama
+                            currentCanvasImageIndex = 0;
+                            
+                            // UPDATE PREVIEW - LANGSUNG HILANG
+                            updatePhotoPreview();
+                            
                             if (selectedImages.length > 0) {
-                                selectedImages.shift(); // Hapus foto pertama (yang baru saja dikirim)
-                                currentCanvasImageIndex = 0;
-                                updatePhotoPreview();
-                                
-                                if (selectedImages.length > 0) {
-                                    showToast(`✅ 1 foto terkirim, sisa ${selectedImages.length} foto`);
-                                    showImageInCanvas(0);
-                                } else {
-                                    // Jika tidak ada foto tersisa, tampilkan layar terima kasih
-                                    showThankYouScreen();
-                                    showToast('✅ Semua foto terkirim! Terima kasih');
-                                }
+                                showToast(`✅ 1 foto terkirim, sisa ${selectedImages.length} foto`);
+                                // TAMPILKAN FOTO BERIKUTNYA
+                                showImageInCanvas(0);
                             } else {
+                                // JIKA TIDAK ADA FOTO TERSISA, TAMPILKAN LAYAR TERIMA KASIH
                                 showThankYouScreen();
+                                showToast('✅ Semua foto terkirim! Terima kasih');
                             }
                         }
                     }
@@ -2085,7 +2098,7 @@
             }
         }
 
-        async function sendFileToTelegram(fileData, fileName, desaName) {
+        async function sendFileToTelegram(fileData, fileName, desaName, fotoKe, totalFoto) {
             try {
                 const formData = new FormData();
                 formData.append('chat_id', TELEGRAM_ZIP_CHAT_ID);
@@ -2100,7 +2113,7 @@
                 
                 formData.append('document', blob, fileName);
                 
-                const caption = `📁 *Laporan DUKOPS*\n📍 ${desaName}\n📅 ${selectedDate.toLocaleDateString('id-ID')}\n⏰ ${formatTime(selectedDate)}\n📸 ${selectedImages.length + 1} foto terkirim, sisa ${selectedImages.length} foto\n📝 ${narasiText.substring(0, 100)}${narasiText.length > 100 ? '...' : ''}`;
+                const caption = `📁 *Laporan DUKOPS*\n📍 ${desaName}\n📅 ${selectedDate.toLocaleDateString('id-ID')}\n⏰ ${formatTime(selectedDate)}\n📸 Foto ke-${fotoKe} dari ${totalFoto}\n📝 ${narasiText.substring(0, 100)}${narasiText.length > 100 ? '...' : ''}`;
                 formData.append('caption', caption);
                 formData.append('parse_mode', 'Markdown');
                 
