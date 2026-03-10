@@ -3,32 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DUKOPS - Koramil 1609-05/Sukasada</title>
+    <title>DUKOPS PREMIUM - Koramil 1609-05/Sukasada</title>
     
-    <!-- Font Awesome -->
+    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- JSZip -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <!-- PWA Configuration -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="DUKOPS">
-    <meta name="theme-color" content="#1a2a1a">
+    <meta name="apple-mobile-web-app-title" content="DUKOPS PREMIUM">
+    <meta name="theme-color" content="#4A90E2">
     
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Inter', Arial, sans-serif;
         }
 
         body {
-            background: #1a2a1a;
-            color: #e0e0e0;
+            background: #e6f0fa;
+            color: #1e3b5c;
             min-height: 100vh;
             overflow: hidden;
         }
@@ -40,7 +43,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(145deg, #1a3a1a, #0a1f0a);
+            background: linear-gradient(180deg, #4A90E2 0%, #1e4b7c 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -49,103 +52,52 @@
             transition: opacity 0.8s ease;
         }
 
-        .lotus-container {
-            position: relative;
-            width: 200px;
-            height: 200px;
-            margin-bottom: 30px;
+        .splash-logo {
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
-        .lotus {
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            filter: drop-shadow(0 0 15px rgba(159, 212, 159, 0.6));
+        .splash-logo i {
+            font-size: 50px;
+            color: #1e4b7c;
         }
-
-        .lotus i {
-            font-size: 70px;
-            color: #9fd49f;
-            opacity: 0.9;
-        }
-
-        #lotus1 { top: 0; left: 0; animation: float1 3s ease-in-out infinite; }
-        #lotus2 { top: 0; right: 0; animation: float2 3s ease-in-out infinite; }
-        #lotus3 { bottom: 0; left: 60px; animation: float3 3s ease-in-out infinite; }
 
         .splash-title {
-            color: #9fd49f;
-            font-size: 32px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            letter-spacing: 2px;
-            opacity: 0;
-            animation: fadeIn 1s ease 2s forwards;
+            color: white;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 0 #1e3b5c;
         }
 
         .splash-subtitle {
-            color: #e0e0e0;
-            font-size: 16px;
-            margin-bottom: 30px;
-            opacity: 0;
-            animation: fadeIn 1s ease 2.2s forwards;
+            color: #ffd700;
+            font-size: 14px;
+            margin-bottom: 25px;
+            font-weight: 500;
         }
 
-        .splash-progress-container {
+        .splash-progress {
             width: 250px;
-            height: 6px;
-            background: #2a3f2a;
-            border-radius: 10px;
+            height: 4px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 2px;
             overflow: hidden;
-            margin-top: 20px;
-            opacity: 0;
-            animation: fadeIn 1s ease 2.4s forwards;
         }
 
         .splash-progress-bar {
             width: 0%;
             height: 100%;
-            background: linear-gradient(90deg, #9fd49f, #6fa86f);
-            border-radius: 10px;
+            background: #ffd700;
+            border-radius: 2px;
             transition: width 0.3s ease;
-        }
-
-        .splash-loading-text {
-            color: #b0b0b0;
-            font-size: 14px;
-            margin-top: 15px;
-            opacity: 0;
-            animation: fadeIn 1s ease 2.6s forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes float1 {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(-20px, -15px) rotate(-5deg); }
-            50% { transform: translate(-35px, -25px) rotate(-10deg); }
-            75% { transform: translate(-20px, -15px) rotate(-5deg); }
-            100% { transform: translate(0, 0) rotate(0deg); }
-        }
-        
-        @keyframes float2 {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(20px, -15px) rotate(5deg); }
-            50% { transform: translate(35px, -25px) rotate(10deg); }
-            75% { transform: translate(20px, -15px) rotate(5deg); }
-            100% { transform: translate(0, 0) rotate(0deg); }
-        }
-        
-        @keyframes float3 {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(0, 15px) rotate(0deg); }
-            50% { transform: translate(0, 25px) rotate(0deg); }
-            75% { transform: translate(0, 15px) rotate(0deg); }
-            100% { transform: translate(0, 0) rotate(0deg); }
         }
 
         /* MAIN MENU */
@@ -157,131 +109,153 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            background: #1a2a1a;
-            padding: 10px;
+            background: #e6f0fa;
+            padding: 12px;
             overflow-y: auto;
         }
 
         .hidden { display: none !important; }
 
-        /* STATUS BAR */
+        /* STATUS BAR - TANPA BACKGROUND */
         .status-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 5px 10px;
-            font-size: 10px;
-            color: #5a7a5a;
-            border-bottom: 1px solid #2a3f2a;
+            padding: 6px 0;
+            margin-bottom: 8px;
         }
 
-        .status-online { color: #9fd49f; }
-        .status-offline { color: #b85c5c; }
-
-        .status-badge {
-            padding: 2px 6px;
-            border-radius: 10px;
-            background: #2a3f2a;
-            margin-left: 5px;
-        }
-
-        /* CANVAS PREVIEW */
-        .screen-container {
-            flex: 1;
+        .status-item {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            margin-bottom: 5px;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: #2c5778;
+            font-weight: 500;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4A90E2;
+        }
+
+        .status-dot.online { background: #27ae60; }
+        .status-dot.offline { background: #e74c3c; }
+
+        /* CANVAS - FULL WIDTH */
+        .canvas-container {
             position: relative;
-            min-height: 200px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #1e3b5c;
+            aspect-ratio: 16/9;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         #mainCanvas {
             width: 100%;
-            height: auto;
+            height: 100%;
             display: block;
-            background: #0a120a;
-            max-height: 45vh;
+            background: white;
             object-fit: contain;
-            border: none;
-            border-radius: 10px;
         }
 
-        .slideshow-controls {
+        .slide-controls {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
             width: 100%;
             display: flex;
             justify-content: space-between;
-            padding: 0 5px;
+            padding: 0 8px;
             pointer-events: none;
         }
 
-        .slideshow-controls button {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: rgba(42, 63, 42, 0.8);
-            border: 2px solid #9fd49f;
-            color: #9fd49f;
+        .slide-controls button {
+            width: 36px;
+            height: 36px;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.8);
+            border: none;
+            color: #1e3b5c;
             font-size: 16px;
             cursor: pointer;
             pointer-events: auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
-        .slideshow-indicator {
-            text-align: center;
-            color: #9fd49f;
-            font-size: 11px;
-            margin-top: 3px;
+        .slide-controls button:active {
+            background: #4A90E2;
+            color: white;
+            transform: scale(0.95);
         }
 
-        /* STAMP INFO */
+        .slide-indicator {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(30,59,92,0.7);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        /* STAMP INFO - TANPA BACKGROUND KOTAK */
         .stamp-info {
-            background: #0f1a0f;
-            padding: 8px 12px;
-            margin: 5px 0;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            font-size: 11px;
-            color: #9fd49f;
-            border-left: 3px solid #9fd49f;
-            border-radius: 0 8px 8px 0;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin: 8px 0;
         }
 
         .stamp-item {
             display: flex;
-            align-items: center;
-            gap: 5px;
+            flex-direction: column;
+            gap: 2px;
         }
 
-        .stamp-item i { color: #9fd49f; width: 16px; font-size: 12px; }
-        .stamp-value { color: white; font-weight: bold; font-size: 11px; }
+        .stamp-label {
+            font-size: 9px;
+            color: #5c7a9a;
+            font-weight: 500;
+        }
 
-        /* RUNNING TEXT */
-        .running-text-container {
-            background: #0f1a0f;
-            padding: 6px 0;
-            margin: 5px 0;
-            overflow: hidden;
+        .stamp-value {
+            font-size: 11px;
+            font-weight: 600;
+            color: #1e3b5c;
             white-space: nowrap;
-            border-top: 1px solid #2a3f2a;
-            border-bottom: 1px solid #2a3f2a;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* RUNNING TEXT - TANPA BACKGROUND KOTAK */
+        .running-container {
+            margin: 8px 0;
+            overflow: hidden;
             cursor: pointer;
-            border-radius: 5px;
         }
 
         .running-text {
             display: inline-block;
-            color: #9fd49f;
+            color: #2c5778;
             font-size: 12px;
-            animation: scrollText 20s linear infinite;
+            font-weight: 500;
+            animation: scrollText 25s linear infinite;
             padding-left: 100%;
+            white-space: nowrap;
+        }
+
+        .running-text i {
+            margin: 0 8px;
+            color: #4A90E2;
+            font-size: 10px;
         }
 
         @keyframes scrollText {
@@ -289,200 +263,228 @@
             100% { transform: translateX(-100%); }
         }
 
-        /* 5 ICON BERJAJAR */
-        .icon-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* ACTION BUTTONS - TANPA KOTAK */
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
             gap: 8px;
-            width: 100%;
-            padding: 5px 0;
+            margin: 8px 0;
         }
 
-        .menu-icon {
-            flex: 1;
-            aspect-ratio: 1 / 1;
-            max-width: 65px;
-            border-radius: 50%;
-            background: #2a3f2a;
+        .action-btn {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            border: 2px solid #9fd49f;
-            margin: 0 auto;
-            transition: transform 0.2s;
+            transition: all 0.2s;
+            padding: 6px 0;
         }
 
-        .menu-icon:active {
+        .action-btn:active {
+            opacity: 0.7;
             transform: scale(0.95);
-            background: #3a5a3a;
         }
 
-        .menu-icon i { color: #9fd49f; font-size: 22px; margin-bottom: 2px; }
-        .menu-icon span { color: #b0b0b0; font-size: 9px; text-align: center; }
+        .action-btn i {
+            color: #1e3b5c;
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
 
-        /* RESET ICON */
-        .reset-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: #2a3f2a;
+        .action-btn span {
+            color: #1e3b5c;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        /* BOTTOM BUTTONS - TANPA KOTAK */
+        .bottom-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: auto;
+            padding: 8px 0;
+        }
+
+        .bottom-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 22px;
+            background: transparent;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            border: 2px solid #b85c5c;
-            margin: 5px auto 0;
-            transition: transform 0.2s;
+            transition: all 0.2s;
         }
 
-        .reset-icon:active {
+        .reset-btn i {
+            color: #e74c3c;
+            font-size: 22px;
+        }
+
+        .test-btn i {
+            color: #1e3b5c;
+            font-size: 20px;
+        }
+
+        .bottom-btn:active {
+            opacity: 0.7;
             transform: scale(0.95);
-            background: #3a2a2a;
         }
 
-        .reset-icon i { color: #b85c5c; font-size: 20px; }
+        .test-btn.testing {
+            animation: pulse 1s infinite;
+        }
 
-        /* FULL SCREEN FORM */
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        /* FULLSCREEN FORM - TANPA BACKGROUND KOTAK */
         .fullscreen-form {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #1a2a1a;
-            z-index: 1000;
+            background: #e6f0fa;
+            z-index: 2000;
             overflow-y: auto;
-            padding: 15px;
+            padding: 16px;
             display: none;
         }
 
-        .fullscreen-form.active { display: block; }
+        .fullscreen-form.active {
+            display: block;
+        }
 
         .form-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            padding-top: 5px;
         }
 
-        .back-icon {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: #2a3f2a;
+        .form-back {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background: transparent;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            border: 2px solid #9fd49f;
-            transition: background 0.2s;
+            transition: all 0.2s;
         }
 
-        .back-icon:active { background: #3a5a3a; }
-        .back-icon i { color: #9fd49f; font-size: 20px; }
-        .form-title { color: #9fd49f; font-size: 18px; font-weight: bold; }
+        .form-back:active {
+            opacity: 0.7;
+        }
 
-        /* SELECT INPUT */
-        select {
+        .form-back i {
+            color: #1e3b5c;
+            font-size: 20px;
+        }
+
+        .form-title {
+            color: #1e3b5c;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        /* SELECT - TANPA BACKGROUND KOTAK */
+        .premium-select {
             width: 100%;
-            background: #2a3f2a;
-            color: #e0e0e0;
-            padding: 15px;
+            background: transparent;
+            color: #1e3b5c;
+            padding: 12px 16px;
             margin: 8px 0;
-            border: 2px solid #9fd49f;
-            border-radius: 50px;
-            font-size: 16px;
+            border: 1px solid #8ba9c9;
+            border-radius: 8px;
+            font-size: 14px;
             outline: none;
             appearance: none;
-            -webkit-appearance: none;
-            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239fd49f' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%231e3b5c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
             background-repeat: no-repeat;
-            background-position: right 15px center;
+            background-position: right 12px center;
         }
 
-        select option {
-            background: #1a2a1a;
-            color: #e0e0e0;
-            padding: 10px;
-        }
-
-        /* MULTI FILE INPUT */
-        .file-input-hidden {
-            display: none;
-        }
-
+        /* UPLOAD AREA - TANPA BACKGROUND KOTAK */
         .upload-area {
             width: 100%;
-            min-height: 150px;
-            border: 3px dashed #9fd49f;
-            border-radius: 20px;
+            min-height: 140px;
+            border: 2px dashed #8ba9c9;
+            border-radius: 8px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            margin: 15px 0;
+            margin: 16px 0;
             cursor: pointer;
-            background: #2a3f2a;
+            background: transparent;
             padding: 20px;
+            transition: all 0.2s;
+        }
+
+        .upload-area:active {
+            opacity: 0.7;
         }
 
         .upload-area i {
-            font-size: 50px;
-            color: #9fd49f;
-            margin-bottom: 10px;
+            font-size: 36px;
+            color: #1e3b5c;
+            margin-bottom: 8px;
         }
 
         .upload-area span {
-            color: #9fd49f;
+            color: #1e3b5c;
             font-size: 14px;
+            font-weight: 500;
         }
 
         .upload-area small {
-            color: #8a9a8a;
-            font-size: 12px;
+            color: #5c7a9a;
+            font-size: 11px;
             margin-top: 5px;
         }
 
-        /* PREVIEW MULTI FOTO */
-        .photo-preview-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 15px 0;
-            max-height: 300px;
+        /* PHOTO GRID - TANPA BACKGROUND */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin: 16px 0;
+            max-height: 260px;
             overflow-y: auto;
-            padding: 10px;
-            background: #1a2a1a;
-            border-radius: 15px;
+            padding: 4px;
         }
 
-        .photo-preview-item {
+        .photo-item {
             position: relative;
-            width: calc(33.33% - 7px);
             aspect-ratio: 1;
-            border-radius: 10px;
+            border-radius: 6px;
             overflow: hidden;
-            border: 2px solid #9fd49f;
+            border: 1px solid #8ba9c9;
         }
 
-        .photo-preview-item img {
+        .photo-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .photo-preview-item .remove-photo {
+        .photo-remove {
             position: absolute;
             top: 3px;
             right: 3px;
             width: 20px;
             height: 20px;
-            border-radius: 50%;
-            background: #b85c5c;
+            border-radius: 10px;
+            background: #e74c3c;
             color: white;
             display: flex;
             align-items: center;
@@ -492,58 +494,57 @@
             border: none;
         }
 
-        .photo-count {
-            color: #9fd49f;
-            font-size: 13px;
-            margin: 10px 0;
-        }
-
-        /* KALENDER */
-        .calendar-container {
-            width: 100%;
-            padding: 5px;
+        /* CALENDAR - TANPA BACKGROUND */
+        .premium-calendar {
+            background: transparent;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid #8ba9c9;
         }
 
         .calendar-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
 
-        .calendar-month-year {
-            font-size: 18px;
-            color: #9fd49f;
-            font-weight: bold;
+        .calendar-month {
+            color: #1e3b5c;
+            font-size: 16px;
+            font-weight: 700;
         }
 
         .calendar-nav {
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
 
-        .calendar-nav button {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #2a3f2a;
-            border: 2px solid #9fd49f;
-            color: #9fd49f;
-            font-size: 16px;
+        .calendar-nav-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 18px;
+            background: transparent;
+            border: 1px solid #8ba9c9;
+            color: #1e3b5c;
+            font-size: 14px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .calendar-nav-btn:active {
+            opacity: 0.7;
         }
 
         .calendar-weekdays {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             text-align: center;
-            color: #9fd49f;
-            font-weight: bold;
+            color: #5c7a9a;
+            font-weight: 600;
             margin-bottom: 8px;
-            font-size: 12px;
+            font-size: 11px;
         }
 
         .calendar-days {
@@ -557,501 +558,540 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #2a3f2a;
-            border-radius: 8px;
+            background: transparent;
+            border-radius: 4px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 12px;
             transition: all 0.2s;
-            position: relative;
+            color: #1e3b5c;
+            font-weight: 500;
+            border: 1px solid transparent;
         }
 
-        .calendar-day:hover {
-            background: #3a5a3a;
+        .calendar-day:active {
+            opacity: 0.7;
         }
 
         .calendar-day.selected {
-            background: #9fd49f;
-            color: #1a2a1a;
-            font-weight: bold;
-            border: 2px solid white;
+            background: #4A90E2;
+            color: white;
+            border-color: #4A90E2;
         }
 
         .calendar-day.used {
-            background: #b85c5c !important;
+            background: #e74c3c;
             color: white;
-            border: 2px solid #ff9999;
-        }
-
-        .calendar-day.used:hover {
-            background: #a04c4c !important;
-        }
-
-        .calendar-day.empty {
-            background: transparent;
-            cursor: default;
+            border-color: #e74c3c;
         }
 
         .calendar-day.today {
-            border: 2px solid #9fd49f;
+            border: 1px solid #1e3b5c;
         }
 
-        .calendar-day.used::after {
-            content: '✓';
-            position: absolute;
-            top: 2px;
-            right: 2px;
-            font-size: 10px;
-            color: white;
-        }
-
-        /* TIME PICKER */
-        .time-picker-container {
-            margin-top: 20px;
-            padding: 15px;
-            background: #2a3f2a;
-            border-radius: 15px;
-        }
-
-        .time-picker-title {
-            color: #9fd49f;
-            font-size: 16px;
-            margin-bottom: 15px;
-        }
-
-        .time-select-row {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .time-select {
-            width: 80px;
-            background: #1a2a1a;
-            color: #e0e0e0;
-            padding: 12px;
-            border: 2px solid #9fd49f;
-            border-radius: 25px;
-            font-size: 16px;
-            outline: none;
-            text-align: center;
-        }
-
-        .time-display {
-            text-align: center;
-            font-size: 32px;
-            color: #9fd49f;
-            font-weight: bold;
-            margin: 15px 0;
-            background: #1a2a1a;
-            padding: 15px;
-            border-radius: 25px;
-            letter-spacing: 2px;
-        }
-
-        .time-info {
-            text-align: center;
-            color: #8a9a8a;
-            font-size: 12px;
-            margin-bottom: 15px;
-        }
-
-        .time-note {
-            text-align: center;
-            color: #9fd49f;
-            font-size: 12px;
-            margin-top: 10px;
-            font-style: italic;
-        }
-
-        /* NARASI AREA */
-        .narasi-container {
-            width: 100%;
-            height: calc(100vh - 140px);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .narasi-textarea {
-            width: 100%;
-            flex: 1;
-            background: #2a3f2a;
-            color: #e0e0e0;
-            padding: 15px;
-            border: 2px solid #9fd49f;
-            border-radius: 15px;
-            font-size: 16px;
-            resize: none;
-            outline: none;
-            line-height: 1.5;
-            margin-bottom: 10px;
-        }
-
-        /* KONFIRMASI DIALOG */
-        .confirm-dialog {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #2a3f2a;
-            border: 3px solid #9fd49f;
-            border-radius: 20px;
-            padding: 20px;
-            z-index: 11000;
-            width: 90%;
-            max-width: 320px;
-            text-align: center;
-            display: none;
-        }
-
-        .confirm-dialog.active {
-            display: block;
-        }
-
-        .confirm-dialog i {
-            font-size: 40px;
-            color: #b85c5c;
-            margin-bottom: 10px;
-        }
-
-        .confirm-dialog h3 {
-            color: #9fd49f;
-            margin-bottom: 10px;
-            font-size: 18px;
-        }
-
-        .confirm-dialog p {
-            color: #e0e0e0;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-
-        .confirm-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .confirm-btn {
-            flex: 1;
-            padding: 12px;
-            border-radius: 25px;
+        .calendar-day.empty {
+            cursor: default;
             border: none;
-            font-size: 14px;
-            cursor: pointer;
         }
 
-        .confirm-yes {
-            background: #b85c5c;
-            color: white;
-        }
-
-        .confirm-no {
-            background: #2a3f2a;
-            border: 2px solid #9fd49f;
-            color: #9fd49f;
-        }
-
-        /* TOAST NOTIFICATION */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #2a3f2a;
-            border: 2px solid #9fd49f;
-            color: #9fd49f;
-            padding: 12px 25px;
-            border-radius: 50px;
-            font-size: 14px;
-            display: none;
-            z-index: 2000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-
-        /* LOADING OVERLAY */
-        .loading-overlay {
+        /* TIME PICKER - TANPA BACKGROUND KOTAK */
+        .time-picker {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
-            display: flex;
+            background: #e6f0fa;
+            z-index: 3000;
+            display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            z-index: 10000;
+            padding: 30px;
+        }
+
+        .time-picker.active {
+            display: flex;
+        }
+
+        .time-display {
+            font-size: 60px;
+            color: #1e3b5c;
+            font-weight: 700;
+            margin-bottom: 30px;
+            font-family: monospace;
+            background: transparent;
+            padding: 20px 30px;
+            border-radius: 8px;
+            border: 1px solid #8ba9c9;
+        }
+
+        .time-selectors {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .time-select {
+            flex: 1;
+            background: transparent;
+            border: 1px solid #8ba9c9;
+            border-radius: 8px;
+            padding: 12px;
+            color: #1e3b5c;
+            font-size: 18px;
+            text-align: center;
+            outline: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%231e3b5c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            font-weight: 600;
+        }
+
+        .time-confirm {
+            width: 100%;
+            max-width: 300px;
+            padding: 14px;
+            background: #4A90E2;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .time-confirm:active {
+            opacity: 0.8;
+            transform: scale(0.98);
+        }
+
+        .time-note {
+            margin-top: 20px;
+            color: #5c7a9a;
+            font-size: 12px;
+        }
+
+        /* NARASI TEXTAREA - TANPA BACKGROUND KOTAK */
+        .narasi-textarea {
+            width: 100%;
+            height: calc(100vh - 130px);
+            background: transparent;
+            border: 1px solid #8ba9c9;
+            border-radius: 8px;
+            padding: 16px;
+            color: #1e3b5c;
+            font-size: 14px;
+            resize: none;
+            outline: none;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .narasi-textarea::placeholder {
+            color: #8ba9c9;
+        }
+
+        /* DIALOG - MINIMALIS */
+        .premium-dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #e6f0fa;
+            border: 1px solid #8ba9c9;
+            border-radius: 8px;
+            padding: 24px;
+            z-index: 4000;
+            width: 90%;
+            max-width: 300px;
+            text-align: center;
             display: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .premium-dialog.active {
+            display: block;
+        }
+
+        .premium-dialog i {
+            font-size: 36px;
+            color: #1e3b5c;
+            margin-bottom: 12px;
+        }
+
+        .premium-dialog h3 {
+            color: #1e3b5c;
+            margin-bottom: 10px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .premium-dialog p {
+            color: #5c7a9a;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+
+        .dialog-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .dialog-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #8ba9c9;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: transparent;
+            color: #1e3b5c;
+        }
+
+        .dialog-btn.yes {
+            background: #4A90E2;
+            color: white;
+            border-color: #4A90E2;
+        }
+
+        .dialog-btn:active {
+            opacity: 0.7;
+        }
+
+        /* TOAST - MINIMALIS */
+        .premium-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e3b5c;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            display: none;
+            z-index: 5000;
+            font-weight: 500;
+        }
+
+        /* LOADING - MINIMALIS */
+        .premium-loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(230,240,250,0.9);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 6000;
+        }
+
+        .premium-loading.active {
+            display: flex;
         }
 
         .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 5px solid #2a3f2a;
-            border-top: 5px solid #9fd49f;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #c0d6ea;
+            border-top: 2px solid #1e3b5c;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .loading-text { color: #9fd49f; font-size: 16px; }
-
-        /* OFFLINE MODE */
-        .offline-mode {
-            background: #b85c5c;
-            color: white;
-            text-align: center;
-            padding: 5px;
-            font-size: 11px;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 100;
+        .loading-text {
+            color: #1e3b5c;
+            font-size: 14px;
+            font-weight: 500;
         }
 
-        /* COORD LOADING */
-        .coord-loading {
-            color: #9fd49f;
-            font-size: 13px;
-            margin: 10px 0;
-            text-align: center;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        /* PREVIEW TEXT */
-        .preview-text {
-            color: #b0b0b0;
-            font-size: 13px;
-            margin: 8px 0;
-            padding: 5px 10px;
-        }
-
-        .preview-text i { color: #9fd49f; margin-right: 5px; }
-
-        /* INSTALL BUTTON */
-        #installButton {
+        /* INSTALL BUTTON - TANPA BACKGROUND KOTAK */
+        #installBtn {
             position: fixed;
             bottom: 15px;
             right: 15px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: #2a3f2a;
-            border: 2px solid #9fd49f;
-            color: #9fd49f;
+            width: 44px;
+            height: 44px;
+            border-radius: 22px;
+            background: transparent;
+            border: none;
+            color: #1e3b5c;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            z-index: 10000;
+            z-index: 1000;
             font-size: 22px;
             display: none;
+            transition: all 0.2s;
         }
 
-        /* TEST BUTTON */
-        .test-btn {
-            position: fixed;
-            bottom: 15px;
-            left: 15px;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: #2a3f2a;
-            border: 2px solid #9fd49f;
-            color: #9fd49f;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 10000;
-            font-size: 16px;
-            transition: all 0.3s;
+        #installBtn:active {
+            opacity: 0.7;
+            transform: scale(0.95);
         }
 
-        .test-btn.testing {
-            animation: pulse 1s infinite;
+        /* PREVIEW TEXT - TANPA BACKGROUND */
+        .preview-text {
+            margin: 12px 0;
+            padding: 8px 0;
+            color: #5c7a9a;
+            font-size: 12px;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        .test-btn.success {
-            background: #2a4a2a;
-            border-color: #9fd49f;
-            color: #9fd49f;
-        }
-
-        .test-btn.error {
-            background: #4a2a2a;
-            border-color: #b85c5c;
-            color: #b85c5c;
+        .preview-text i {
+            color: #1e3b5c;
+            margin-right: 6px;
         }
     </style>
 </head>
 <body>
     <!-- SPLASH SCREEN -->
     <div id="splashScreen">
-        <div class="lotus-container">
-            <div id="lotus1" class="lotus"><i class="fas fa-map-marked-alt"></i></div>
-            <div id="lotus2" class="lotus"><i class="fas fa-map-marked-alt"></i></div>
-            <div id="lotus3" class="lotus"><i class="fas fa-map-marked-alt"></i></div>
+        <div class="splash-logo">
+            <i class="fas fa-map-marked-alt"></i>
         </div>
         
         <h1 class="splash-title">DUKOPS</h1>
-        <p class="splash-subtitle">KORAMIL 1609-05/SUKASADA</p>
+        <p class="splash-subtitle">PREMIUM EDITION • KORAMIL 1609-05/SUKASADA</p>
         
-        <div class="splash-progress-container">
+        <div class="splash-progress">
             <div id="splashProgress" class="splash-progress-bar"></div>
         </div>
         <p class="splash-loading-text" id="loadingStatusText">Memuat aplikasi...</p>
     </div>
 
     <!-- INSTALL BUTTON -->
-    <div id="installButton">
+    <div id="installBtn">
         <i class="fas fa-download"></i>
     </div>
 
-    <!-- TEST BUTTON -->
-    <div class="test-btn" id="testButton" onclick="testRealConnection()" title="Test Koneksi Real ke Server">
-        <i class="fas fa-plug" id="testIcon"></i>
-    </div>
-
-    <!-- OFFLINE BANNER -->
-    <div id="offlineBanner" class="offline-mode hidden">
-        <i class="fas fa-wifi-slash"></i> Mode Offline - Periksa koneksi internet
-    </div>
-
-    <!-- LOADING OVERLAY -->
-    <div id="loadingOverlay" class="loading-overlay">
+    <!-- LOADING -->
+    <div id="premiumLoading" class="premium-loading">
         <div class="loading-spinner"></div>
         <div class="loading-text" id="loadingText">Memproses...</div>
     </div>
 
-    <!-- KONFIRMASI DIALOG -->
-    <div id="confirmDialog" class="confirm-dialog">
-        <i class="fas fa-exclamation-triangle"></i>
-        <h3>PERHATIAN!</h3>
-        <p id="confirmMessage"></p>
-        <div class="confirm-buttons">
-            <button class="confirm-btn confirm-yes" id="confirmYesBtn">YA, LANJUTKAN</button>
-            <button class="confirm-btn confirm-no" id="confirmNoBtn">BATAL</button>
+    <!-- DIALOG -->
+    <div id="premiumDialog" class="premium-dialog">
+        <i class="fas fa-info-circle"></i>
+        <h3 id="dialogTitle">PERHATIAN!</h3>
+        <p id="dialogMessage"></p>
+        <div class="dialog-buttons">
+            <button class="dialog-btn yes" id="dialogYesBtn">YA</button>
+            <button class="dialog-btn no" id="dialogNoBtn">BATAL</button>
+        </div>
+    </div>
+
+    <!-- TIME PICKER -->
+    <div id="timePicker" class="time-picker">
+        <div class="time-display" id="timeDisplay">12:00</div>
+        <div class="time-selectors">
+            <select id="hourSelect" class="time-select">
+                <option value="0">00</option><option value="1">01</option><option value="2">02</option>
+                <option value="3">03</option><option value="4">04</option><option value="5">05</option>
+                <option value="6">06</option><option value="7">07</option><option value="8">08</option>
+                <option value="9">09</option><option value="10">10</option><option value="11">11</option>
+                <option value="12">12</option><option value="13">13</option><option value="14">14</option>
+                <option value="15">15</option><option value="16">16</option><option value="17">17</option>
+                <option value="18">18</option><option value="19">19</option><option value="20">20</option>
+                <option value="21">21</option><option value="22">22</option><option value="23">23</option>
+            </select>
+            <span style="color:#1e3b5c; font-size:30px; font-weight:300;">:</span>
+            <select id="minuteSelect" class="time-select">
+                <option value="0">00</option><option value="1">01</option><option value="2">02</option>
+                <option value="3">03</option><option value="4">04</option><option value="5">05</option>
+                <option value="6">06</option><option value="7">07</option><option value="8">08</option>
+                <option value="9">09</option><option value="10">10</option><option value="11">11</option>
+                <option value="12">12</option><option value="13">13</option><option value="14">14</option>
+                <option value="15">15</option><option value="16">16</option><option value="17">17</option>
+                <option value="18">18</option><option value="19">19</option><option value="20">20</option>
+                <option value="21">21</option><option value="22">22</option><option value="23">23</option>
+                <option value="24">24</option><option value="25">25</option><option value="26">26</option>
+                <option value="27">27</option><option value="28">28</option><option value="29">29</option>
+                <option value="30">30</option><option value="31">31</option><option value="32">32</option>
+                <option value="33">33</option><option value="34">34</option><option value="35">35</option>
+                <option value="36">36</option><option value="37">37</option><option value="38">38</option>
+                <option value="39">39</option><option value="40">40</option><option value="41">41</option>
+                <option value="42">42</option><option value="43">43</option><option value="44">44</option>
+                <option value="45">45</option><option value="46">46</option><option value="47">47</option>
+                <option value="48">48</option><option value="49">49</option><option value="50">50</option>
+                <option value="51">51</option><option value="52">52</option><option value="53">53</option>
+                <option value="54">54</option><option value="55">55</option><option value="56">56</option>
+                <option value="57">57</option><option value="58">58</option><option value="59">59</option>
+            </select>
+        </div>
+        <button class="time-confirm" onclick="confirmTimeSelection()">
+            <i class="fas fa-check-circle"></i> KONFIRMASI JAM
+        </button>
+        <div class="time-note">
+            <i class="fas fa-clock"></i> Detik akan mengikuti perangkat
         </div>
     </div>
 
     <!-- MAIN MENU -->
     <div id="mainMenu" class="main-menu hidden">
-        <!-- STATUS BAR -->
+        <!-- STATUS BAR - TANPA BACKGROUND -->
         <div class="status-bar">
-            <span>
-                <i class="fas fa-circle" id="serverStatusIcon"></i> 
-                Server: <span id="apiStatusText" class="status-offline">Mengecek...</span>
-                <span class="status-badge" id="pingTime">- ms</span>
-            </span>
-            <span>
-                <i class="fas fa-circle" id="networkStatusIcon"></i> 
-                Network: <span id="networkStatusText" class="status-online">Online</span>
-            </span>
+            <div class="status-item">
+                <span class="status-dot" id="serverStatusDot"></span>
+                <span id="apiStatusText">Mengecek...</span>
+                <span id="pingTime" style="color:#5c7a9a; font-size:10px;">- ms</span>
+            </div>
+            <div class="status-item">
+                <span class="status-dot" id="networkStatusDot"></span>
+                <span id="networkStatusText">Online</span>
+            </div>
         </div>
 
-        <!-- CANVAS PREVIEW DENGAN WATERMARK -->
-        <div class="screen-container">
-            <canvas id="mainCanvas" width="600" height="300"></canvas>
-            <div class="slideshow-controls">
+        <!-- CANVAS -->
+        <div class="canvas-container">
+            <canvas id="mainCanvas" width="800" height="450"></canvas>
+            <div class="slide-controls">
                 <button onclick="prevSlide()"><i class="fas fa-chevron-left"></i></button>
                 <button onclick="nextSlide()"><i class="fas fa-chevron-right"></i></button>
             </div>
-            <div class="slideshow-indicator" id="slideshowIndicator">0/0</div>
+            <div class="slide-indicator" id="slideshowIndicator">0/0</div>
         </div>
 
-        <!-- STAMP INFO -->
+        <!-- STAMP INFO - TANPA BACKGROUND KOTAK -->
         <div class="stamp-info">
-            <div class="stamp-item"><i class="fas fa-village"></i><span>Desa: <span class="stamp-value" id="stampDesa">-</span></span></div>
-            <div class="stamp-item"><i class="fas fa-map-marker-alt"></i><span>Koordinat: <span class="stamp-value" id="stampCoord">-</span></span></div>
-            <div class="stamp-item"><i class="fas fa-calendar"></i><span>Tanggal: <span class="stamp-value" id="stampTanggal">-</span></span></div>
-            <div class="stamp-item"><i class="fas fa-clock"></i><span>Jam: <span class="stamp-value" id="stampJam">-</span></span></div>
-        </div>
-
-        <!-- RUNNING TEXT NARASI -->
-        <div class="running-text-container" id="runningTextContainer" onclick="openForm('narasi')">
-            <div class="running-text" id="runningText">
-                <i class="fas fa-chevron-right"></i> Ketuk untuk menulis narasi <i class="fas fa-chevron-left"></i>
+            <div class="stamp-item">
+                <span class="stamp-label">Babinsa</span>
+                <span class="stamp-value" id="stampDesa">-</span>
+            </div>
+            <div class="stamp-item">
+                <span class="stamp-label">Koordinat</span>
+                <span class="stamp-value" id="stampCoord">-</span>
+            </div>
+            <div class="stamp-item">
+                <span class="stamp-label">Tanggal</span>
+                <span class="stamp-value" id="stampTanggal">-</span>
+            </div>
+            <div class="stamp-item">
+                <span class="stamp-label">Jam</span>
+                <span class="stamp-value" id="stampJam">-</span>
             </div>
         </div>
 
-        <!-- 5 ICON BERJAJAR -->
-        <div class="icon-row">
-            <div class="menu-icon" onclick="openForm('desa')"><i class="fas fa-village"></i><span>DESA</span></div>
-            <div class="menu-icon" onclick="openFilePicker()"><i class="fas fa-camera"></i><span>FOTO</span></div>
-            <div class="menu-icon" onclick="openForm('tanggal')"><i class="fas fa-calendar"></i><span>TGL</span></div>
-            <div class="menu-icon" onclick="openForm('narasi')"><i class="fas fa-file-alt"></i><span>NARASI</span></div>
-            <div class="menu-icon" onclick="processSubmission()"><i class="fas fa-paper-plane"></i><span>KIRIM</span></div>
+        <!-- RUNNING TEXT - TANPA BACKGROUND KOTAK -->
+        <div class="running-container" id="runningTextContainer" onclick="openForm('narasi')">
+            <div class="running-text" id="runningText">
+                <i class="fas fa-pen"></i> Ketuk untuk menulis narasi <i class="fas fa-pen"></i>
+            </div>
         </div>
 
-        <!-- RESET ICON -->
-        <div class="reset-icon" onclick="confirmReset()">
-            <i class="fas fa-undo"></i>
+        <!-- ACTION BUTTONS - TANPA KOTAK -->
+        <div class="action-grid">
+            <div class="action-btn" onclick="openForm('desa')">
+                <i class="fas fa-user-shield"></i>
+                <span>BABINSA</span>
+            </div>
+            <div class="action-btn" onclick="openFilePicker()">
+                <i class="fas fa-camera"></i>
+                <span>FOTO</span>
+            </div>
+            <div class="action-btn" onclick="openForm('tanggal')">
+                <i class="fas fa-calendar"></i>
+                <span>TANGGAL</span>
+            </div>
+            <div class="action-btn" onclick="openForm('narasi')">
+                <i class="fas fa-file-alt"></i>
+                <span>NARASI</span>
+            </div>
+            <div class="action-btn" onclick="processSubmission()">
+                <i class="fas fa-paper-plane"></i>
+                <span>KIRIM</span>
+            </div>
+        </div>
+
+        <!-- BOTTOM BUTTONS - TANPA KOTAK -->
+        <div class="bottom-buttons">
+            <div class="bottom-btn reset-btn" onclick="confirmReset()">
+                <i class="fas fa-undo-alt"></i>
+            </div>
+            <div class="bottom-btn test-btn" id="testButton" onclick="testRealConnection()">
+                <i class="fas fa-plug" id="testIcon"></i>
+            </div>
         </div>
     </div>
 
-    <!-- FORM DESA -->
+    <!-- FORM BABINSA -->
     <div id="formDesa" class="fullscreen-form">
         <div class="form-header">
-            <div class="back-icon" onclick="closeForm('desa')"><i class="fas fa-arrow-left"></i></div>
-            <div class="form-title">PILIH DESA</div>
-            <div style="width:45px;"></div>
+            <div class="form-back" onclick="closeForm('desa')">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+            <div class="form-title">PILIH BABINSA</div>
+            <div style="width:40px;"></div>
         </div>
-        <select id="selectDesa" onchange="selectDesaAndClose()">
-            <option value="">-- Pilih Desa --</option>
+        
+        <select id="selectDesa" class="premium-select" onchange="selectDesaAndClose()">
+            <option value="">-- Pilih Babinsa --</option>
         </select>
-        <div id="coordLoading" class="coord-loading hidden"><i class="fas fa-spinner fa-spin"></i> Memuat koordinat...</div>
-        <div class="preview-text" id="previewDesa"></div>
-        <div class="preview-text" id="previewKoordinat">
-            <i class="fas fa-map-marker-alt"></i> <span id="coordDisplay">Pilih desa untuk melihat koordinat</span>
+        
+        <div id="coordLoading" style="color:#1e3b5c; text-align:center; margin:16px 0; display:none;">
+            <i class="fas fa-spinner fa-spin"></i> Memuat koordinat...
+        </div>
+        
+        <div class="preview-text" id="coordDisplay">
+            <i class="fas fa-map-marker-alt"></i> Pilih Babinsa untuk melihat koordinat
         </div>
     </div>
 
-    <!-- FORM FOTO DENGAN MULTI UPLOAD -->
+    <!-- FORM FOTO -->
     <div id="formFoto" class="fullscreen-form">
         <div class="form-header">
-            <div class="back-icon" onclick="closeForm('foto')"><i class="fas fa-arrow-left"></i></div>
+            <div class="form-back" onclick="closeForm('foto')">
+                <i class="fas fa-arrow-left"></i>
+            </div>
             <div class="form-title">FOTO KEGIATAN</div>
-            <div style="width:45px;"></div>
+            <div style="width:40px;"></div>
         </div>
         
         <div class="upload-area" onclick="document.getElementById('multiGambar').click()">
             <i class="fas fa-cloud-upload-alt"></i>
-            <span>Ketuk untuk pilih foto (bisa banyak)</span>
+            <span>Ketuk untuk pilih foto</span>
             <small>Format: JPG, PNG (tanpa batas)</small>
         </div>
         
-        <div class="photo-count" id="photoCount">0 foto dipilih</div>
+        <div class="preview-text" id="photoCount">0 foto dipilih</div>
         
-        <div class="photo-preview-container" id="photoPreviewContainer">
-            <!-- Preview foto akan muncul di sini -->
-        </div>
-        
-        <div class="preview-text" id="previewGambar"></div>
+        <div class="photo-grid" id="photoPreviewContainer"></div>
     </div>
 
     <!-- FORM TANGGAL -->
     <div id="formTanggal" class="fullscreen-form">
         <div class="form-header">
-            <div class="back-icon" onclick="closeForm('tanggal')"><i class="fas fa-arrow-left"></i></div>
-            <div class="form-title">PILIH TANGGAL & JAM</div>
-            <div style="width:45px;"></div>
+            <div class="form-back" onclick="closeForm('tanggal')">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+            <div class="form-title">PILIH TANGGAL</div>
+            <div style="width:40px;"></div>
         </div>
         
-        <div class="calendar-container">
+        <div class="premium-calendar">
             <div class="calendar-header">
-                <div class="calendar-month-year" id="calendarMonthYear"></div>
+                <div class="calendar-month" id="calendarMonthYear"></div>
                 <div class="calendar-nav">
-                    <button onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></button>
-                    <button onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></button>
+                    <button class="calendar-nav-btn" onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></button>
+                    <button class="calendar-nav-btn" onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </div>
             
@@ -1062,65 +1102,49 @@
             <div class="calendar-days" id="calendarDays"></div>
         </div>
         
-        <div class="time-picker-container">
-            <div class="time-picker-title">
-                <i class="fas fa-clock"></i> Atur Jam & Menit
-            </div>
-            <div class="time-select-row">
-                <input type="number" id="hourInput" class="time-select" min="0" max="23" value="12" placeholder="Jam" oninput="updateTimeDisplay()">
-                <span style="color:#9fd49f; font-size:24px;">:</span>
-                <input type="number" id="minuteInput" class="time-select" min="0" max="59" value="0" placeholder="Menit" oninput="updateTimeDisplay()">
-            </div>
-            <div class="time-display" id="timeDisplay">12:00</div>
-            <div class="time-info">
-                <i class="fas fa-clock"></i> Detik mengikuti perangkat saat simpan
-            </div>
-            <div class="time-note">
-                <i class="fas fa-arrow-left"></i> Ketuk panah kiri untuk simpan otomatis
-            </div>
+        <div class="preview-text">
+            <i class="fas fa-info-circle"></i> Klik tanggal untuk memilih jam
         </div>
     </div>
 
     <!-- FORM NARASI -->
     <div id="formNarasi" class="fullscreen-form">
         <div class="form-header">
-            <div class="back-icon" onclick="closeForm('narasi')"><i class="fas fa-arrow-left"></i></div>
+            <div class="form-back" onclick="closeForm('narasi')">
+                <i class="fas fa-arrow-left"></i>
+            </div>
             <div class="form-title">NARASI KEGIATAN</div>
-            <div style="width:45px;"></div>
+            <div style="width:40px;"></div>
         </div>
         
-        <div class="narasi-container">
-            <textarea id="narasiFull" class="narasi-textarea" placeholder="Tulis narasi kegiatan di sini..."></textarea>
-            <p style="color:#8a9a8a; text-align:center;">
-                <i class="fas fa-arrow-left"></i> Ketuk panah kiri untuk simpan otomatis
-            </p>
+        <textarea id="narasiFull" class="narasi-textarea" placeholder="Tulis narasi kegiatan di sini..."></textarea>
+        <div class="preview-text">
+            <i class="fas fa-arrow-left"></i> Ketuk panah kiri untuk simpan otomatis
         </div>
     </div>
 
     <!-- FILE INPUT MULTI -->
-    <input type="file" id="multiGambar" accept="image/*" onchange="previewMultiImages(event)" multiple class="file-input-hidden">
+    <input type="file" id="multiGambar" accept="image/*" onchange="previewMultiImages(event)" multiple style="display:none;">
 
-    <!-- TOAST NOTIFICATION -->
-    <div id="toastMessage" class="toast"></div>
+    <!-- TOAST -->
+    <div id="premiumToast" class="premium-toast"></div>
 
     <script>
         // ==================== KONFIGURASI ====================
         const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxoJmMVIVgy2M4v2MFCM6sJFNUGHquunTsQ90nXG8leZSiBJX1ymd0a9iHWtFPbAtk04g/exec";
         const ROOT_FOLDER_ID = "1fZBe0ICQEmcIx2dIpsiOCZIMmkbZIkVQ";
         
-        // TELEGRAM
         const TELEGRAM_ZIP_TOKEN = "7580586404:AAFi3ySF36vBtLUiZUUsUrWuszBF2lBz7W0";
         const TELEGRAM_ZIP_CHAT_ID = "2095166318";
         const TELEGRAM_REPORT_TOKEN = "7591221480:AAFjogAiM_Dywo4SHOLVphpiZQgUcq48IDc";
         const TELEGRAM_REPORT_CHAT_ID = "2095166318";
         
-// GITHUB - PERBAIKAN
-const GITHUB_USERNAME = "Babinsa05";
-const GITHUB_REPO = "APP-DUKOPS-2";
-const GITHUB_BRANCH = "main"; // atau "master" tergantung branch Anda
-const DESA_LIST_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/${GITHUB_BRANCH}/data/desa/desa-list.json`;
-const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/${GITHUB_BRANCH}/data/coordinates/`;
-        
+        const GITHUB_USERNAME = "Babinsa05";
+        const GITHUB_REPO = "APP-DUKOPS-2";
+        const GITHUB_BRANCH = "main";
+        const DESA_LIST_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/${GITHUB_BRANCH}/data/desa/desa-list.json`;
+        const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/${GITHUB_BRANCH}/data/coordinates/`;
+
         // ==================== GLOBAL VARIABLES ====================
         let selectedImages = [];
         let currentCanvasImageIndex = 0;
@@ -1128,8 +1152,8 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
         let selectedDesaFull = "";
         let desaCoordData = null;
         let selectedDate = new Date();
-        let selectedHour = new Date().getHours();
-        let selectedMinute = new Date().getMinutes();
+        let selectedHour = null;
+        let selectedMinute = null;
         let narasiText = "";
         let isOnline = navigator.onLine;
         let deferredPrompt;
@@ -1138,11 +1162,44 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
         let usedDates = new Set();
         let isThankYouMode = false;
 
-        // Kalender
         let currentMonth = new Date().getMonth();
         let currentYear = new Date().getFullYear();
         let tempSelectedDate = null;
         let pendingDateSelection = null;
+
+        // ==================== UTILITIES ====================
+        function showToast(msg) {
+            const toast = document.getElementById('premiumToast');
+            toast.textContent = msg;
+            toast.style.display = 'block';
+            setTimeout(() => toast.style.display = 'none', 2000);
+        }
+
+        function showLoading(show, message = 'Memproses...') {
+            const loading = document.getElementById('premiumLoading');
+            const text = document.getElementById('loadingText');
+            if (show) {
+                text.textContent = message;
+                loading.classList.add('active');
+            } else {
+                loading.classList.remove('active');
+            }
+        }
+
+        function showDialog(title, message, onYes) {
+            document.getElementById('dialogTitle').textContent = title;
+            document.getElementById('dialogMessage').textContent = message;
+            document.getElementById('premiumDialog').classList.add('active');
+            
+            document.getElementById('dialogYesBtn').onclick = () => {
+                document.getElementById('premiumDialog').classList.remove('active');
+                if (onYes) onYes();
+            };
+            
+            document.getElementById('dialogNoBtn').onclick = () => {
+                document.getElementById('premiumDialog').classList.remove('active');
+            };
+        }
 
         // ==================== SPLASH SCREEN ====================
         document.addEventListener('DOMContentLoaded', function() {
@@ -1175,106 +1232,39 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
             
             const now = new Date();
             selectedDate = now;
-            selectedHour = now.getHours();
-            selectedMinute = now.getMinutes();
-            
-            document.getElementById('hourInput').value = selectedHour;
-            document.getElementById('minuteInput').value = selectedMinute;
             
             updateStampInfo();
             drawDefaultCanvas();
             renderCalendar();
-            updateTimeDisplay();
             
-            document.getElementById('confirmYesBtn').onclick = confirmContinue;
-            document.getElementById('confirmNoBtn').onclick = confirmCancel;
+            document.getElementById('hourSelect').addEventListener('change', updateTimeDisplay);
+            document.getElementById('minuteSelect').addEventListener('change', updateTimeDisplay);
         }
 
-        // ==================== TEST KONEKSI REAL ====================
-        async function testRealConnection() {
-            const testBtn = document.getElementById('testButton');
-            const testIcon = document.getElementById('testIcon');
-            const apiStatus = document.getElementById('apiStatusText');
-            const pingTime = document.getElementById('pingTime');
-            const serverIcon = document.getElementById('serverStatusIcon');
+        // ==================== STATUS ====================
+        function updateNetworkStatus() {
+            isOnline = navigator.onLine;
+            const statusEl = document.getElementById('networkStatusText');
+            const dotEl = document.getElementById('networkStatusDot');
             
-            testBtn.classList.add('testing');
-            testBtn.classList.remove('success', 'error');
-            testIcon.className = 'fas fa-spinner fa-spin';
-            apiStatus.innerHTML = 'Testing...';
-            pingTime.textContent = '- ms';
-            serverIcon.style.color = '#f0b400';
-            
-            const startTime = performance.now();
-            
-            try {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 5000);
-                
-                const response = await fetch(APPS_SCRIPT_URL + '?action=test&t=' + Date.now(), {
-                    signal: controller.signal
-                });
-                
-                clearTimeout(timeoutId);
-                
-                const endTime = performance.now();
-                const ping = Math.round(endTime - startTime);
-                
-                const text = await response.text();
-                
-                try {
-                    const data = JSON.parse(text);
-                    
-                    if (data.success) {
-                        testBtn.classList.remove('testing');
-                        testBtn.classList.add('success');
-                        testIcon.className = 'fas fa-check-circle';
-                        apiStatus.innerHTML = '<span class="status-online">Online</span>';
-                        pingTime.textContent = `${ping} ms`;
-                        serverIcon.style.color = '#9fd49f';
-                        showToast(`✅ Server Online (${ping} ms)`);
-                    } else {
-                        throw new Error('Server error');
-                    }
-                } catch (e) {
-                    testBtn.classList.remove('testing');
-                    testBtn.classList.add('error');
-                    testIcon.className = 'fas fa-exclamation-triangle';
-                    apiStatus.innerHTML = '<span class="status-offline">Error</span>';
-                    pingTime.textContent = '- ms';
-                    serverIcon.style.color = '#b85c5c';
-                    showToast('❌ Server mengembalikan response tidak valid');
-                }
-                
-            } catch (error) {
-                const endTime = performance.now();
-                const ping = Math.round(endTime - startTime);
-                
-                testBtn.classList.remove('testing');
-                testBtn.classList.add('error');
-                testIcon.className = 'fas fa-times-circle';
-                apiStatus.innerHTML = '<span class="status-offline">Offline</span>';
-                pingTime.textContent = `${ping} ms (timeout)`;
-                serverIcon.style.color = '#b85c5c';
-                
-                if (error.name === 'AbortError') {
-                    showToast('❌ Server tidak merespon (timeout 5s)');
-                } else {
-                    showToast('❌ Gagal konek ke server');
-                }
+            if (isOnline) {
+                statusEl.innerHTML = 'Online';
+                dotEl.className = 'status-dot online';
+            } else {
+                statusEl.innerHTML = 'Offline';
+                dotEl.className = 'status-dot offline';
             }
         }
 
-        // ==================== CHECK SERVER REAL ====================
         async function checkRealServerConnection() {
             const apiStatus = document.getElementById('apiStatusText');
             const pingTime = document.getElementById('pingTime');
-            const serverIcon = document.getElementById('serverStatusIcon');
+            const dotEl = document.getElementById('serverStatusDot');
             
             if (!isOnline) {
-                apiStatus.innerHTML = '<span class="status-offline">Offline</span>';
+                apiStatus.innerHTML = 'Offline';
                 pingTime.textContent = '- ms';
-                serverIcon.style.color = '#b85c5c';
+                dotEl.className = 'status-dot offline';
                 return false;
             }
             
@@ -1291,32 +1281,47 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
                     const data = JSON.parse(text);
                     
                     if (data.success) {
-                        apiStatus.innerHTML = '<span class="status-online">Online</span>';
+                        apiStatus.innerHTML = 'Online';
                         pingTime.textContent = `${ping} ms`;
-                        serverIcon.style.color = '#9fd49f';
+                        dotEl.className = 'status-dot online';
                         return true;
                     } else {
                         throw new Error('Server error');
                     }
                 } catch (e) {
-                    apiStatus.innerHTML = '<span class="status-offline">Error</span>';
+                    apiStatus.innerHTML = 'Error';
                     pingTime.textContent = '- ms';
-                    serverIcon.style.color = '#b85c5c';
+                    dotEl.className = 'status-dot offline';
                     return false;
                 }
                 
             } catch (error) {
-                apiStatus.innerHTML = '<span class="status-offline">Offline</span>';
+                apiStatus.innerHTML = 'Offline';
                 pingTime.textContent = '- ms';
-                serverIcon.style.color = '#b85c5c';
+                dotEl.className = 'status-dot offline';
                 return false;
             }
         }
 
-        // ==================== LOAD DESA DARI GITHUB ====================
+        async function testRealConnection() {
+            const testBtn = document.getElementById('testButton');
+            const testIcon = document.getElementById('testIcon');
+            
+            testBtn.classList.add('testing');
+            testIcon.className = 'fas fa-spinner fa-spin';
+            
+            await checkRealServerConnection();
+            
+            setTimeout(() => {
+                testBtn.classList.remove('testing');
+                testIcon.className = 'fas fa-plug';
+            }, 1000);
+        }
+
+        // ==================== LOAD DESA ====================
         async function loadDesaListFromGitHub() {
             try {
-                document.getElementById('loadingStatusText').textContent = 'Muat daftar desa...';
+                document.getElementById('loadingStatusText').textContent = 'Muat daftar Babinsa...';
                 
                 const response = await fetch(DESA_LIST_URL + '?t=' + Date.now());
                 if (!response.ok) throw new Error('Gagal load desa');
@@ -1327,16 +1332,15 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
                 }
                 
                 desaList = data.desaList;
-                console.log('Desa loaded:', desaList.length, 'desa');
                 
                 const selectDesa = document.getElementById('selectDesa');
-                selectDesa.innerHTML = '<option value="">-- Pilih Desa --</option>';
+                selectDesa.innerHTML = '<option value="">-- Pilih Babinsa --</option>';
                 
                 desaList.sort().forEach(desa => {
                     if (desa && desa.trim()) {
                         const option = document.createElement('option');
                         option.value = desa;
-                        option.textContent = desa;
+                        option.textContent = `Babinsa ${desa}`;
                         selectDesa.appendChild(option);
                     }
                 });
@@ -1344,11 +1348,11 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
             } catch (error) {
                 console.error('Error load desa:', error);
                 document.getElementById('loadingStatusText').textContent = 'Error muat desa';
-                showToast('❌ Gagal muat daftar desa');
+                showToast('❌ Gagal muat daftar Babinsa');
             }
         }
 
-        // ==================== LOAD KOORDINAT DESA ====================
+        // ==================== LOAD KOORDINAT ====================
         async function loadDesaCoordinates(desa) {
             if (!desa) return null;
             if (coordCache[desa]) {
@@ -1357,7 +1361,7 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
             }
             
             try {
-                document.getElementById('coordLoading').classList.remove('hidden');
+                document.getElementById('coordLoading').style.display = 'block';
                 
                 const fileName = "Co " + desa + ".json";
                 const fileUrl = COORD_BASE_URL + fileName + '?t=' + Date.now();
@@ -1372,7 +1376,6 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
                 
                 coordCache[desa] = data;
                 desaCoordData = data;
-                console.log(`Koordinat loaded untuk ${desa}: ${data.coordinates.length} titik`);
                 return data;
                 
             } catch (error) {
@@ -1380,11 +1383,10 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
                 desaCoordData = null;
                 return null;
             } finally {
-                document.getElementById('coordLoading').classList.add('hidden');
+                document.getElementById('coordLoading').style.display = 'none';
             }
         }
 
-        // ==================== GET RANDOM KOORDINAT ====================
         function getRandomCoord() {
             if (!desaCoordData || !desaCoordData.coordinates || desaCoordData.coordinates.length === 0) {
                 return "-8.1234, 115.1234";
@@ -1402,13 +1404,11 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
                 if (saved) {
                     JSON.parse(saved).forEach(hash => sentImageHashes.add(hash));
                 }
-                console.log('Loaded sent images:', sentImageHashes.size);
             } catch (error) {
                 console.error('Error load sent images:', error);
             }
         }
 
-        // ==================== GENERATE IMAGE HASH ====================
         async function generateImageHash(file) {
             return new Promise((resolve) => {
                 const reader = new FileReader();
@@ -1427,67 +1427,65 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
                 if (saved) {
                     JSON.parse(saved).forEach(d => usedDates.add(d));
                 }
-                console.log('Loaded used dates:', usedDates.size);
             } catch (error) {
                 console.error('Error load used dates:', error);
             }
         }
 
-        // ==================== FUNGSI WATERMARK ====================
-        function addWatermarkToImage(imageDataUrl, callback) {
+        // ==================== WATERMARK - DENGAN OUTLINE PUTIH ====================
+        function addWatermarkToImage(imageDataUrl, babinsa, coord, date, time, callback) {
             const img = new Image();
+            img.crossOrigin = "Anonymous";
             img.onload = function() {
                 const canvas = document.createElement('canvas');
                 canvas.width = img.width;
                 canvas.height = img.height;
                 const ctx = canvas.getContext('2d');
                 
-                // Gambar asli
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                 
-                // WATERMARK (Desa, Koordinat, Tanggal, Jam)
-                ctx.fillStyle = 'white';
-                ctx.font = 'bold ' + Math.floor(canvas.width/25) + 'px Arial';
+                // Watermark dengan outline putih agar terlihat di background gelap
+                ctx.font = 'bold ' + Math.max(16, Math.floor(canvas.width/28)) + 'px Arial';
                 ctx.textAlign = 'right';
-                ctx.shadowColor = 'black';
-                ctx.shadowBlur = 10;
                 
-                const desa = selectedDesaFull || 'Pilih Desa';
-                const coord = selectedImages[currentCanvasImageIndex]?.coord || getRandomCoord();
-                const options = { day: '2-digit', month: 'long', year: 'numeric' };
-                const dateStr = selectedDate.toLocaleDateString('id-ID', options);
-                const timeStr = formatTime(selectedDate);
+                const margin = 20;
+                const lineHeight = Math.max(24, Math.floor(canvas.width/20));
                 
-                const margin = 30;
-                const lineHeight = Math.floor(canvas.width/18);
+                // Outline putih
+                ctx.strokeStyle = 'white';
+                ctx.lineWidth = 3;
+                ctx.strokeText(`Babinsa ${babinsa}`, canvas.width - margin, canvas.height - (lineHeight * 3));
+                ctx.strokeText(coord, canvas.width - margin, canvas.height - (lineHeight * 2));
+                ctx.strokeText(date + ' ' + time, canvas.width - margin, canvas.height - lineHeight);
                 
-                ctx.fillText(desa, canvas.width - margin, canvas.height - (lineHeight * 3));
+                // Teks hitam
+                ctx.fillStyle = '#000000';
+                ctx.fillText(`Babinsa ${babinsa}`, canvas.width - margin, canvas.height - (lineHeight * 3));
                 ctx.fillText(coord, canvas.width - margin, canvas.height - (lineHeight * 2));
-                ctx.fillText(dateStr + ' ' + timeStr, canvas.width - margin, canvas.height - lineHeight);
+                ctx.fillText(date + ' ' + time, canvas.width - margin, canvas.height - lineHeight);
                 
-                ctx.shadowColor = 'transparent';
-                
-                // Return canvas dengan watermark
                 callback(canvas.toDataURL('image/png'));
+            };
+            img.onerror = function() {
+                callback(imageDataUrl);
             };
             img.src = imageDataUrl;
         }
 
-        // ==================== MULTI FOTO FUNCTIONS ====================
+        // ==================== MULTI FOTO ====================
         function openFilePicker() {
             if (isThankYouMode) {
                 showToast('❌ Sedang mode terima kasih, reset dulu');
+                return;
+            }
+            if (!selectedDesaFull) {
+                showToast('❌ Pilih Babinsa dulu');
                 return;
             }
             document.getElementById('multiGambar').click();
         }
 
         async function previewMultiImages(event) {
-            if (!desaCoordData) {
-                showToast('❌ Pilih desa dulu sebelum upload foto');
-                return;
-            }
-            
             const files = Array.from(event.target.files);
             let newImagesCount = 0;
             
@@ -1496,7 +1494,7 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
                     const hash = await generateImageHash(file);
                     
                     if (sentImageHashes.has(hash)) {
-                        showToast(`⚠️ Gambar ${file.name} sudah pernah dikirim, dilewati`);
+                        showToast(`⚠️ Gambar ${file.name} sudah pernah dikirim`);
                         continue;
                     }
                     
@@ -1512,11 +1510,10 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
                             coord: randomCoord
                         });
                         
-                        // Update preview setelah semua gambar diproses
-                        if (selectedImages.length === newImagesCount + 1) {
-                            updatePhotoPreview();
+                        if (selectedImages.length === 1) {
                             updateCanvasWithFirstImage();
                         }
+                        updatePhotoPreview();
                     };
                     reader.readAsDataURL(file);
                     newImagesCount++;
@@ -1538,42 +1535,50 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
             
             if (selectedImages.length === 0) {
                 countEl.textContent = '0 foto dipilih';
-                document.getElementById('previewGambar').innerHTML = '';
                 return;
             }
             
             let processedCount = 0;
+            const options = { day: '2-digit', month: 'long', year: 'numeric' };
+            const dateStr = selectedDate.toLocaleDateString('id-ID', options);
+            const timeStr = selectedHour !== null && selectedMinute !== null ? 
+                `${String(selectedHour).padStart(2, '0')}:${String(selectedMinute).padStart(2, '0')}` : '--:--';
             
-            // Buat thumbnail dari gambar dengan watermark
             selectedImages.forEach((img, index) => {
-                addWatermarkToImage(img.originalDataUrl, function(watermarkedImageDataUrl) {
-                    const item = document.createElement('div');
-                    item.className = 'photo-preview-item';
-                    
-                    const image = document.createElement('img');
-                    image.src = watermarkedImageDataUrl;
-                    
-                    const removeBtn = document.createElement('div');
-                    removeBtn.className = 'remove-photo';
-                    removeBtn.innerHTML = '×';
-                    removeBtn.onclick = (e) => {
-                        e.stopPropagation();
-                        removePhoto(index);
-                    };
-                    
-                    item.appendChild(image);
-                    item.appendChild(removeBtn);
-                    
-                    item.onclick = () => showImageInCanvas(index);
-                    
-                    container.appendChild(item);
-                    
-                    processedCount++;
-                    if (processedCount === selectedImages.length) {
-                        countEl.textContent = `${selectedImages.length} foto dipilih`;
-                        document.getElementById('previewGambar').innerHTML = `<i class="fas fa-check-circle"></i> ${selectedImages.length} foto dengan watermark siap`;
+                addWatermarkToImage(
+                    img.originalDataUrl, 
+                    selectedDesaFull, 
+                    img.coord, 
+                    dateStr, 
+                    timeStr,
+                    function(watermarkedImageDataUrl) {
+                        const item = document.createElement('div');
+                        item.className = 'photo-item';
+                        
+                        const image = document.createElement('img');
+                        image.src = watermarkedImageDataUrl;
+                        
+                        const removeBtn = document.createElement('div');
+                        removeBtn.className = 'photo-remove';
+                        removeBtn.innerHTML = '×';
+                        removeBtn.onclick = (e) => {
+                            e.stopPropagation();
+                            removePhoto(index);
+                        };
+                        
+                        item.appendChild(image);
+                        item.appendChild(removeBtn);
+                        
+                        item.onclick = () => showImageInCanvas(index);
+                        
+                        container.appendChild(item);
+                        
+                        processedCount++;
+                        if (processedCount === selectedImages.length) {
+                            countEl.textContent = `${selectedImages.length} foto dipilih`;
+                        }
                     }
-                });
+                );
             });
         }
 
@@ -1602,20 +1607,32 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
             currentCanvasImageIndex = index;
             const imgData = selectedImages[index];
             
-            addWatermarkToImage(imgData.originalDataUrl, function(watermarkedImageDataUrl) {
-                const img = new Image();
-                img.onload = function() {
-                    const canvas = document.getElementById('mainCanvas');
-                    const ctx = canvas.getContext('2d');
-                    
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                    
-                    document.getElementById('slideshowIndicator').textContent = `${index + 1}/${selectedImages.length}`;
-                    document.getElementById('stampCoord').textContent = imgData.coord;
-                };
-                img.src = watermarkedImageDataUrl;
-            });
+            const options = { day: '2-digit', month: 'long', year: 'numeric' };
+            const dateStr = selectedDate.toLocaleDateString('id-ID', options);
+            const timeStr = selectedHour !== null && selectedMinute !== null ? 
+                `${String(selectedHour).padStart(2, '0')}:${String(selectedMinute).padStart(2, '0')}` : '--:--';
+            
+            addWatermarkToImage(
+                imgData.originalDataUrl, 
+                selectedDesaFull, 
+                imgData.coord, 
+                dateStr, 
+                timeStr,
+                function(watermarkedImageDataUrl) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.getElementById('mainCanvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        
+                        document.getElementById('slideshowIndicator').textContent = `${index + 1}/${selectedImages.length}`;
+                        document.getElementById('stampCoord').textContent = imgData.coord;
+                    };
+                    img.src = watermarkedImageDataUrl;
+                }
+            );
         }
 
         function updateCanvasWithFirstImage() {
@@ -1624,60 +1641,40 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
             }
         }
 
-        // ==================== FUNGSI TERIMA KASIH ====================
-        function showThankYouScreen() {
-            isThankYouMode = true;
-            
-            const canvas = document.getElementById('mainCanvas');
-            const ctx = canvas.getContext('2d');
-            
-            ctx.fillStyle = '#0a120a';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            ctx.fillStyle = '#9fd49f';
-            ctx.font = 'bold 24px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('TERIMA KASIH', canvas.width/2, canvas.height/2 - 60);
-            
-            ctx.font = '16px Arial';
-            ctx.fillStyle = '#b0b0b0';
-            ctx.fillText('Atas penggunaan aplikasi ini', canvas.width/2, canvas.height/2 - 20);
-            
-            ctx.font = '14px Arial';
-            ctx.fillStyle = '#8a9a8a';
-            ctx.fillText('Kedepan akan kami kembangkan lagi', canvas.width/2, canvas.height/2 + 20);
-            ctx.fillText('guna permudah anggota Koramil', canvas.width/2, canvas.height/2 + 45);
-            ctx.fillText('mengirim laporan', canvas.width/2, canvas.height/2 + 70);
-            
-            ctx.font = 'bold 16px Arial';
-            ctx.fillStyle = '#9fd49f';
-            ctx.fillText('SALAM SUKSES DAN SEHAT SELALU', canvas.width/2, canvas.height/2 + 110);
-            
-            ctx.font = '12px Arial';
-            ctx.fillStyle = '#5a7a5a';
-            ctx.fillText('KORAMIL 1609-05/SUKASADA', canvas.width/2, canvas.height/2 + 140);
-            
-            document.getElementById('slideshowIndicator').textContent = '❤️';
-            document.getElementById('stampDesa').textContent = '-';
-            document.getElementById('stampCoord').textContent = '-';
-            document.getElementById('stampTanggal').textContent = '-';
-            document.getElementById('stampJam').textContent = '-';
-            document.getElementById('runningText').innerHTML = '<i class="fas fa-heart"></i> Terima kasih atas kerjasamanya <i class="fas fa-heart"></i>';
+        // ==================== TIME PICKER ====================
+        function updateTimeDisplay() {
+            const hour = document.getElementById('hourSelect').value.padStart(2, '0');
+            const minute = document.getElementById('minuteSelect').value.padStart(2, '0');
+            document.getElementById('timeDisplay').textContent = `${hour}:${minute}`;
         }
 
-        // ==================== SLIDESHOW FUNCTIONS ====================
-        function nextSlide() {
-            if (isThankYouMode) return;
-            if (selectedImages.length === 0) return;
-            currentCanvasImageIndex = (currentCanvasImageIndex + 1) % selectedImages.length;
-            showImageInCanvas(currentCanvasImageIndex);
-        }
-
-        function prevSlide() {
-            if (isThankYouMode) return;
-            if (selectedImages.length === 0) return;
-            currentCanvasImageIndex = (currentCanvasImageIndex - 1 + selectedImages.length) % selectedImages.length;
-            showImageInCanvas(currentCanvasImageIndex);
+        function confirmTimeSelection() {
+            selectedHour = parseInt(document.getElementById('hourSelect').value);
+            selectedMinute = parseInt(document.getElementById('minuteSelect').value);
+            
+            const now = new Date();
+            const second = now.getSeconds();
+            
+            selectedDate.setHours(selectedHour);
+            selectedDate.setMinutes(selectedMinute);
+            selectedDate.setSeconds(second);
+            
+            document.getElementById('timePicker').classList.remove('active');
+            
+            const dateStr = formatDateYYYYMMDD(
+                selectedDate.getFullYear(),
+                selectedDate.getMonth(),
+                selectedDate.getDate()
+            );
+            
+            usedDates.add(dateStr);
+            localStorage.setItem('usedDates', JSON.stringify([...usedDates]));
+            
+            updateStampInfo();
+            renderCalendar();
+            
+            closeForm('tanggal');
+            showToast(`✅ Tanggal: ${selectedDate.toLocaleDateString('id-ID')} ${formatTime(selectedDate)}`);
         }
 
         // ==================== KALENDER ====================
@@ -1752,91 +1749,26 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
             
             tempSelectedDate = newDate;
             
-            renderCalendar();
-            
             if (usedDates.has(selectedDateStr)) {
-                showToast(`⚠️ Tanggal ${day} sudah pernah dipakai`);
+                showDialog(
+                    'PERHATIAN!',
+                    `Anda sudah membuat laporan untuk tanggal ${day} ${document.getElementById('calendarMonthYear').textContent}. Tetap gunakan tanggal yang sama?`,
+                    () => {
+                        document.getElementById('timePicker').classList.add('active');
+                        updateTimeDisplay();
+                    }
+                );
             } else {
-                showToast(`📅 Tanggal ${day} dipilih, atur jam lalu ketuk panah kiri`);
+                document.getElementById('timePicker').classList.add('active');
+                updateTimeDisplay();
             }
-        }
-
-        function autoSaveDateTime() {
-            if (!tempSelectedDate) {
-                showToast('❌ Pilih tanggal dulu');
-                return false;
-            }
-            
-            const hour = parseInt(document.getElementById('hourInput').value) || 12;
-            const minute = parseInt(document.getElementById('minuteInput').value) || 0;
-            const now = new Date();
-            const second = now.getSeconds();
-            
-            selectedDate = new Date(tempSelectedDate);
-            selectedDate.setHours(hour);
-            selectedDate.setMinutes(minute);
-            selectedDate.setSeconds(second);
-            
-            const dateStr = formatDateYYYYMMDD(
-                selectedDate.getFullYear(),
-                selectedDate.getMonth(),
-                selectedDate.getDate()
-            );
-            
-            if (usedDates.has(dateStr)) {
-                pendingDateSelection = selectedDate;
-                document.getElementById('confirmMessage').innerHTML = 
-                    `Anda sudah membuat laporan untuk tanggal <strong>${selectedDate.getDate()} ${document.getElementById('calendarMonthYear').textContent}</strong>. Tetap gunakan tanggal yang sama?`;
-                document.getElementById('confirmDialog').classList.add('active');
-                return false;
-            }
-            
-            usedDates.add(dateStr);
-            localStorage.setItem('usedDates', JSON.stringify([...usedDates]));
-            
-            updateStampInfo();
-            renderCalendar();
-            
-            showToast(`✅ Tanggal: ${selectedDate.toLocaleDateString('id-ID')} ${formatTime(selectedDate)}`);
-            return true;
-        }
-
-        function updateTimeDisplay() {
-            const hour = document.getElementById('hourInput').value.padStart(2, '0');
-            const minute = document.getElementById('minuteInput').value.padStart(2, '0');
-            document.getElementById('timeDisplay').textContent = `${hour}:${minute}`;
         }
 
         function formatTime(date) {
             return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
         }
 
-        function confirmContinue() {
-            if (pendingDateSelection) {
-                const dateStr = formatDateYYYYMMDD(
-                    pendingDateSelection.getFullYear(),
-                    pendingDateSelection.getMonth(),
-                    pendingDateSelection.getDate()
-                );
-                usedDates.add(dateStr);
-                localStorage.setItem('usedDates', JSON.stringify([...usedDates]));
-                
-                selectedDate = pendingDateSelection;
-                updateStampInfo();
-                renderCalendar();
-                
-                pendingDateSelection = null;
-                showToast(`✅ Tanggal: ${selectedDate.toLocaleDateString('id-ID')} ${formatTime(selectedDate)}`);
-            }
-            document.getElementById('confirmDialog').classList.remove('active');
-        }
-
-        function confirmCancel() {
-            pendingDateSelection = null;
-            document.getElementById('confirmDialog').classList.remove('active');
-        }
-
-        // ==================== FUNGSI FORM ====================
+        // ==================== FORM ====================
         function openForm(formName) {
             if (isThankYouMode && formName !== 'desa') {
                 showToast('❌ Sedang mode terima kasih, reset dulu');
@@ -1852,9 +1784,19 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
             if (formName === 'desa') {
                 document.getElementById('formDesa').classList.add('active');
             } else if (formName === 'foto') {
+                if (!selectedDesaFull) {
+                    showToast('❌ Pilih Babinsa dulu');
+                    document.getElementById('mainMenu').classList.remove('hidden');
+                    return;
+                }
                 updatePhotoPreview();
                 document.getElementById('formFoto').classList.add('active');
             } else if (formName === 'tanggal') {
+                if (!selectedDesaFull) {
+                    showToast('❌ Pilih Babinsa dulu');
+                    document.getElementById('mainMenu').classList.remove('hidden');
+                    return;
+                }
                 if (selectedDate) {
                     currentMonth = selectedDate.getMonth();
                     currentYear = selectedDate.getFullYear();
@@ -1862,6 +1804,11 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
                 renderCalendar();
                 document.getElementById('formTanggal').classList.add('active');
             } else if (formName === 'narasi') {
+                if (!selectedDesaFull) {
+                    showToast('❌ Pilih Babinsa dulu');
+                    document.getElementById('mainMenu').classList.remove('hidden');
+                    return;
+                }
                 document.getElementById('narasiFull').value = narasiText;
                 document.getElementById('formNarasi').classList.add('active');
             }
@@ -1870,8 +1817,6 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
         function closeForm(formName) {
             if (formName === 'narasi') {
                 saveNarasi();
-            } else if (formName === 'tanggal') {
-                autoSaveDateTime();
             }
             
             document.getElementById('mainMenu').classList.remove('hidden');
@@ -1892,19 +1837,16 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
             const select = document.getElementById('selectDesa');
             selectedDesaFull = select.value;
             
-            document.getElementById('previewDesa').innerHTML = '<i class="fas fa-check-circle"></i> ' + (selectedDesaFull || '');
-            document.getElementById('stampDesa').textContent = selectedDesaFull || '-';
+            document.getElementById('stampDesa').textContent = selectedDesaFull ? `Babinsa ${selectedDesaFull}` : '-';
             
             if (selectedDesaFull) {
                 await loadDesaCoordinates(selectedDesaFull);
                 
-                if (selectedImages.length > 0) {
-                    showImageInCanvas(currentCanvasImageIndex);
-                } else {
-                    const defaultCoord = getRandomCoord();
-                    document.getElementById('stampCoord').textContent = defaultCoord;
-                    document.getElementById('coordDisplay').innerHTML = '<i class="fas fa-map-marker-alt"></i> ' + defaultCoord;
-                }
+                const defaultCoord = getRandomCoord();
+                document.getElementById('stampCoord').textContent = defaultCoord;
+                document.getElementById('coordDisplay').innerHTML = `<i class="fas fa-map-marker-alt"></i> ${defaultCoord}`;
+                
+                showToast(`✅ Babinsa ${selectedDesaFull} dipilih`);
             }
             
             closeForm('desa');
@@ -1920,9 +1862,9 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
             
             const runningText = document.getElementById('runningText');
             if (narasiText) {
-                runningText.innerHTML = `<i class="fas fa-chevron-right"></i> ${narasiText} <i class="fas fa-chevron-left"></i>`;
+                runningText.innerHTML = `<i class="fas fa-pen"></i> ${narasiText} <i class="fas fa-pen"></i>`;
             } else {
-                runningText.innerHTML = `<i class="fas fa-chevron-right"></i> Ketuk untuk menulis narasi <i class="fas fa-chevron-left"></i>`;
+                runningText.innerHTML = `<i class="fas fa-pen"></i> Ketuk untuk menulis narasi <i class="fas fa-pen"></i>`;
             }
             
             showToast('✅ Narasi tersimpan');
@@ -1935,17 +1877,18 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
             const canvas = document.getElementById('mainCanvas');
             const ctx = canvas.getContext('2d');
             
-            ctx.fillStyle = '#0a120a';
+            ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            ctx.fillStyle = '#9fd49f';
-            ctx.font = 'bold 22px Arial';
+            ctx.fillStyle = '#1e3b5c';
+            ctx.font = 'bold 36px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText('DUKOPS', canvas.width/2, canvas.height/2 - 15);
+            ctx.fillText('DUKOPS', canvas.width/2, canvas.height/2 - 30);
             
-            ctx.font = '14px Arial';
-            ctx.fillStyle = '#b0b0b0';
-            ctx.fillText('KORAMIL 1609-05/SUKASADA', canvas.width/2, canvas.height/2 + 15);
+            ctx.font = '16px Arial';
+            ctx.fillStyle = '#2c5778';
+            ctx.fillText('PREMIUM EDITION', canvas.width/2, canvas.height/2 + 5);
+            ctx.fillText('KORAMIL 1609-05/SUKASADA', canvas.width/2, canvas.height/2 + 35);
             
             document.getElementById('slideshowIndicator').textContent = '0/0';
         }
@@ -1953,11 +1896,12 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
         function updateStampInfo() {
             if (isThankYouMode) return;
             
-            document.getElementById('stampDesa').textContent = selectedDesaFull || '-';
+            document.getElementById('stampDesa').textContent = selectedDesaFull ? `Babinsa ${selectedDesaFull}` : '-';
             
             const options = { day: '2-digit', month: 'long', year: 'numeric' };
             document.getElementById('stampTanggal').textContent = selectedDate.toLocaleDateString('id-ID', options);
-            document.getElementById('stampJam').textContent = formatTime(selectedDate);
+            document.getElementById('stampJam').textContent = selectedHour !== null && selectedMinute !== null ? 
+                `${String(selectedHour).padStart(2, '0')}:${String(selectedMinute).padStart(2, '0')}` : '--:--';
             
             if (selectedImages.length > 0) {
                 showImageInCanvas(currentCanvasImageIndex);
@@ -1966,19 +1910,67 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
             }
         }
 
+        // ==================== SLIDESHOW ====================
+        function nextSlide() {
+            if (isThankYouMode) return;
+            if (selectedImages.length === 0) return;
+            currentCanvasImageIndex = (currentCanvasImageIndex + 1) % selectedImages.length;
+            showImageInCanvas(currentCanvasImageIndex);
+        }
+
+        function prevSlide() {
+            if (isThankYouMode) return;
+            if (selectedImages.length === 0) return;
+            currentCanvasImageIndex = (currentCanvasImageIndex - 1 + selectedImages.length) % selectedImages.length;
+            showImageInCanvas(currentCanvasImageIndex);
+        }
+
+        // ==================== TERIMA KASIH ====================
+        function showThankYouScreen() {
+            isThankYouMode = true;
+            
+            const canvas = document.getElementById('mainCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#1e3b5c';
+            ctx.font = 'bold 40px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('TERIMA KASIH', canvas.width/2, canvas.height/2 - 40);
+            
+            ctx.font = '15px Arial';
+            ctx.fillStyle = '#2c5778';
+            ctx.fillText('Atas penggunaan aplikasi premium ini', canvas.width/2, canvas.height/2);
+            ctx.fillText('Kedepan akan kami kembangkan lagi', canvas.width/2, canvas.height/2 + 30);
+            ctx.fillText('guna permudah kinerja Babinsa', canvas.width/2, canvas.height/2 + 50);
+            
+            ctx.fillStyle = '#1e3b5c';
+            ctx.font = 'bold 15px Arial';
+            ctx.fillText('SALAM SUKSES DAN SEHAT SELALU', canvas.width/2, canvas.height/2 + 95);
+            
+            ctx.font = '11px Arial';
+            ctx.fillStyle = '#8ba9c9';
+            ctx.fillText('KORAMIL 1609-05/SUKASADA', canvas.width/2, canvas.height/2 + 120);
+            
+            document.getElementById('slideshowIndicator').textContent = '★';
+            document.getElementById('stampDesa').textContent = '-';
+            document.getElementById('stampCoord').textContent = '-';
+            document.getElementById('stampTanggal').textContent = '-';
+            document.getElementById('stampJam').textContent = '-';
+            document.getElementById('runningText').innerHTML = '<i class="fas fa-star"></i> Terima kasih telah menggunakan DUKOPS PREMIUM <i class="fas fa-star"></i>';
+        }
+
         // ==================== RESET ====================
         function confirmReset() {
-            document.getElementById('confirmMessage').innerHTML = 'Reset semua data? Semua foto dan narasi akan hilang.';
-            document.getElementById('confirmDialog').classList.add('active');
-            
-            window.confirmContinue = function() {
-                resetAllData();
-                document.getElementById('confirmDialog').classList.remove('active');
-            };
-            
-            window.confirmCancel = function() {
-                document.getElementById('confirmDialog').classList.remove('active');
-            };
+            showDialog(
+                'RESET DATA',
+                'Reset semua data? Semua foto dan narasi akan hilang.',
+                () => {
+                    resetAllData();
+                }
+            );
         }
 
         function resetAllData() {
@@ -1988,38 +1980,42 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
             desaCoordData = null;
             narasiText = "";
             selectedDate = new Date();
+            selectedHour = null;
+            selectedMinute = null;
             isThankYouMode = false;
             
             document.getElementById('multiGambar').value = '';
             document.getElementById('narasiFull').value = '';
             document.getElementById('selectDesa').value = '';
-            document.getElementById('previewGambar').innerHTML = '';
-            document.getElementById('previewDesa').innerHTML = '';
             document.getElementById('photoPreviewContainer').innerHTML = '';
             document.getElementById('photoCount').textContent = '0 foto dipilih';
-            document.getElementById('coordDisplay').innerHTML = '<i class="fas fa-map-marker-alt"></i> Pilih desa';
+            document.getElementById('coordDisplay').innerHTML = '<i class="fas fa-map-marker-alt"></i> Pilih Babinsa untuk melihat koordinat';
             
-            document.getElementById('runningText').innerHTML = '<i class="fas fa-chevron-right"></i> Ketuk untuk menulis narasi <i class="fas fa-chevron-left"></i>';
+            document.getElementById('runningText').innerHTML = '<i class="fas fa-pen"></i> Ketuk untuk menulis narasi <i class="fas fa-pen"></i>';
             
             updateStampInfo();
             drawDefaultCanvas();
             showToast('✅ Semua data direset');
         }
 
-        // ==================== PROSES KIRIM (DENGAN WATERMARK DI FILE) ====================
+        // ==================== PROSES KIRIM ====================
         async function processSubmission() {
             if (isThankYouMode) {
                 showToast('❌ Sedang mode terima kasih, reset dulu');
                 return;
             }
             
-            if (!selectedDesaFull) { showToast('❌ Pilih desa dulu'); return; }
+            if (!selectedDesaFull) { showToast('❌ Pilih Babinsa dulu'); return; }
             if (selectedImages.length === 0) { showToast('❌ Upload foto dulu (minimal 1)'); return; }
             if (!narasiText) { showToast('❌ Tulis narasi dulu'); return; }
+            if (selectedHour === null || selectedMinute === null) { 
+                showToast('❌ Anda belum memilih jam! Klik ikon TANGGAL untuk memilih jam');
+                return; 
+            }
             if (!isOnline) { showToast('❌ Tidak ada koneksi internet'); return; }
 
             const totalFotoAwal = selectedImages.length;
-            showLoading(true, `Membuat file ZIP dengan watermark (${totalFotoAwal} foto)...`);
+            showLoading(true, `Membuat file ZIP (${totalFotoAwal} foto)...`);
             
             try {
                 const date = selectedDate;
@@ -2029,58 +2025,61 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
                 const dateStr = `${day}_${month}_${year}`;
                 
                 const safeDesa = selectedDesaFull.replace(/[^a-z0-9]/gi, '_');
-                const baseFileName = `${safeDesa}_${dateStr}`;
+                const baseFileName = `BABINSA_${safeDesa}_${dateStr}`;
                 const txtFileName = `${baseFileName}.txt`;
                 const zipFileName = `${baseFileName}.zip`;
                 
                 const zip = new JSZip();
                 
-                // Tambah file narasi
                 zip.file(txtFileName, narasiText);
                 
                 let infoContent = [
-                    `Desa: ${selectedDesaFull}`,
+                    `Aplikasi: DUKOPS PREMIUM`,
+                    `Babinsa: ${selectedDesaFull}`,
                     `Tanggal: ${selectedDate.toLocaleDateString('id-ID')}`,
                     `Jam: ${formatTime(selectedDate)}`,
                     `Jumlah Foto: ${totalFotoAwal}`,
                     `Narasi: ${narasiText}`,
                     `-------------------`,
-                    `DETAIL FOTO DENGAN WATERMARK:`,
+                    `DETAIL FOTO:`,
                 ];
                 
-                // Simpan hash gambar yang akan dikirim
                 const sentHashes = [];
-                
-                // AMBIL FOTO PERTAMA UNTUK DIKIRIM
                 const currentImage = selectedImages[0];
                 
-                // TAMBAH WATERMARK KE GAMBAR SEBELUM DIKIRIM
-                await new Promise((resolve) => {
-                    addWatermarkToImage(currentImage.originalDataUrl, function(watermarkedImageDataUrl) {
-                        const imgFileName = `${baseFileName}_01.png`;
-                        const imgData = watermarkedImageDataUrl.split(',')[1];
-                        zip.file(imgFileName, imgData, { base64: true });
-                        
-                        infoContent.push(`\nFoto 1: ${currentImage.name} (DENGAN WATERMARK)`);
-                        infoContent.push(`  Koordinat: ${currentImage.coord}`);
-                        
-                        if (currentImage.hash) {
-                            sentHashes.push(currentImage.hash);
-                        }
-                        
-                        // Tambahkan info sisa foto
-                        for (let i = 1; i < selectedImages.length; i++) {
-                            infoContent.push(`\nFoto ${i + 1}: ${selectedImages[i].name} (menunggu kirim)`);
-                            infoContent.push(`  Koordinat: ${selectedImages[i].coord}`);
-                        }
-                        
-                        resolve();
-                    });
+                const options = { day: '2-digit', month: 'long', year: 'numeric' };
+                const dateStrWatermark = selectedDate.toLocaleDateString('id-ID', options);
+                const timeStrWatermark = formatTime(selectedDate);
+                
+                const watermarkedImageDataUrl = await new Promise((resolve) => {
+                    addWatermarkToImage(
+                        currentImage.originalDataUrl, 
+                        selectedDesaFull, 
+                        currentImage.coord, 
+                        dateStrWatermark, 
+                        timeStrWatermark,
+                        resolve
+                    );
                 });
+                
+                const imgFileName = `${baseFileName}_01.png`;
+                const imgData = watermarkedImageDataUrl.split(',')[1];
+                zip.file(imgFileName, imgData, { base64: true });
+                
+                infoContent.push(`\nFoto 1: ${currentImage.name}`);
+                infoContent.push(`  Koordinat: ${currentImage.coord}`);
+                
+                if (currentImage.hash) {
+                    sentHashes.push(currentImage.hash);
+                }
+                
+                for (let i = 1; i < selectedImages.length; i++) {
+                    infoContent.push(`\nFoto ${i + 1}: ${selectedImages[i].name} (menunggu kirim)`);
+                    infoContent.push(`  Koordinat: ${selectedImages[i].coord}`);
+                }
                 
                 zip.file('INFO.txt', infoContent.join('\n'));
                 
-                // Generate ZIP
                 const content = await zip.generateAsync({ type: 'blob' });
                 
                 const reader = new FileReader();
@@ -2098,7 +2097,6 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
                         const driveSuccess = await uploadToDrive(base64Data, zipFileName, selectedDesaFull);
                         
                         if (driveSuccess) {
-                            // Simpan hash gambar yang sudah dikirim
                             sentHashes.forEach(hash => {
                                 sentImageHashes.add(hash);
                             });
@@ -2112,21 +2110,17 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
                             usedDates.add(dateStrYYYYMMDD);
                             localStorage.setItem('usedDates', JSON.stringify([...usedDates]));
                             
-                            // HAPUS FOTO PERTAMA YANG BARU SAJA DIKIRIM
-                            selectedImages.shift(); // Hapus foto pertama
+                            selectedImages.shift();
                             currentCanvasImageIndex = 0;
                             
-                            // UPDATE PREVIEW - LANGSUNG HILANG
                             updatePhotoPreview();
                             
                             if (selectedImages.length > 0) {
-                                showToast(`✅ 1 foto dengan watermark terkirim, sisa ${selectedImages.length} foto`);
-                                // TAMPILKAN FOTO BERIKUTNYA
+                                showToast(`✅ 1 foto terkirim, sisa ${selectedImages.length} foto`);
                                 showImageInCanvas(0);
                             } else {
-                                // JIKA TIDAK ADA FOTO TERSISA, TAMPILKAN LAYAR TERIMA KASIH
                                 showThankYouScreen();
-                                showToast('✅ Semua foto dengan watermark terkirim! Terima kasih');
+                                showToast('✅ Semua foto terkirim! Terima kasih');
                             }
                         }
                     }
@@ -2156,7 +2150,7 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
                 
                 formData.append('document', blob, fileName);
                 
-                const caption = `📁 *Laporan DUKOPS*\n📍 ${desaName}\n📅 ${selectedDate.toLocaleDateString('id-ID')}\n⏰ ${formatTime(selectedDate)}\n📸 Foto ke-${fotoKe} dari ${totalFoto} (dengan watermark)\n📝 ${narasiText.substring(0, 100)}${narasiText.length > 100 ? '...' : ''}`;
+                const caption = `📁 *DUKOPS PREMIUM*\n👤 Babinsa ${desaName}\n📅 ${selectedDate.toLocaleDateString('id-ID')}\n⏰ ${formatTime(selectedDate)}\n📸 Foto ke-${fotoKe} dari ${totalFoto}\n📝 ${narasiText.substring(0, 100)}${narasiText.length > 100 ? '...' : ''}`;
                 formData.append('caption', caption);
                 formData.append('parse_mode', 'Markdown');
                 
@@ -2227,60 +2221,20 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
             }
         }
 
-        // ==================== HELPER FUNCTIONS ====================
-        function showToast(msg) {
-            const toast = document.getElementById('toastMessage');
-            toast.textContent = msg;
-            toast.style.display = 'block';
-            setTimeout(() => toast.style.display = 'none', 2000);
-        }
-
-        function showLoading(show, message = 'Memproses...') {
-            const overlay = document.getElementById('loadingOverlay');
-            const text = document.getElementById('loadingText');
-            
-            if (show) {
-                text.textContent = message;
-                overlay.style.display = 'flex';
-            } else {
-                overlay.style.display = 'none';
-            }
-        }
-
-        function updateNetworkStatus() {
-            isOnline = navigator.onLine;
-            const statusEl = document.getElementById('networkStatusText');
-            const bannerEl = document.getElementById('offlineBanner');
-            const networkIcon = document.getElementById('networkStatusIcon');
-            
-            if (isOnline) {
-                statusEl.innerHTML = '<span class="status-online">Online</span>';
-                bannerEl.classList.add('hidden');
-                networkIcon.style.color = '#9fd49f';
-            } else {
-                statusEl.innerHTML = '<span class="status-offline">Offline</span>';
-                bannerEl.classList.remove('hidden');
-                networkIcon.style.color = '#b85c5c';
-            }
-        }
-
         // ==================== PWA INSTALL ====================
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            document.getElementById('installButton').style.display = 'flex';
+            document.getElementById('installBtn').style.display = 'flex';
             
-            document.getElementById('installButton').addEventListener('click', () => {
-                document.getElementById('installButton').style.display = 'none';
+            document.getElementById('installBtn').addEventListener('click', () => {
+                document.getElementById('installBtn').style.display = 'none';
                 deferredPrompt.prompt();
             });
         });
 
         window.addEventListener('online', updateNetworkStatus);
         window.addEventListener('offline', updateNetworkStatus);
-
-        document.getElementById('hourInput').addEventListener('input', updateTimeDisplay);
-        document.getElementById('minuteInput').addEventListener('input', updateTimeDisplay);
 
         // ==================== EXPOSE FUNCTIONS ====================
         window.openForm = openForm;
@@ -2297,13 +2251,11 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
         window.showImageInCanvas = showImageInCanvas;
         window.changeMonth = changeMonth;
         window.selectDate = selectDate;
+        window.confirmTimeSelection = confirmTimeSelection;
         window.updateTimeDisplay = updateTimeDisplay;
-        window.confirmContinue = confirmContinue;
-        window.confirmCancel = confirmCancel;
         window.nextSlide = nextSlide;
         window.prevSlide = prevSlide;
         window.formatTime = formatTime;
-        window.autoSaveDateTime = autoSaveDateTime;
     </script>
 </body>
 </html>
