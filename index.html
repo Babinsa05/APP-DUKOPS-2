@@ -176,13 +176,14 @@
         .status-online { color: #9fd49f; }
         .status-offline { color: #b85c5c; }
 
-        /* CANVAS */
+        /* CANVAS SLIDESHOW */
         .screen-container {
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
             margin-bottom: 5px;
+            position: relative;
         }
 
         #mainCanvas {
@@ -194,6 +195,36 @@
             object-fit: contain;
             border: none;
             border-radius: 10px;
+        }
+
+        .slideshow-controls {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+            pointer-events: none;
+        }
+
+        .slideshow-controls button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(42, 63, 42, 0.8);
+            border: 2px solid #9fd49f;
+            color: #9fd49f;
+            font-size: 18px;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+
+        .slideshow-indicator {
+            text-align: center;
+            color: #9fd49f;
+            font-size: 12px;
+            margin-top: 5px;
         }
 
         /* STAMP INFO */
@@ -218,6 +249,69 @@
 
         .stamp-item i { color: #9fd49f; width: 18px; }
         .stamp-value { color: white; font-weight: bold; }
+
+        /* NAVBAR BULAN & DESA */
+        .navbar-container {
+            background: #0f1a0f;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 5px 0;
+        }
+
+        .navbar-title {
+            color: #9fd49f;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .navbar-items {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            scrollbar-width: thin;
+            scrollbar-color: #9fd49f #2a3f2a;
+        }
+
+        .navbar-items::-webkit-scrollbar {
+            height: 5px;
+        }
+
+        .navbar-items::-webkit-scrollbar-track {
+            background: #2a3f2a;
+            border-radius: 10px;
+        }
+
+        .navbar-items::-webkit-scrollbar-thumb {
+            background: #9fd49f;
+            border-radius: 10px;
+        }
+
+        .navbar-item {
+            padding: 8px 15px;
+            background: #2a3f2a;
+            border-radius: 20px;
+            color: #e0e0e0;
+            font-size: 13px;
+            white-space: nowrap;
+            cursor: pointer;
+            border: 1px solid #9fd49f;
+        }
+
+        .navbar-item.active {
+            background: #9fd49f;
+            color: #1a2a1a;
+            font-weight: bold;
+        }
+
+        .navbar-item i {
+            margin-right: 5px;
+            color: #9fd49f;
+        }
+
+        .navbar-item.active i {
+            color: #1a2a1a;
+        }
 
         /* RUNNING TEXT */
         .running-text-container {
@@ -340,87 +434,257 @@
 
         .back-icon:active { background: #3a5a3a; }
         .back-icon i { color: #9fd49f; font-size: 20px; }
-        .form-title { color: #9fd49f; font-size: 16px; font-weight: bold; }
+        .form-title { color: #9fd49f; font-size: 18px; font-weight: bold; }
 
-        /* FORM ELEMENTS */
-        select, input[type="file"], input[type="datetime-local"] {
-            width: 100%;
-            background: #2a3f2a;
-            color: #e0e0e0;
-            padding: 15px;
-            margin: 8px 0;
-            border: 2px solid #9fd49f;
-            border-radius: 50px;
-            font-size: 16px;
-            outline: none;
+        /* FILE INPUT */
+        .file-input-hidden {
+            display: none;
         }
 
-        select option { background: #1a2a1a; }
-
-        .fullscreen-textarea {
+        .upload-area {
             width: 100%;
-            height: calc(100vh - 180px);
+            height: 200px;
+            border: 3px dashed #9fd49f;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            cursor: pointer;
+            background: #2a3f2a;
+        }
+
+        .upload-area i {
+            font-size: 60px;
+            color: #9fd49f;
+            margin-bottom: 15px;
+        }
+
+        .upload-area span {
+            color: #9fd49f;
+            font-size: 16px;
+        }
+
+        /* KALENDER FULLSCREEN */
+        .calendar-container {
+            width: 100%;
+            padding: 10px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-month-year {
+            font-size: 20px;
+            color: #9fd49f;
+            font-weight: bold;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        .calendar-nav button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #2a3f2a;
+            border: 2px solid #9fd49f;
+            color: #9fd49f;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            color: #9fd49f;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #2a3f2a;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+
+        .calendar-day:hover {
+            background: #3a5a3a;
+        }
+
+        .calendar-day.selected {
+            background: #9fd49f;
+            color: #1a2a1a;
+            font-weight: bold;
+        }
+
+        .calendar-day.used {
+            background: #b85c5c;
+            color: white;
+            position: relative;
+        }
+
+        .calendar-day.used::after {
+            content: '✓';
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            font-size: 10px;
+        }
+
+        .calendar-day.empty {
+            background: transparent;
+            cursor: default;
+        }
+
+        .calendar-day.today {
+            border: 2px solid #9fd49f;
+        }
+
+        /* TIME PICKER */
+        .time-picker-container {
+            margin-top: 20px;
+            padding: 15px;
+            background: #2a3f2a;
+            border-radius: 15px;
+        }
+
+        .time-picker-title {
+            color: #9fd49f;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .time-slider {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .time-display {
+            text-align: center;
+            font-size: 24px;
+            color: #9fd49f;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .time-select-btn {
+            width: 100%;
+            padding: 15px;
+            background: #9fd49f;
+            color: #1a2a1a;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* NARASI AREA */
+        .narasi-container {
+            width: 100%;
+            height: calc(100vh - 150px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .narasi-textarea {
+            width: 100%;
+            flex: 1;
             background: #2a3f2a;
             color: #e0e0e0;
             padding: 20px;
-            margin: 10px 0;
             border: 2px solid #9fd49f;
             border-radius: 20px;
             font-size: 18px;
             resize: none;
             outline: none;
             line-height: 1.6;
+            margin-bottom: 15px;
         }
 
-        .fullscreen-textarea::placeholder { color: #8a9a8a; }
-
-        .preview-text {
-            color: #b0b0b0;
-            font-size: 14px;
-            margin: 10px 0;
-            padding: 5px 10px;
+        /* KONFIRMASI DIALOG */
+        .confirm-dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #2a3f2a;
+            border: 3px solid #9fd49f;
+            border-radius: 20px;
+            padding: 25px;
+            z-index: 11000;
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+            display: none;
         }
 
-        .preview-text i { color: #9fd49f; margin-right: 5px; }
+        .confirm-dialog.active {
+            display: block;
+        }
 
-        .upload-icon {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
+        .confirm-dialog i {
+            font-size: 50px;
+            color: #b85c5c;
+            margin-bottom: 15px;
+        }
+
+        .confirm-dialog h3 {
+            color: #9fd49f;
+            margin-bottom: 10px;
+        }
+
+        .confirm-dialog p {
+            color: #e0e0e0;
+            margin-bottom: 20px;
+        }
+
+        .confirm-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .confirm-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 25px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .confirm-yes {
+            background: #b85c5c;
+            color: white;
+        }
+
+        .confirm-no {
             background: #2a3f2a;
             border: 2px solid #9fd49f;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            position: relative;
-            margin: 30px auto;
-        }
-
-        .upload-icon i { color: #9fd49f; font-size: 40px; }
-        .upload-icon input {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        .save-btn {
-            width: 100%;
-            height: 55px;
-            background: #2a4a2a;
-            border: 2px solid #9fd49f;
             color: #9fd49f;
-            font-size: 18px;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: background 0.2s;
         }
-
-        .save-btn:active { background: #3a6a3a; }
 
         /* TOAST NOTIFICATION */
         .toast {
@@ -569,6 +833,17 @@
         <div class="loading-text" id="loadingText">Memproses...</div>
     </div>
 
+    <!-- KONFIRMASI DIALOG -->
+    <div id="confirmDialog" class="confirm-dialog">
+        <i class="fas fa-exclamation-triangle"></i>
+        <h3>PERHATIAN!</h3>
+        <p id="confirmMessage">Anda sudah membuat laporan untuk tanggal ini. Tetap gunakan tanggal yang sama?</p>
+        <div class="confirm-buttons">
+            <button class="confirm-btn confirm-yes" onclick="confirmContinue()">YA, LANJUTKAN</button>
+            <button class="confirm-btn confirm-no" onclick="confirmCancel()">BATAL</button>
+        </div>
+    </div>
+
     <!-- MAIN MENU -->
     <div id="mainMenu" class="main-menu hidden">
         <!-- STATUS BAR -->
@@ -577,9 +852,14 @@
             <span><i class="fas fa-circle"></i> Network: <span id="networkStatusText" class="status-online">Online</span></span>
         </div>
 
-        <!-- CANVAS PREVIEW -->
+        <!-- CANVAS SLIDESHOW -->
         <div class="screen-container">
             <canvas id="mainCanvas" width="600" height="300"></canvas>
+            <div class="slideshow-controls">
+                <button onclick="prevSlide()"><i class="fas fa-chevron-left"></i></button>
+                <button onclick="nextSlide()"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="slideshow-indicator" id="slideshowIndicator">0/0</div>
         </div>
 
         <!-- STAMP INFO -->
@@ -588,6 +868,19 @@
             <div class="stamp-item"><i class="fas fa-map-marker-alt"></i><span>Koordinat: <span class="stamp-value" id="stampCoord">-</span></span></div>
             <div class="stamp-item"><i class="fas fa-calendar"></i><span>Tanggal: <span class="stamp-value" id="stampTanggal">-</span></span></div>
             <div class="stamp-item"><i class="fas fa-clock"></i><span>Jam: <span class="stamp-value" id="stampJam">-</span></span></div>
+        </div>
+
+        <!-- NAVBAR BULAN & DESA -->
+        <div class="navbar-container">
+            <div class="navbar-title">
+                <i class="fas fa-folder-open"></i> Folder Laporan
+            </div>
+            <div class="navbar-items" id="bulanNavbar">
+                <!-- Akan diisi oleh JavaScript -->
+            </div>
+            <div class="navbar-items" id="desaNavbar">
+                <!-- Akan diisi oleh JavaScript -->
+            </div>
         </div>
 
         <!-- RUNNING TEXT NARASI -->
@@ -600,7 +893,7 @@
         <!-- 5 ICON BERJAJAR -->
         <div class="icon-row">
             <div class="menu-icon" onclick="openForm('desa')"><i class="fas fa-village"></i><span>DESA</span></div>
-            <div class="menu-icon" onclick="openForm('foto')"><i class="fas fa-camera"></i><span>FOTO</span></div>
+            <div class="menu-icon" onclick="openFilePicker()"><i class="fas fa-camera"></i><span>FOTO</span></div>
             <div class="menu-icon" onclick="openForm('tanggal')"><i class="fas fa-calendar"></i><span>TGL</span></div>
             <div class="menu-icon" onclick="openForm('narasi')"><i class="fas fa-file-alt"></i><span>NARASI</span></div>
             <div class="menu-icon" onclick="processSubmission()"><i class="fas fa-paper-plane"></i><span>KIRIM</span></div>
@@ -634,26 +927,51 @@
             <div class="form-title">FOTO KEGIATAN</div>
             <div style="width:45px;"></div>
         </div>
-        <div style="padding:10px; text-align:center;">
-            <div class="upload-icon" onclick="document.getElementById('gambar').click()">
-                <i class="fas fa-camera"></i>
-                <input type="file" id="gambar" accept="image/*" onchange="previewImage()" hidden>
-            </div>
-            <p style="margin:10px; color:#b0b0b0;">Upload foto kegiatan</p>
-            <div class="preview-text" id="previewGambar"></div>
+        <div class="upload-area" onclick="document.getElementById('gambar').click()">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <span>Ketuk untuk pilih foto</span>
         </div>
+        <div class="preview-text" id="previewGambar"></div>
+        <p style="color:#8a9a8a; text-align:center; margin-top:10px;">Format: JPG, PNG</p>
     </div>
 
-    <!-- FORM TANGGAL -->
+    <!-- FORM TANGGAL DENGAN KALENDER DAN TIME PICKER -->
     <div id="formTanggal" class="fullscreen-form">
         <div class="form-header">
             <div class="back-icon" onclick="closeForm('tanggal')"><i class="fas fa-arrow-left"></i></div>
-            <div class="form-title">TANGGAL & WAKTU</div>
+            <div class="form-title">PILIH TANGGAL & JAM</div>
             <div style="width:45px;"></div>
         </div>
-        <div style="padding:10px;">
-            <input type="datetime-local" id="tanggalWaktu" style="width:100%; margin:15px 0;" onchange="updateDateTimeAndClose()">
-            <div class="preview-text" id="previewTanggal"></div>
+        
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <div class="calendar-month-year" id="calendarMonthYear"></div>
+                <div class="calendar-nav">
+                    <button onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></button>
+                    <button onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            
+            <div class="calendar-weekdays">
+                <div>Min</div><div>Sen</div><div>Sel</div><div>Rab</div><div>Kam</div><div>Jum</div><div>Sab</div>
+            </div>
+            
+            <div class="calendar-days" id="calendarDays"></div>
+        </div>
+        
+        <div class="time-picker-container">
+            <div class="time-picker-title">
+                <i class="fas fa-clock"></i> Pilih Jam
+            </div>
+            <input type="range" id="timeSlider" class="time-slider" min="0" max="47" value="0" step="1" oninput="updateTimeDisplay()">
+            <div class="time-display" id="timeDisplay">00:00</div>
+            <button class="time-select-btn" onclick="confirmDateTime()">
+                <i class="fas fa-check"></i> SIMPAN TANGGAL & JAM
+            </button>
+        </div>
+        
+        <div style="margin-top:20px; text-align:center; color:#8a9a8a;">
+            <i class="fas fa-info-circle"></i> Tanggal <span style="color:#b85c5c;">merah</span> sudah pernah dipakai
         </div>
     </div>
 
@@ -664,16 +982,24 @@
             <div class="form-title">NARASI KEGIATAN</div>
             <div style="width:45px;"></div>
         </div>
-        <textarea id="narasiFull" class="fullscreen-textarea" placeholder="Tulis narasi kegiatan di sini..."></textarea>
-        <button class="save-btn" onclick="saveNarasi()">SIMPAN NARASI</button>
+        
+        <div class="narasi-container">
+            <textarea id="narasiFull" class="narasi-textarea" placeholder="Tulis narasi kegiatan di sini..."></textarea>
+            <p style="color:#8a9a8a; text-align:center;">
+                <i class="fas fa-arrow-left"></i> Ketuk panah kiri untuk simpan otomatis
+            </p>
+        </div>
     </div>
+
+    <!-- FILE INPUT HIDDEN -->
+    <input type="file" id="gambar" accept="image/*" onchange="previewImage()" class="file-input-hidden">
 
     <!-- TOAST NOTIFICATION -->
     <div id="toastMessage" class="toast"></div>
 
     <script>
         // ==================== KONFIGURASI ====================
-        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbznL4r-JY7e03mUaaV-3TtdGFokAeEA1MNe9wT2VXTQbAUf4FYL_TDhYnMUN0XOOt83kQ/exec";
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxoJmMVIVgy2M4v2MFCM6sJFNUGHquunTsQ90nXG8leZSiBJX1ymd0a9iHWtFPbAtk04g/exec";
         const ROOT_FOLDER_ID = "1fZBe0ICQEmcIx2dIpsiOCZIMmkbZIkVQ";
         
         // TELEGRAM
@@ -682,7 +1008,7 @@
         const TELEGRAM_REPORT_TOKEN = "7591221480:AAFjogAiM_Dywo4SHOLVphpiZQgUcq48IDc";
         const TELEGRAM_REPORT_CHAT_ID = "2095166318";
         
-        // GITHUB - LANGSUNG PAKAI INI, TIDAK ADA FALLBACK
+        // GITHUB
         const GITHUB_USERNAME = "arta1979";
         const GITHUB_REPO = "dukops2";
         const GITHUB_BRANCH = "main";
@@ -694,11 +1020,31 @@
         let selectedDesaFull = "";
         let selectedCoord = "";
         let selectedDate = new Date();
+        let selectedHour = 0;
+        let selectedMinute = 0;
         let narasiText = "";
         let isOnline = navigator.onLine;
         let deferredPrompt;
         let desaList = [];
         let coordCache = {};
+        let usedDates = new Set(); // Menyimpan tanggal yang sudah pernah dipakai
+        
+        // Untuk slideshow
+        let slideshowImages = [];
+        let currentSlideIndex = 0;
+        
+        // Untuk struktur folder
+        let folderStructure = {
+            tahun: {},
+            bulan: {},
+            desa: {}
+        };
+        
+        // Untuk kalender
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let tempSelectedDate = new Date(); // Untuk menyimpan tanggal sementara sebelum konfirmasi
+        let pendingDateSelection = null; // Untuk konfirmasi
 
         // ==================== SPLASH SCREEN ====================
         document.addEventListener('DOMContentLoaded', function() {
@@ -725,14 +1071,19 @@
         async function initializeApp() {
             updateNetworkStatus();
             await loadDesaListFromGitHub();
+            await loadUsedDates(); // Load tanggal yang sudah dipakai
+            await loadFolderStructure(); // Load struktur folder dari Drive
             await checkAppsScriptConnection();
             
             const now = new Date();
             selectedDate = now;
-            document.getElementById('tanggalWaktu').value = now.toISOString().slice(0, 16);
-            updateDateTime();
+            selectedHour = now.getHours();
+            selectedMinute = now.getMinutes();
+            
             updateStampInfo();
             drawDefaultCanvas();
+            renderCalendar(); // Render kalender
+            updateNavbars(); // Update navbar bulan dan desa
         }
 
         // ==================== LOAD DESA DARI GITHUB ====================
@@ -771,11 +1122,366 @@
             }
         }
 
+        // ==================== LOAD STRUKTUR FOLDER DARI DRIVE ====================
+        async function loadFolderStructure() {
+            try {
+                console.log('📁 Loading folder structure from Drive...');
+                
+                // Panggil API listFiles untuk mendapatkan struktur
+                const response = await fetch(APPS_SCRIPT_URL + '?action=listFiles&t=' + Date.now());
+                const text = await response.text();
+                
+                try {
+                    const data = JSON.parse(text);
+                    if (data.success && data.files) {
+                        // Reset struktur
+                        folderStructure = {
+                            tahun: {},
+                            bulan: {},
+                            desa: {}
+                        };
+                        
+                        // Proses setiap file
+                        data.files.forEach(file => {
+                            const tahun = file.tahun;
+                            const bulan = file.bulan;
+                            const desa = file.desa;
+                            
+                            // Tambah ke struktur tahun
+                            if (!folderStructure.tahun[tahun]) {
+                                folderStructure.tahun[tahun] = new Set();
+                            }
+                            
+                            // Tambah ke struktur bulan
+                            const bulanKey = `${tahun}-${bulan}`;
+                            if (!folderStructure.bulan[bulanKey]) {
+                                folderStructure.bulan[bulanKey] = new Set();
+                            }
+                            folderStructure.bulan[bulanKey].add(desa);
+                            
+                            // Tambah ke struktur desa
+                            if (!folderStructure.desa[desa]) {
+                                folderStructure.desa[desa] = new Set();
+                            }
+                            folderStructure.desa[desa].add(bulanKey);
+                            
+                            // Untuk slideshow, kumpulkan PNG dari desa yang dipilih
+                            if (file.name.toLowerCase().endsWith('.png') && file.desa === selectedDesaFull) {
+                                slideshowImages.push({
+                                    url: file.url,
+                                    name: file.name,
+                                    created: file.created
+                                });
+                            }
+                        });
+                        
+                        console.log('✅ Folder structure loaded');
+                        updateNavbars();
+                    }
+                } catch (e) {
+                    console.error('Error parsing folder structure:', e);
+                }
+                
+            } catch (error) {
+                console.error('Error loadFolderStructure:', error);
+            }
+        }
+
+        // ==================== UPDATE NAVBARS ====================
+        function updateNavbars() {
+            // Update navbar bulan
+            const bulanNavbar = document.getElementById('bulanNavbar');
+            bulanNavbar.innerHTML = '';
+            
+            // Urutkan bulan dari terbaru
+            const bulanKeys = Object.keys(folderStructure.bulan).sort().reverse();
+            
+            bulanKeys.forEach(bulanKey => {
+                const [tahun, bulan] = bulanKey.split('-');
+                const item = document.createElement('div');
+                item.className = 'navbar-item';
+                item.innerHTML = `<i class="fas fa-calendar-alt"></i> ${bulan} ${tahun}`;
+                item.onclick = () => filterByBulan(bulanKey);
+                bulanNavbar.appendChild(item);
+            });
+            
+            // Update navbar desa
+            const desaNavbar = document.getElementById('desaNavbar');
+            desaNavbar.innerHTML = '';
+            
+            const desaKeys = Object.keys(folderStructure.desa).sort();
+            
+            desaKeys.forEach(desa => {
+                const item = document.createElement('div');
+                item.className = 'navbar-item';
+                if (desa === selectedDesaFull) {
+                    item.classList.add('active');
+                }
+                item.innerHTML = `<i class="fas fa-village"></i> ${desa}`;
+                item.onclick = () => filterByDesa(desa);
+                desaNavbar.appendChild(item);
+            });
+        }
+
+        // ==================== FILTER BY BULAN ====================
+        function filterByBulan(bulanKey) {
+            console.log('Filter by bulan:', bulanKey);
+            showToast(`📁 Folder: ${bulanKey}`);
+            // Implementasi filter sesuai kebutuhan
+        }
+
+        // ==================== FILTER BY DESA ====================
+        function filterByDesa(desa) {
+            console.log('Filter by desa:', desa);
+            selectedDesaFull = desa;
+            document.getElementById('stampDesa').textContent = desa;
+            updateNavbars();
+            loadSlideshowForDesa(desa);
+        }
+
+        // ==================== LOAD SLIDESHOW FOR DESA ====================
+        async function loadSlideshowForDesa(desa) {
+            try {
+                slideshowImages = [];
+                
+                const response = await fetch(APPS_SCRIPT_URL + `?action=listFiles&desaFilter=${encodeURIComponent(desa)}&t=` + Date.now());
+                const text = await response.text();
+                
+                try {
+                    const data = JSON.parse(text);
+                    if (data.success && data.files) {
+                        // Filter hanya file PNG
+                        slideshowImages = data.files
+                            .filter(file => file.name.toLowerCase().endsWith('.png'))
+                            .sort((a, b) => new Date(b.created) - new Date(a.created));
+                        
+                        console.log(`📸 Loaded ${slideshowImages.length} images for ${desa}`);
+                        
+                        if (slideshowImages.length > 0) {
+                            currentSlideIndex = 0;
+                            loadSlideImage(currentSlideIndex);
+                        }
+                        
+                        updateSlideshowIndicator();
+                    }
+                } catch (e) {
+                    console.error('Error parsing slideshow data:', e);
+                }
+                
+            } catch (error) {
+                console.error('Error loadSlideshowForDesa:', error);
+            }
+        }
+
+        // ==================== SLIDESHOW FUNCTIONS ====================
+        function loadSlideImage(index) {
+            if (slideshowImages.length === 0) return;
+            
+            const imageUrl = slideshowImages[index].url;
+            const img = new Image();
+            img.crossOrigin = 'Anonymous';
+            img.onload = function() {
+                const canvas = document.getElementById('mainCanvas');
+                const ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                
+                // Tambahkan stamp info
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 16px Arial';
+                ctx.textAlign = 'right';
+                ctx.shadowColor = 'black';
+                ctx.shadowBlur = 5;
+                
+                const desa = selectedDesaFull || 'Pilih Desa';
+                const coord = selectedCoord || '-';
+                
+                const options = { day: '2-digit', month: 'long', year: 'numeric' };
+                const timeOptions = { hour: '2-digit', minute: '2-digit' };
+                const dateStr = selectedDate.toLocaleDateString('id-ID', options);
+                const timeStr = selectedDate.toLocaleTimeString('id-ID', timeOptions);
+                
+                ctx.fillText(desa, canvas.width - 10, canvas.height - 80);
+                ctx.fillText(coord, canvas.width - 10, canvas.height - 55);
+                ctx.fillText(dateStr + ' ' + timeStr, canvas.width - 10, canvas.height - 30);
+                
+                ctx.shadowColor = 'transparent';
+            };
+            img.src = imageUrl;
+        }
+
+        function nextSlide() {
+            if (slideshowImages.length === 0) return;
+            currentSlideIndex = (currentSlideIndex + 1) % slideshowImages.length;
+            loadSlideImage(currentSlideIndex);
+            updateSlideshowIndicator();
+        }
+
+        function prevSlide() {
+            if (slideshowImages.length === 0) return;
+            currentSlideIndex = (currentSlideIndex - 1 + slideshowImages.length) % slideshowImages.length;
+            loadSlideImage(currentSlideIndex);
+            updateSlideshowIndicator();
+        }
+
+        function updateSlideshowIndicator() {
+            const indicator = document.getElementById('slideshowIndicator');
+            indicator.textContent = `${currentSlideIndex + 1}/${slideshowImages.length}`;
+        }
+
+        // ==================== LOAD TANGGAL YANG SUDAH DIPAKAI ====================
+        async function loadUsedDates() {
+            try {
+                const saved = localStorage.getItem('usedDates');
+                if (saved) {
+                    const dates = JSON.parse(saved);
+                    dates.forEach(d => usedDates.add(d));
+                }
+                console.log('Loaded used dates:', usedDates.size);
+            } catch (error) {
+                console.error('Error load used dates:', error);
+            }
+        }
+
+        // ==================== FUNGSI KALENDER ====================
+        function renderCalendar() {
+            const monthNames = [
+                'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+            ];
+            
+            document.getElementById('calendarMonthYear').textContent = 
+                `${monthNames[currentMonth]} ${currentYear}`;
+            
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            
+            let calendarHTML = '';
+            
+            // Hari kosong sebelum tanggal 1
+            for (let i = 0; i < firstDay; i++) {
+                calendarHTML += '<div class="calendar-day empty"></div>';
+            }
+            
+            // Tanggal-tanggal dalam bulan
+            for (let d = 1; d <= daysInMonth; d++) {
+                const dateStr = formatDateYYYYMMDD(currentYear, currentMonth, d);
+                const isSelected = selectedDate && 
+                    selectedDate.getDate() === d && 
+                    selectedDate.getMonth() === currentMonth && 
+                    selectedDate.getFullYear() === currentYear;
+                
+                const isUsed = usedDates.has(dateStr);
+                const isToday = isDateToday(d, currentMonth, currentYear);
+                
+                let classes = 'calendar-day';
+                if (isSelected) classes += ' selected';
+                if (isUsed) classes += ' used';
+                if (isToday) classes += ' today';
+                
+                calendarHTML += `<div class="${classes}" onclick="selectDate(${d})">${d}</div>`;
+            }
+            
+            document.getElementById('calendarDays').innerHTML = calendarHTML;
+            
+            // Update time display
+            updateTimeDisplay();
+        }
+
+        function formatDateYYYYMMDD(year, month, day) {
+            return `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        }
+
+        function isDateToday(day, month, year) {
+            const today = new Date();
+            return day === today.getDate() && month === today.getMonth() && year === today.getFullYear();
+        }
+
+        function changeMonth(delta) {
+            currentMonth += delta;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            } else if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            renderCalendar();
+        }
+
+        function selectDate(day) {
+            const selectedDateStr = formatDateYYYYMMDD(currentYear, currentMonth, day);
+            const newDate = new Date(currentYear, currentMonth, day);
+            
+            // Simpan tanggal yang dipilih sementara
+            tempSelectedDate = newDate;
+            
+            // Cek apakah tanggal sudah pernah dipakai
+            if (usedDates.has(selectedDateStr)) {
+                // Tampilkan konfirmasi
+                pendingDateSelection = newDate;
+                document.getElementById('confirmMessage').innerHTML = 
+                    `Anda sudah membuat laporan untuk tanggal <strong>${day} ${document.getElementById('calendarMonthYear').textContent}</strong>. Tetap gunakan tanggal yang sama?`;
+                document.getElementById('confirmDialog').classList.add('active');
+            } else {
+                // Update tampilan, tapi belum simpan sampai user pilih jam
+                renderCalendar();
+            }
+        }
+
+        function updateTimeDisplay() {
+            const slider = document.getElementById('timeSlider');
+            const value = parseInt(slider.value);
+            
+            // Slider 0-47 merepresentasikan jam 00:00 sampai 23:30 (setiap 30 menit)
+            selectedHour = Math.floor(value / 2);
+            selectedMinute = (value % 2) * 30;
+            
+            const timeStr = `${String(selectedHour).padStart(2, '0')}:${String(selectedMinute).padStart(2, '0')}`;
+            document.getElementById('timeDisplay').textContent = timeStr;
+        }
+
+        function confirmDateTime() {
+            // Set jam dan menit ke selectedDate
+            selectedDate.setHours(selectedHour);
+            selectedDate.setMinutes(selectedMinute);
+            selectedDate.setSeconds(0);
+            
+            // Simpan ke used dates
+            const dateStr = formatDateYYYYMMDD(
+                selectedDate.getFullYear(),
+                selectedDate.getMonth(),
+                selectedDate.getDate()
+            );
+            usedDates.add(dateStr);
+            localStorage.setItem('usedDates', JSON.stringify([...usedDates]));
+            
+            updateStampInfo();
+            renderCalendar();
+            closeForm('tanggal');
+            showToast(`✅ Tanggal: ${selectedDate.toLocaleDateString('id-ID')} ${selectedDate.toLocaleTimeString('id-ID')}`);
+        }
+
+        function confirmContinue() {
+            if (pendingDateSelection) {
+                tempSelectedDate = pendingDateSelection;
+                selectedDate = pendingDateSelection;
+                renderCalendar();
+                pendingDateSelection = null;
+            }
+            document.getElementById('confirmDialog').classList.remove('active');
+        }
+
+        function confirmCancel() {
+            pendingDateSelection = null;
+            document.getElementById('confirmDialog').classList.remove('active');
+            renderCalendar();
+        }
+
         // ==================== LOAD KOORDINAT DARI GITHUB ====================
         async function loadCoordinatesFromGitHub(desa) {
             if (!desa) return null;
             
-            // Cek cache
             if (coordCache[desa]) return coordCache[desa];
             
             try {
@@ -827,22 +1533,42 @@
             document.getElementById('formTanggal').classList.remove('active');
             document.getElementById('formNarasi').classList.remove('active');
             
-            if (formName === 'desa') document.getElementById('formDesa').classList.add('active');
-            else if (formName === 'foto') document.getElementById('formFoto').classList.add('active');
-            else if (formName === 'tanggal') document.getElementById('formTanggal').classList.add('active');
-            else if (formName === 'narasi') {
+            if (formName === 'desa') {
+                document.getElementById('formDesa').classList.add('active');
+            } else if (formName === 'foto') {
+                document.getElementById('formFoto').classList.add('active');
+            } else if (formName === 'tanggal') {
+                // Update kalender ke bulan yang dipilih
+                if (selectedDate) {
+                    currentMonth = selectedDate.getMonth();
+                    currentYear = selectedDate.getFullYear();
+                }
+                renderCalendar();
+                document.getElementById('formTanggal').classList.add('active');
+            } else if (formName === 'narasi') {
                 document.getElementById('narasiFull').value = narasiText;
                 document.getElementById('formNarasi').classList.add('active');
             }
         }
 
         function closeForm(formName) {
+            // Auto save untuk narasi
+            if (formName === 'narasi') {
+                saveNarasi();
+            }
+            
             document.getElementById('mainMenu').classList.remove('hidden');
             document.getElementById('formDesa').classList.remove('active');
             document.getElementById('formFoto').classList.remove('active');
             document.getElementById('formTanggal').classList.remove('active');
             document.getElementById('formNarasi').classList.remove('active');
+            
             updateStampInfo();
+        }
+
+        // ==================== FILE PICKER LANGSUNG ====================
+        function openFilePicker() {
+            document.getElementById('gambar').click();
         }
 
         // ==================== PILIH DESA ====================
@@ -862,8 +1588,12 @@
                     document.getElementById('stampCoord').textContent = '-';
                     document.getElementById('coordDisplay').innerHTML = '<i class="fas fa-exclamation-circle"></i> Koordinat tidak tersedia';
                 }
+                
+                // Load slideshow untuk desa yang dipilih
+                await loadSlideshowForDesa(selectedDesaFull);
             }
             
+            updateNavbars();
             closeForm('desa');
         }
 
@@ -887,20 +1617,6 @@
             }
         }
 
-        // ==================== UPDATE DATETIME ====================
-        function updateDateTimeAndClose() {
-            const tglInput = document.getElementById('tanggalWaktu').value;
-            if (tglInput) {
-                selectedDate = new Date(tglInput);
-                updateStampInfo();
-            }
-            closeForm('tanggal');
-        }
-
-        function updateDateTime() {
-            updateStampInfo();
-        }
-
         // ==================== SAVE NARASI ====================
         function saveNarasi() {
             narasiText = document.getElementById('narasiFull').value;
@@ -912,7 +1628,6 @@
                 runningText.innerHTML = `<i class="fas fa-chevron-right"></i> Ketuk untuk menulis narasi <i class="fas fa-chevron-left"></i>`;
             }
             
-            closeForm('narasi');
             showToast('✅ Narasi tersimpan');
         }
 
@@ -990,7 +1705,6 @@
             showLoading(true, 'Membuat file ZIP...');
             
             try {
-                // Siapkan data
                 const canvas = document.getElementById('mainCanvas');
                 const imgData = canvas.toDataURL('image/png').split(',')[1];
                 
@@ -1006,31 +1720,42 @@
                 const pngFileName = `${baseFileName}.png`;
                 const zipFileName = `${baseFileName}.zip`;
                 
-                // Buat ZIP
                 const zip = new JSZip();
                 zip.file(txtFileName, narasiText);
                 zip.file(pngFileName, imgData, { base64: true });
                 
                 const content = await zip.generateAsync({ type: 'blob' });
                 
-                // Konversi ke base64
                 const reader = new FileReader();
                 reader.readAsDataURL(content);
                 
                 reader.onload = async function() {
                     const base64Data = reader.result.split(',')[1];
                     
-                    // 1. Kirim ke Telegram
                     showLoading(true, 'Mengirim ke Telegram...');
                     const telegramSuccess = await sendFileToTelegram(base64Data, zipFileName, selectedDesaFull);
                     
                     if (telegramSuccess) {
-                        // 2. Kirim ke Drive
                         showLoading(true, 'Menyimpan ke Drive...');
+                        
+                        // Kirim ke Drive dengan struktur folder Tahun/Bulan/Desa
                         const driveSuccess = await uploadToDrive(base64Data, zipFileName, selectedDesaFull);
                         
                         if (driveSuccess) {
                             showToast('✅ Laporan terkirim!');
+                            
+                            // Tandai tanggal sebagai sudah dipakai
+                            const dateStrYYYYMMDD = formatDateYYYYMMDD(
+                                date.getFullYear(),
+                                date.getMonth(),
+                                date.getDate()
+                            );
+                            usedDates.add(dateStrYYYYMMDD);
+                            localStorage.setItem('usedDates', JSON.stringify([...usedDates]));
+                            
+                            // Refresh folder structure
+                            await loadFolderStructure();
+                            
                             setTimeout(() => { resetAllData(); }, 2000);
                         }
                     }
@@ -1051,7 +1776,6 @@
                 const formData = new FormData();
                 formData.append('chat_id', TELEGRAM_ZIP_CHAT_ID);
                 
-                // Konversi base64 ke blob
                 const byteCharacters = atob(fileData);
                 const byteNumbers = new Array(byteCharacters.length);
                 for (let i = 0; i < byteCharacters.length; i++) {
@@ -1105,7 +1829,8 @@
                 formData.append('month', month);
                 formData.append('mimeType', 'application/zip');
                 
-                console.log('Mengirim ke Drive:', fileName);
+                console.log('📤 Upload ke Drive:', fileName);
+                console.log('📁 Path:', `${year}/${month}/${desaName}/`);
                 
                 const response = await fetch(APPS_SCRIPT_URL, {
                     method: 'POST',
@@ -1122,7 +1847,6 @@
                     if (result && result.success) {
                         showToast('✅ File tersimpan di Drive');
                         
-                        // Kirim notifikasi ke report chat
                         await sendTelegramMessage(
                             TELEGRAM_REPORT_TOKEN,
                             TELEGRAM_REPORT_CHAT_ID,
@@ -1217,9 +1941,6 @@
                 document.getElementById('previewDesa').innerHTML = '';
                 document.getElementById('coordDisplay').innerHTML = '<i class="fas fa-map-marker-alt"></i> Pilih desa';
                 
-                const now = new Date();
-                document.getElementById('tanggalWaktu').value = now.toISOString().slice(0, 16);
-                
                 document.getElementById('runningText').innerHTML = '<i class="fas fa-chevron-right"></i> Ketuk untuk menulis narasi <i class="fas fa-chevron-left"></i>';
                 
                 updateStampInfo();
@@ -1308,11 +2029,21 @@
         window.closeForm = closeForm;
         window.selectDesaAndClose = selectDesaAndClose;
         window.previewImage = previewImage;
-        window.updateDateTimeAndClose = updateDateTimeAndClose;
         window.saveNarasi = saveNarasi;
         window.processSubmission = processSubmission;
         window.resetAllData = resetAllData;
         window.testAppsScriptConnection = testAppsScriptConnection;
+        window.openFilePicker = openFilePicker;
+        window.changeMonth = changeMonth;
+        window.selectDate = selectDate;
+        window.updateTimeDisplay = updateTimeDisplay;
+        window.confirmDateTime = confirmDateTime;
+        window.confirmContinue = confirmContinue;
+        window.confirmCancel = confirmCancel;
+        window.nextSlide = nextSlide;
+        window.prevSlide = prevSlide;
+        window.filterByBulan = filterByBulan;
+        window.filterByDesa = filterByDesa;
     </script>
 </body>
 </html>
