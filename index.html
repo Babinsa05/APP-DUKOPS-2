@@ -958,7 +958,7 @@
             </span>
         </div>
 
-        <!-- CANVAS PREVIEW -->
+        <!-- CANVAS PREVIEW DENGAN WATERMARK -->
         <div class="screen-container">
             <canvas id="mainCanvas" width="600" height="300"></canvas>
             <div class="slideshow-controls">
@@ -1114,13 +1114,13 @@
         const TELEGRAM_REPORT_TOKEN = "7591221480:AAFjogAiM_Dywo4SHOLVphpiZQgUcq48IDc";
         const TELEGRAM_REPORT_CHAT_ID = "2095166318";
         
-// GITHUB - PERBAIKAN
-const GITHUB_USERNAME = "Babinsa05";
-const GITHUB_REPO = "APP-DUKOPS-2";
-const GITHUB_BRANCH = "main"; // atau "master" tergantung branch Anda
+// GITHUB
+const GITHUB_USERNAME = "arta1979";
+const GITHUB_REPO = "dukops2";
+const GITHUB_BRANCH = "main";
 const DESA_LIST_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/${GITHUB_BRANCH}/data/desa/desa-list.json`;
 const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/${GITHUB_BRANCH}/data/coordinates/`;
-    
+       
         // ==================== GLOBAL VARIABLES ====================
         let selectedImages = [];
         let currentCanvasImageIndex = 0;
@@ -1433,6 +1433,46 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
             }
         }
 
+        // ==================== FUNGSI WATERMARK ====================
+        function addWatermarkToImage(imageDataUrl, callback) {
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const ctx = canvas.getContext('2d');
+                
+                // Gambar asli
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                
+                // WATERMARK (Desa, Koordinat, Tanggal, Jam)
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold ' + Math.floor(canvas.width/25) + 'px Arial';
+                ctx.textAlign = 'right';
+                ctx.shadowColor = 'black';
+                ctx.shadowBlur = 10;
+                
+                const desa = selectedDesaFull || 'Pilih Desa';
+                const coord = selectedImages[currentCanvasImageIndex]?.coord || getRandomCoord();
+                const options = { day: '2-digit', month: 'long', year: 'numeric' };
+                const dateStr = selectedDate.toLocaleDateString('id-ID', options);
+                const timeStr = formatTime(selectedDate);
+                
+                const margin = 30;
+                const lineHeight = Math.floor(canvas.width/18);
+                
+                ctx.fillText(desa, canvas.width - margin, canvas.height - (lineHeight * 3));
+                ctx.fillText(coord, canvas.width - margin, canvas.height - (lineHeight * 2));
+                ctx.fillText(dateStr + ' ' + timeStr, canvas.width - margin, canvas.height - lineHeight);
+                
+                ctx.shadowColor = 'transparent';
+                
+                // Return canvas dengan watermark
+                callback(canvas.toDataURL('image/png'));
+            };
+            img.src = imageDataUrl;
+        }
+
         // ==================== MULTI FOTO FUNCTIONS ====================
         function openFilePicker() {
             if (isThankYouMode) {
@@ -1466,14 +1506,17 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
                         
                         selectedImages.push({
                             file: file,
-                            dataUrl: e.target.result,
+                            originalDataUrl: e.target.result,
                             name: file.name,
                             hash: hash,
                             coord: randomCoord
                         });
                         
-                        updatePhotoPreview();
-                        updateCanvasWithFirstImage();
+                        // Update preview setelah semua gambar diproses
+                        if (selectedImages.length === newImagesCount + 1) {
+                            updatePhotoPreview();
+                            updateCanvasWithFirstImage();
+                        }
                     };
                     reader.readAsDataURL(file);
                     newImagesCount++;
@@ -1491,7 +1534,6 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
             const container = document.getElementById('photoPreviewContainer');
             const countEl = document.getElementById('photoCount');
             
-            // KOSONGKAN DULU
             container.innerHTML = '';
             
             if (selectedImages.length === 0) {
@@ -1500,31 +1542,39 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
                 return;
             }
             
-            selectedImages.forEach((img, index) => {
-                const item = document.createElement('div');
-                item.className = 'photo-preview-item';
-                
-                const image = document.createElement('img');
-                image.src = img.dataUrl;
-                
-                const removeBtn = document.createElement('div');
-                removeBtn.className = 'remove-photo';
-                removeBtn.innerHTML = '×';
-                removeBtn.onclick = (e) => {
-                    e.stopPropagation();
-                    removePhoto(index);
-                };
-                
-                item.appendChild(image);
-                item.appendChild(removeBtn);
-                
-                item.onclick = () => showImageInCanvas(index);
-                
-                container.appendChild(item);
-            });
+            let processedCount = 0;
             
-            countEl.textContent = `${selectedImages.length} foto dipilih`;
-            document.getElementById('previewGambar').innerHTML = `<i class="fas fa-check-circle"></i> ${selectedImages.length} foto siap`;
+            // Buat thumbnail dari gambar dengan watermark
+            selectedImages.forEach((img, index) => {
+                addWatermarkToImage(img.originalDataUrl, function(watermarkedImageDataUrl) {
+                    const item = document.createElement('div');
+                    item.className = 'photo-preview-item';
+                    
+                    const image = document.createElement('img');
+                    image.src = watermarkedImageDataUrl;
+                    
+                    const removeBtn = document.createElement('div');
+                    removeBtn.className = 'remove-photo';
+                    removeBtn.innerHTML = '×';
+                    removeBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        removePhoto(index);
+                    };
+                    
+                    item.appendChild(image);
+                    item.appendChild(removeBtn);
+                    
+                    item.onclick = () => showImageInCanvas(index);
+                    
+                    container.appendChild(item);
+                    
+                    processedCount++;
+                    if (processedCount === selectedImages.length) {
+                        countEl.textContent = `${selectedImages.length} foto dipilih`;
+                        document.getElementById('previewGambar').innerHTML = `<i class="fas fa-check-circle"></i> ${selectedImages.length} foto dengan watermark siap`;
+                    }
+                });
+            });
         }
 
         function removePhoto(index) {
@@ -1552,36 +1602,20 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
             currentCanvasImageIndex = index;
             const imgData = selectedImages[index];
             
-            const img = new Image();
-            img.onload = function() {
-                const canvas = document.getElementById('mainCanvas');
-                const ctx = canvas.getContext('2d');
-                
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                
-                ctx.fillStyle = 'white';
-                ctx.font = 'bold 14px Arial';
-                ctx.textAlign = 'right';
-                ctx.shadowColor = 'black';
-                ctx.shadowBlur = 5;
-                
-                const desa = selectedDesaFull || 'Pilih Desa';
-                const coord = imgData.coord || '-';
-                const options = { day: '2-digit', month: 'long', year: 'numeric' };
-                const dateStr = selectedDate.toLocaleDateString('id-ID', options);
-                const timeStr = formatTime(selectedDate);
-                
-                ctx.fillText(desa, canvas.width - 10, canvas.height - 70);
-                ctx.fillText(coord, canvas.width - 10, canvas.height - 50);
-                ctx.fillText(dateStr + ' ' + timeStr, canvas.width - 10, canvas.height - 30);
-                
-                ctx.shadowColor = 'transparent';
-                
-                document.getElementById('slideshowIndicator').textContent = `${index + 1}/${selectedImages.length}`;
-                document.getElementById('stampCoord').textContent = coord;
-            };
-            img.src = imgData.dataUrl;
+            addWatermarkToImage(imgData.originalDataUrl, function(watermarkedImageDataUrl) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.getElementById('mainCanvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    
+                    document.getElementById('slideshowIndicator').textContent = `${index + 1}/${selectedImages.length}`;
+                    document.getElementById('stampCoord').textContent = imgData.coord;
+                };
+                img.src = watermarkedImageDataUrl;
+            });
         }
 
         function updateCanvasWithFirstImage() {
@@ -1894,7 +1928,7 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
             showToast('✅ Narasi tersimpan');
         }
 
-        // ==================== CANVAS ====================
+        // ==================== CANVAS DEFAULT ====================
         function drawDefaultCanvas() {
             if (isThankYouMode) return;
             
@@ -1972,7 +2006,7 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
             showToast('✅ Semua data direset');
         }
 
-        // ==================== PROSES KIRIM ====================
+        // ==================== PROSES KIRIM (DENGAN WATERMARK DI FILE) ====================
         async function processSubmission() {
             if (isThankYouMode) {
                 showToast('❌ Sedang mode terima kasih, reset dulu');
@@ -1985,7 +2019,7 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
             if (!isOnline) { showToast('❌ Tidak ada koneksi internet'); return; }
 
             const totalFotoAwal = selectedImages.length;
-            showLoading(true, `Membuat file ZIP (${totalFotoAwal} foto)...`);
+            showLoading(true, `Membuat file ZIP dengan watermark (${totalFotoAwal} foto)...`);
             
             try {
                 const date = selectedDate;
@@ -2001,6 +2035,7 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
                 
                 const zip = new JSZip();
                 
+                // Tambah file narasi
                 zip.file(txtFileName, narasiText);
                 
                 let infoContent = [
@@ -2010,7 +2045,7 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
                     `Jumlah Foto: ${totalFotoAwal}`,
                     `Narasi: ${narasiText}`,
                     `-------------------`,
-                    `DETAIL FOTO:`,
+                    `DETAIL FOTO DENGAN WATERMARK:`,
                 ];
                 
                 // Simpan hash gambar yang akan dikirim
@@ -2019,25 +2054,33 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
                 // AMBIL FOTO PERTAMA UNTUK DIKIRIM
                 const currentImage = selectedImages[0];
                 
-                const imgFileName = `${baseFileName}_01.png`;
-                const imgData = currentImage.dataUrl.split(',')[1];
-                zip.file(imgFileName, imgData, { base64: true });
-                
-                infoContent.push(`\nFoto 1: ${currentImage.name}`);
-                infoContent.push(`  Koordinat: ${currentImage.coord}`);
-                
-                if (currentImage.hash) {
-                    sentHashes.push(currentImage.hash);
-                }
-                
-                // Tambahkan sisa foto ke info (tapi tidak ke ZIP)
-                for (let i = 1; i < selectedImages.length; i++) {
-                    infoContent.push(`\nFoto ${i + 1}: ${selectedImages[i].name} (menunggu kirim)`);
-                    infoContent.push(`  Koordinat: ${selectedImages[i].coord}`);
-                }
+                // TAMBAH WATERMARK KE GAMBAR SEBELUM DIKIRIM
+                await new Promise((resolve) => {
+                    addWatermarkToImage(currentImage.originalDataUrl, function(watermarkedImageDataUrl) {
+                        const imgFileName = `${baseFileName}_01.png`;
+                        const imgData = watermarkedImageDataUrl.split(',')[1];
+                        zip.file(imgFileName, imgData, { base64: true });
+                        
+                        infoContent.push(`\nFoto 1: ${currentImage.name} (DENGAN WATERMARK)`);
+                        infoContent.push(`  Koordinat: ${currentImage.coord}`);
+                        
+                        if (currentImage.hash) {
+                            sentHashes.push(currentImage.hash);
+                        }
+                        
+                        // Tambahkan info sisa foto
+                        for (let i = 1; i < selectedImages.length; i++) {
+                            infoContent.push(`\nFoto ${i + 1}: ${selectedImages[i].name} (menunggu kirim)`);
+                            infoContent.push(`  Koordinat: ${selectedImages[i].coord}`);
+                        }
+                        
+                        resolve();
+                    });
+                });
                 
                 zip.file('INFO.txt', infoContent.join('\n'));
                 
+                // Generate ZIP
                 const content = await zip.generateAsync({ type: 'blob' });
                 
                 const reader = new FileReader();
@@ -2077,13 +2120,13 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
                             updatePhotoPreview();
                             
                             if (selectedImages.length > 0) {
-                                showToast(`✅ 1 foto terkirim, sisa ${selectedImages.length} foto`);
+                                showToast(`✅ 1 foto dengan watermark terkirim, sisa ${selectedImages.length} foto`);
                                 // TAMPILKAN FOTO BERIKUTNYA
                                 showImageInCanvas(0);
                             } else {
                                 // JIKA TIDAK ADA FOTO TERSISA, TAMPILKAN LAYAR TERIMA KASIH
                                 showThankYouScreen();
-                                showToast('✅ Semua foto terkirim! Terima kasih');
+                                showToast('✅ Semua foto dengan watermark terkirim! Terima kasih');
                             }
                         }
                     }
@@ -2113,7 +2156,7 @@ const COORD_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${G
                 
                 formData.append('document', blob, fileName);
                 
-                const caption = `📁 *Laporan DUKOPS*\n📍 ${desaName}\n📅 ${selectedDate.toLocaleDateString('id-ID')}\n⏰ ${formatTime(selectedDate)}\n📸 Foto ke-${fotoKe} dari ${totalFoto}\n📝 ${narasiText.substring(0, 100)}${narasiText.length > 100 ? '...' : ''}`;
+                const caption = `📁 *Laporan DUKOPS*\n📍 ${desaName}\n📅 ${selectedDate.toLocaleDateString('id-ID')}\n⏰ ${formatTime(selectedDate)}\n📸 Foto ke-${fotoKe} dari ${totalFoto} (dengan watermark)\n📝 ${narasiText.substring(0, 100)}${narasiText.length > 100 ? '...' : ''}`;
                 formData.append('caption', caption);
                 formData.append('parse_mode', 'Markdown');
                 
