@@ -941,7 +941,7 @@
             <i class="fas fa-check-circle"></i> KONFIRMASI JAM
         </button>
         <div class="time-note">
-            <i class="fas fa-clock"></i> Detik akan mengikuti perangkat
+            <i class="fas fa-clock"></i> Detik mengikuti perangkat
         </div>
     </div>
 
@@ -1432,7 +1432,7 @@
             }
         }
 
-        // ==================== WATERMARK - FONT SEPERTI OPEN CAMERA, POSISI TURUN ====================
+        // ==================== WATERMARK - TANPA KATA DESA/KELURAHAN ====================
         function addWatermarkToImage(imageDataUrl, babinsa, coord, date, time, callback) {
             const img = new Image();
             img.crossOrigin = "Anonymous";
@@ -1448,14 +1448,14 @@
                 ctx.font = 'bold ' + Math.max(16, Math.floor(canvas.width/28)) + 'px Arial, Helvetica, sans-serif';
                 ctx.textAlign = 'right';
                 
-                // Turunkan posisi watermark (margin bawah diperbesar)
+                // Turunkan posisi watermark
                 const margin = 20;
                 const lineHeight = Math.max(24, Math.floor(canvas.width/20));
                 
-                // Geser lebih ke bawah dengan menambah offset vertikal
-                const baseY = canvas.height - margin; // posisi dasar lebih rendah
+                // Geser lebih ke bawah
+                const baseY = canvas.height - margin;
                 
-                // Watermark warna putih
+                // Watermark warna putih - hanya menampilkan "Babinsa Nama" (tanpa kata desa/kelurahan)
                 ctx.fillStyle = '#FFFFFF';
                 ctx.fillText(`Babinsa ${babinsa}`, canvas.width - margin, baseY - (lineHeight * 2.5));
                 ctx.fillText(coord, canvas.width - margin, baseY - (lineHeight * 1.5));
@@ -1467,6 +1467,35 @@
                 callback(imageDataUrl);
             };
             img.src = imageDataUrl;
+        }
+
+        // ==================== FUNGSI KOMPRESI GAMBAR ====================
+        function compressImage(dataUrl, maxWidth = 1280, quality = 0.8) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = function() {
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    // Hitung dimensi baru (max width 1280px, aspect ratio dipertahankan)
+                    if (width > maxWidth) {
+                        height = Math.floor(height * (maxWidth / width));
+                        width = maxWidth;
+                    }
+                    
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    // Kompres ke JPEG dengan kualitas 0.8 (80%)
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+                    resolve(compressedDataUrl);
+                };
+                img.src = dataUrl;
+            });
         }
 
         // ==================== MULTI FOTO ====================
@@ -1638,7 +1667,7 @@
             }
         }
 
-        // ==================== TIME PICKER ====================
+        // ==================== TIME PICKER - DENGAN DETIK OTOMATIS ====================
         function updateTimeDisplay() {
             const hour = document.getElementById('hourSelect').value.padStart(2, '0');
             const minute = document.getElementById('minuteSelect').value.padStart(2, '0');
@@ -1650,7 +1679,7 @@
             selectedMinute = parseInt(document.getElementById('minuteSelect').value);
             
             const now = new Date();
-            const second = now.getSeconds();
+            const second = now.getSeconds(); // Detik otomatis dari perangkat
             
             selectedDate.setHours(selectedHour);
             selectedDate.setMinutes(selectedMinute);
@@ -1834,7 +1863,7 @@
             const select = document.getElementById('selectDesa');
             selectedDesaFull = select.value;
             
-            document.getElementById('stampDesa').textContent = selectedDesaFull ? `Babinsa ${selectedDesaFull}` : '-';
+            document.getElementById('stampDesa').textContent = selectedDesaFull ? selectedDesaFull : '-';
             
             if (selectedDesaFull) {
                 await loadDesaCoordinates(selectedDesaFull);
@@ -1843,7 +1872,7 @@
                 document.getElementById('stampCoord').textContent = defaultCoord;
                 document.getElementById('coordDisplay').innerHTML = `<i class="fas fa-map-marker-alt"></i> ${defaultCoord}`;
                 
-                showToast(`✅ Babinsa ${selectedDesaFull} dipilih`);
+                showToast(`✅ ${selectedDesaFull} dipilih`);
             }
             
             closeForm('desa');
@@ -1893,7 +1922,7 @@
         function updateStampInfo() {
             if (isThankYouMode) return;
             
-            document.getElementById('stampDesa').textContent = selectedDesaFull ? `Babinsa ${selectedDesaFull}` : '-';
+            document.getElementById('stampDesa').textContent = selectedDesaFull ? selectedDesaFull : '-';
             
             const options = { day: '2-digit', month: 'long', year: 'numeric' };
             document.getElementById('stampTanggal').textContent = selectedDate.toLocaleDateString('id-ID', options);
@@ -2028,7 +2057,17 @@
                 
                 const zip = new JSZip();
                 
-                zip.file(txtFileName, narasiText);
+                // ===== FORMAT NARASI: Hari, Tanggal Bulan Tahun Babinsa NamaDesa... =====
+                const hariIndonesia = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+                const hari = hariIndonesia[selectedDate.getDay()];
+                const tanggalFormatted = selectedDate.toLocaleDateString('id-ID', { 
+                    day: 'numeric', 
+                    month: 'long', 
+                    year: 'numeric' 
+                });
+                const narasiLengkap = `${hari} ${tanggalFormatted} Babinsa ${selectedDesaFull} ${narasiText}`;
+                
+                zip.file(txtFileName, narasiLengkap, { compression: 'DEFLATE', compressionOptions: { level: 9 } });
                 
                 let infoContent = [
                     `Aplikasi: DUKOPS PREMIUM`,
@@ -2036,7 +2075,7 @@
                     `Tanggal: ${selectedDate.toLocaleDateString('id-ID')}`,
                     `Jam: ${formatTime(selectedDate)}`,
                     `Jumlah Foto: ${totalFotoAwal}`,
-                    `Narasi: ${narasiText}`,
+                    `Narasi: ${narasiLengkap}`,
                     `-------------------`,
                     `DETAIL FOTO:`,
                 ];
@@ -2048,9 +2087,13 @@
                 const dateStrWatermark = selectedDate.toLocaleDateString('id-ID', options);
                 const timeStrWatermark = formatTime(selectedDate);
                 
+                // ===== KOMPRESI GAMBAR SEBELUM WATERMARK =====
+                const compressedImageDataUrl = await compressImage(currentImage.originalDataUrl, 1280, 0.8);
+                
+                // ===== WATERMARK SETELAH GAMBAR DIKOMPRES =====
                 const watermarkedImageDataUrl = await new Promise((resolve) => {
                     addWatermarkToImage(
-                        currentImage.originalDataUrl, 
+                        compressedImageDataUrl, 
                         selectedDesaFull, 
                         currentImage.coord, 
                         dateStrWatermark, 
@@ -2059,11 +2102,11 @@
                     );
                 });
                 
-                const imgFileName = `${baseFileName}_01.png`;
+                const imgFileName = `${baseFileName}_01.jpg`;
                 const imgData = watermarkedImageDataUrl.split(',')[1];
-                zip.file(imgFileName, imgData, { base64: true });
+                zip.file(imgFileName, imgData, { base64: true, compression: 'DEFLATE', compressionOptions: { level: 9 } });
                 
-                infoContent.push(`\nFoto 1: ${currentImage.name}`);
+                infoContent.push(`\nFoto 1: ${currentImage.name} (dikompres dari ${(currentImage.file.size / 1024).toFixed(2)} KB)`);
                 infoContent.push(`  Koordinat: ${currentImage.coord}`);
                 
                 if (currentImage.hash) {
@@ -2075,9 +2118,14 @@
                     infoContent.push(`  Koordinat: ${selectedImages[i].coord}`);
                 }
                 
-                zip.file('INFO.txt', infoContent.join('\n'));
+                zip.file('INFO.txt', infoContent.join('\n'), { compression: 'DEFLATE', compressionOptions: { level: 9 } });
                 
-                const content = await zip.generateAsync({ type: 'blob' });
+                // Generate ZIP dengan kompresi maksimal
+                const content = await zip.generateAsync({ 
+                    type: 'blob',
+                    compression: 'DEFLATE',
+                    compressionOptions: { level: 9 }
+                });
                 
                 const reader = new FileReader();
                 reader.readAsDataURL(content);
@@ -2147,7 +2195,15 @@
                 
                 formData.append('document', blob, fileName);
                 
-                const caption = `📁 *DUKOPS PREMIUM*\n👤 Babinsa ${desaName}\n📅 ${selectedDate.toLocaleDateString('id-ID')}\n⏰ ${formatTime(selectedDate)}\n📸 Foto ke-${fotoKe} dari ${totalFoto}\n📝 ${narasiText.substring(0, 100)}${narasiText.length > 100 ? '...' : ''}`;
+                const hariIndonesia = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+                const hari = hariIndonesia[selectedDate.getDay()];
+                const tanggalFormatted = selectedDate.toLocaleDateString('id-ID', { 
+                    day: 'numeric', 
+                    month: 'long', 
+                    year: 'numeric' 
+                });
+                
+                const caption = `📁 *DUKOPS PREMIUM*\n👤 Babinsa ${desaName}\n📅 ${hari}, ${tanggalFormatted}\n⏰ ${formatTime(selectedDate)}\n📸 Foto ke-${fotoKe} dari ${totalFoto}\n📝 ${narasiText.substring(0, 100)}${narasiText.length > 100 ? '...' : ''}`;
                 formData.append('caption', caption);
                 formData.append('parse_mode', 'Markdown');
                 
