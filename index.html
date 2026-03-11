@@ -1432,7 +1432,7 @@
             }
         }
 
-        // ==================== WATERMARK - WARNA PUTIH, POSISI TETAP ====================
+        // ==================== WATERMARK - FONT SEPERTI OPEN CAMERA, POSISI TURUN ====================
         function addWatermarkToImage(imageDataUrl, babinsa, coord, date, time, callback) {
             const img = new Image();
             img.crossOrigin = "Anonymous";
@@ -1444,18 +1444,22 @@
                 
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                 
-                // Font dan posisi watermark tetap, hanya warna diubah jadi putih
-                ctx.font = 'bold ' + Math.max(16, Math.floor(canvas.width/28)) + 'px Arial';
+                // Font seperti Open Camera (Arial, sans-serif yang bersih)
+                ctx.font = 'bold ' + Math.max(16, Math.floor(canvas.width/28)) + 'px Arial, Helvetica, sans-serif';
                 ctx.textAlign = 'right';
                 
+                // Turunkan posisi watermark (margin bawah diperbesar)
                 const margin = 20;
                 const lineHeight = Math.max(24, Math.floor(canvas.width/20));
                 
-                // Watermark warna putih (tanpa outline hitam)
+                // Geser lebih ke bawah dengan menambah offset vertikal
+                const baseY = canvas.height - margin; // posisi dasar lebih rendah
+                
+                // Watermark warna putih
                 ctx.fillStyle = '#FFFFFF';
-                ctx.fillText(`Babinsa ${babinsa}`, canvas.width - margin, canvas.height - (lineHeight * 3));
-                ctx.fillText(coord, canvas.width - margin, canvas.height - (lineHeight * 2));
-                ctx.fillText(date + ' ' + time, canvas.width - margin, canvas.height - lineHeight);
+                ctx.fillText(`Babinsa ${babinsa}`, canvas.width - margin, baseY - (lineHeight * 2.5));
+                ctx.fillText(coord, canvas.width - margin, baseY - (lineHeight * 1.5));
+                ctx.fillText(date + ' ' + time, canvas.width - margin, baseY - (lineHeight * 0.5));
                 
                 callback(canvas.toDataURL('image/png'));
             };
