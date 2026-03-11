@@ -15,6 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- PWA Configuration -->
+    <link rel="manifest" href="manifest.json">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -100,6 +101,13 @@
             transition: width 0.3s ease;
         }
 
+        .splash-loading-text {
+            color: white;
+            margin-top: 15px;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
         /* MAIN MENU */
         .main-menu {
             position: fixed;
@@ -116,7 +124,7 @@
 
         .hidden { display: none !important; }
 
-        /* STATUS BAR - TANPA BACKGROUND */
+        /* STATUS BAR */
         .status-bar {
             display: flex;
             justify-content: space-between;
@@ -144,7 +152,7 @@
         .status-dot.online { background: #27ae60; }
         .status-dot.offline { background: #e74c3c; }
 
-        /* CANVAS - FULL WIDTH */
+        /* CANVAS */
         .canvas-container {
             position: relative;
             margin-bottom: 8px;
@@ -206,7 +214,7 @@
             font-weight: 600;
         }
 
-        /* STAMP INFO - TANPA BACKGROUND KOTAK */
+        /* STAMP INFO */
         .stamp-info {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -235,7 +243,7 @@
             text-overflow: ellipsis;
         }
 
-        /* RUNNING TEXT - TANPA BACKGROUND KOTAK */
+        /* RUNNING TEXT */
         .running-container {
             margin: 8px 0;
             overflow: hidden;
@@ -263,7 +271,7 @@
             100% { transform: translateX(-100%); }
         }
 
-        /* ACTION BUTTONS - TANPA KOTAK */
+        /* ACTION BUTTONS */
         .action-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -298,7 +306,7 @@
             font-weight: 600;
         }
 
-        /* BOTTOM BUTTONS - TANPA KOTAK */
+        /* BOTTOM BUTTONS */
         .bottom-buttons {
             display: flex;
             justify-content: center;
@@ -344,7 +352,7 @@
             100% { opacity: 1; }
         }
 
-        /* FULLSCREEN FORM - TANPA BACKGROUND KOTAK */
+        /* FULLSCREEN FORM */
         .fullscreen-form {
             position: fixed;
             top: 0;
@@ -396,7 +404,7 @@
             font-weight: 700;
         }
 
-        /* SELECT - TANPA BACKGROUND KOTAK */
+        /* SELECT */
         .premium-select {
             width: 100%;
             background: transparent;
@@ -413,7 +421,7 @@
             background-position: right 12px center;
         }
 
-        /* UPLOAD AREA - TANPA BACKGROUND KOTAK */
+        /* UPLOAD AREA */
         .upload-area {
             width: 100%;
             min-height: 140px;
@@ -452,7 +460,7 @@
             margin-top: 5px;
         }
 
-        /* PHOTO GRID - TANPA BACKGROUND */
+        /* PHOTO GRID */
         .photo-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -494,7 +502,7 @@
             border: none;
         }
 
-        /* CALENDAR - TANPA BACKGROUND */
+        /* CALENDAR */
         .premium-calendar {
             background: transparent;
             border-radius: 8px;
@@ -593,7 +601,7 @@
             border: none;
         }
 
-        /* TIME PICKER - TANPA BACKGROUND KOTAK */
+        /* TIME PICKER */
         .time-picker {
             position: fixed;
             top: 0;
@@ -675,7 +683,7 @@
             font-size: 12px;
         }
 
-        /* NARASI TEXTAREA - TANPA BACKGROUND KOTAK */
+        /* NARASI TEXTAREA */
         .narasi-textarea {
             width: 100%;
             height: calc(100vh - 130px);
@@ -695,7 +703,7 @@
             color: #8ba9c9;
         }
 
-        /* DIALOG - MINIMALIS */
+        /* DIALOG */
         .premium-dialog {
             position: fixed;
             top: 50%;
@@ -764,7 +772,7 @@
             opacity: 0.7;
         }
 
-        /* TOAST - MINIMALIS */
+        /* TOAST */
         .premium-toast {
             position: fixed;
             bottom: 30px;
@@ -781,7 +789,7 @@
             font-weight: 500;
         }
 
-        /* LOADING - MINIMALIS */
+        /* LOADING */
         .premium-loading {
             position: fixed;
             top: 0;
@@ -821,7 +829,7 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* INSTALL BUTTON - TANPA BACKGROUND KOTAK */
+        /* INSTALL BUTTON */
         #installBtn {
             position: fixed;
             bottom: 15px;
@@ -847,7 +855,7 @@
             transform: scale(0.95);
         }
 
-        /* PREVIEW TEXT - TANPA BACKGROUND */
+        /* PREVIEW TEXT */
         .preview-text {
             margin: 12px 0;
             padding: 8px 0;
@@ -947,7 +955,7 @@
 
     <!-- MAIN MENU -->
     <div id="mainMenu" class="main-menu hidden">
-        <!-- STATUS BAR - TANPA BACKGROUND -->
+        <!-- STATUS BAR -->
         <div class="status-bar">
             <div class="status-item">
                 <span class="status-dot" id="serverStatusDot"></span>
@@ -970,7 +978,7 @@
             <div class="slide-indicator" id="slideshowIndicator">0/0</div>
         </div>
 
-        <!-- STAMP INFO - TANPA BACKGROUND KOTAK -->
+        <!-- STAMP INFO -->
         <div class="stamp-info">
             <div class="stamp-item">
                 <span class="stamp-label">Babinsa</span>
@@ -990,14 +998,14 @@
             </div>
         </div>
 
-        <!-- RUNNING TEXT - TANPA BACKGROUND KOTAK -->
+        <!-- RUNNING TEXT -->
         <div class="running-container" id="runningTextContainer" onclick="openForm('narasi')">
             <div class="running-text" id="runningText">
                 <i class="fas fa-pen"></i> Ketuk untuk menulis narasi <i class="fas fa-pen"></i>
             </div>
         </div>
 
-        <!-- ACTION BUTTONS - TANPA KOTAK -->
+        <!-- ACTION BUTTONS -->
         <div class="action-grid">
             <div class="action-btn" onclick="openForm('desa')">
                 <i class="fas fa-user-shield"></i>
@@ -1021,7 +1029,7 @@
             </div>
         </div>
 
-        <!-- BOTTOM BUTTONS - TANPA KOTAK -->
+        <!-- BOTTOM BUTTONS -->
         <div class="bottom-buttons">
             <div class="bottom-btn reset-btn" onclick="confirmReset()">
                 <i class="fas fa-undo-alt"></i>
@@ -1166,6 +1174,15 @@
         let currentYear = new Date().getFullYear();
         let tempSelectedDate = null;
         let pendingDateSelection = null;
+
+        // ==================== SERVICE WORKER ====================
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('✅ Service Worker registered'))
+                    .catch(err => console.log('❌ Service Worker error:', err));
+            });
+        }
 
         // ==================== UTILITIES ====================
         function showToast(msg) {
@@ -1444,20 +1461,26 @@
                 
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                 
-                // Font seperti Open Camera (Arial, sans-serif yang bersih)
                 ctx.font = 'bold ' + Math.max(16, Math.floor(canvas.width/28)) + 'px Arial, Helvetica, sans-serif';
                 ctx.textAlign = 'right';
                 
-                // Turunkan posisi watermark
                 const margin = 20;
                 const lineHeight = Math.max(24, Math.floor(canvas.width/20));
-                
-                // Geser lebih ke bawah
                 const baseY = canvas.height - margin;
                 
-                // Watermark warna putih - hanya menampilkan "Babinsa Nama" (tanpa kata desa/kelurahan)
+                // Hapus kata "Desa" atau "Kelurahan" dari nama babinsa
+                let namaBabinsa = babinsa;
+                // Hapus kata "Desa " di awal (jika ada)
+                namaBabinsa = namaBabinsa.replace(/^Desa\s+/i, '');
+                // Hapus kata "Kelurahan " di awal (jika ada)
+                namaBabinsa = namaBabinsa.replace(/^Kelurahan\s+/i, '');
+                // Hapus kata "desa " di awal (huruf kecil)
+                namaBabinsa = namaBabinsa.replace(/^desa\s+/i, '');
+                // Hapus kata "kelurahan " di awal (huruf kecil)
+                namaBabinsa = namaBabinsa.replace(/^kelurahan\s+/i, '');
+                
                 ctx.fillStyle = '#FFFFFF';
-                ctx.fillText(`Babinsa ${babinsa}`, canvas.width - margin, baseY - (lineHeight * 2.5));
+                ctx.fillText(`Babinsa ${namaBabinsa}`, canvas.width - margin, baseY - (lineHeight * 2.5));
                 ctx.fillText(coord, canvas.width - margin, baseY - (lineHeight * 1.5));
                 ctx.fillText(date + ' ' + time, canvas.width - margin, baseY - (lineHeight * 0.5));
                 
@@ -1469,7 +1492,7 @@
             img.src = imageDataUrl;
         }
 
-        // ==================== FUNGSI KOMPRESI GAMBAR ====================
+        // ==================== KOMPRESI GAMBAR ====================
         function compressImage(dataUrl, maxWidth = 1280, quality = 0.8) {
             return new Promise((resolve) => {
                 const img = new Image();
@@ -1477,7 +1500,6 @@
                     let width = img.width;
                     let height = img.height;
                     
-                    // Hitung dimensi baru (max width 1280px, aspect ratio dipertahankan)
                     if (width > maxWidth) {
                         height = Math.floor(height * (maxWidth / width));
                         width = maxWidth;
@@ -1490,7 +1512,6 @@
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
                     
-                    // Kompres ke JPEG dengan kualitas 0.8 (80%)
                     const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
                     resolve(compressedDataUrl);
                 };
@@ -1667,7 +1688,7 @@
             }
         }
 
-        // ==================== TIME PICKER - DENGAN DETIK OTOMATIS ====================
+        // ==================== TIME PICKER ====================
         function updateTimeDisplay() {
             const hour = document.getElementById('hourSelect').value.padStart(2, '0');
             const minute = document.getElementById('minuteSelect').value.padStart(2, '0');
@@ -1679,7 +1700,7 @@
             selectedMinute = parseInt(document.getElementById('minuteSelect').value);
             
             const now = new Date();
-            const second = now.getSeconds(); // Detik otomatis dari perangkat
+            const second = now.getSeconds();
             
             selectedDate.setHours(selectedHour);
             selectedDate.setMinutes(selectedMinute);
@@ -2057,7 +2078,7 @@
                 
                 const zip = new JSZip();
                 
-                // ===== FORMAT NARASI: Hari, Tanggal Bulan Tahun Babinsa NamaDesa... =====
+                // Format Narasi Lengkap
                 const hariIndonesia = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
                 const hari = hariIndonesia[selectedDate.getDay()];
                 const tanggalFormatted = selectedDate.toLocaleDateString('id-ID', { 
@@ -2087,10 +2108,10 @@
                 const dateStrWatermark = selectedDate.toLocaleDateString('id-ID', options);
                 const timeStrWatermark = formatTime(selectedDate);
                 
-                // ===== KOMPRESI GAMBAR SEBELUM WATERMARK =====
+                // Kompresi gambar
                 const compressedImageDataUrl = await compressImage(currentImage.originalDataUrl, 1280, 0.8);
                 
-                // ===== WATERMARK SETELAH GAMBAR DIKOMPRES =====
+                // Watermark
                 const watermarkedImageDataUrl = await new Promise((resolve) => {
                     addWatermarkToImage(
                         compressedImageDataUrl, 
@@ -2120,7 +2141,7 @@
                 
                 zip.file('INFO.txt', infoContent.join('\n'), { compression: 'DEFLATE', compressionOptions: { level: 9 } });
                 
-                // Generate ZIP dengan kompresi maksimal
+                // Generate ZIP
                 const content = await zip.generateAsync({ 
                     type: 'blob',
                     compression: 'DEFLATE',
@@ -2228,7 +2249,7 @@
             }
         }
 
-        // ==================== FUNGSI UPLOAD KE DRIVE - MEMBUAT FOLDER OTOMATIS ====================
+        // ==================== FUNGSI UPLOAD KE DRIVE ====================
         async function uploadToDrive(fileData, fileName, desaName) {
             try {
                 const now = new Date();
@@ -2244,6 +2265,14 @@
                 formData.append('month', month);
                 formData.append('mimeType', 'application/zip');
                 
+                console.log('📤 Mengirim ke Drive:', { 
+                    fileName, 
+                    desa: desaName, 
+                    year, 
+                    month,
+                    folderId: ROOT_FOLDER_ID 
+                });
+                
                 const response = await fetch(APPS_SCRIPT_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -2251,25 +2280,28 @@
                 });
                 
                 const responseText = await response.text();
+                console.log('📥 Response dari Drive:', responseText);
                 
                 try {
                     const result = JSON.parse(responseText);
                     
                     if (result && result.success) {
+                        console.log('✅ Upload ke Drive berhasil:', result.fileInfo);
                         return true;
                     } else {
-                        showToast('❌ Gagal simpan di Drive');
+                        console.error('❌ Gagal upload ke Drive:', result);
+                        showToast('❌ Gagal simpan di Drive: ' + (result.error || 'Unknown error'));
                         return false;
                     }
                     
                 } catch (e) {
-                    console.error('Parse error:', e);
+                    console.error('❌ Parse error:', e, 'Response:', responseText);
                     showToast('❌ Response server tidak valid');
                     return false;
                 }
                 
             } catch (error) {
-                console.error('Error uploadToDrive:', error);
+                console.error('❌ Error uploadToDrive:', error);
                 showToast('❌ Error: ' + error.message);
                 return false;
             }
